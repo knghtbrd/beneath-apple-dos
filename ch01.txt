@@ -1,6 +1,4 @@
-.ce
-CHAPTER 1 - INTRODUCTION
-.sp2
+## CHAPTER 1 - INTRODUCTION
 
 Beneath Apple DOS is intended to serve as a companion to Apple's DOS Manual,
 providing additional information for the advanced programmer or the novice Apple
@@ -21,18 +19,12 @@ the accuracy of the information presented here, all of the material included in
 Beneath Apple DOS has been thoroughly researched and tested.
 
 There were several reasons for writing Beneath Apple DOS:
-.sp1
-.nf
-To show direct assembly language access to DOS.
-.br
-To help you to fix clobbered diskettes.
-.br
-To correct errors and omissions in the Apple documentation.
-.br
-To allow you to customize DOS to fit your needs.
-.br
-To provide complete information on diskette formatting.
-.br
+
+- To show direct assembly language access to DOS.
+- To help you to fix clobbered diskettes.
+- To correct errors and omissions in the Apple documentation.
+- To allow you to customize DOS to fit your needs.
+- To provide complete information on diskette formatting.
 
 When Apple Computer Inc. introduced its Disk Operating System (DOS) version 3 in
 1978 to support the new DISK II drive, very little documentation was provided.
@@ -44,7 +36,6 @@ intact.  Beyond these Apple manuals, there have been no significant additions to
 the documentation on DOS, apart from a few articles in APPLE user group
 magazines and newsletters.  This manual takes up where the Disk Operating System
 Manual leaves off.
-.bp
 
 Throughout this manual, discussion centers primarily on DOS version 3.3.  The
 reasons for this are that 3.3 was the most recent release of DOS at the time of
@@ -56,5 +47,5 @@ In addition to the DOS dependent information provided, many of the discussions
 also apply to other operating systems on the Apple II and Apple III.  For
 example, disk formatting at the track and sector level is, for the most part,
 the same.
-.br
+
 .nx ch2
