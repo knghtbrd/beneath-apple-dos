@@ -1,12 +1,12 @@
-.ec^ 
+.ec^
 .m11
 .m22
 .m48
 .na
 .ll60
 .fo ''-%-
-.pn 5
-.pi 0
+.pn5
+.pi0
 .br
 .np
 .ce
@@ -34,7 +34,7 @@ It is recommended that, until the
 reader is completely familiar with
 the operation of these programs, he
 would be well advised to use them
-only on an "expendable" diskette. 
+only on an "expendable" diskette.
 None of the programs can physically
 damage a diskette, but they can, if
 used improperly, destroy the data on
@@ -43,7 +43,7 @@ re-INITialized.
 .sp1
 Five programs are provided:
 .sp1
-.NF
+.nf
 DUMP    TRACK DUMP UTILITY
 .pi8
 .in8
@@ -69,7 +69,7 @@ attempt to patch a diskette directory
 back together.  It is also useful in
 examining the structure of files
 stored on disk and in applying
-patches to files or DOS directly. 
+patches to files or DOS directly.
 ZAP allows its user to read, and
 optionally write, any sector on a
 diskette.  As such, it serves as a
@@ -84,7 +84,7 @@ INIT    REFORMAT A SINGLE TRACK
 
 This program will initialize a single
 track on a diskette.  Any volume
-number ($00-$FF) may be specified. 
+number ($00-$FF) may be specified.
 INIT is useful in restoring a track
 whose sectoring has been damaged
 without reinitializing the entire
@@ -97,7 +97,7 @@ FTS     FIND T/S LISTS UTILITY
 .in8
 
 FTS may be used when the directory
-for a diskette has been destroyed. 
+for a diskette has been destroyed.
 It searches every sector on a
 diskette for what appear to be
 Track/Sector Lists, printing the
@@ -131,7 +131,7 @@ the File Manager.
 .pi0
 .in0
 STORING THE PROGRAMS ON DISKETTE
-.pp 
+.pp
 The enterprising programmer may wish
 to type the source code for each
 program into an assembler and
@@ -160,10 +160,10 @@ be stored there
 .sp1
 For example...
 .sp1
-.NF
+.nf
 0800:20 DC 03  112 COPY    JSR  LOCFPL      FIND PARMLIST
-.SP1
-.FI
+.sp1
+.fi
 indicates that the binary code
 "20DC03" should be stored at 0800 and
 that this is statement 112.  To enter
@@ -172,14 +172,14 @@ must type in each address and its
 corresponding object code.  The
 following is an example of how to
 enter the DUMP program:
-.BP
+.bp
 .nf
 CALL -151               (Enter the monitor from BASIC)
 0800:20 E3 03
 0803:84 00
 0805:85 01
 0807:A5 02
-.SP1
+.sp1
  ...etc...
 .sp1
 0879:85 3F
@@ -196,16 +196,16 @@ When the program is to be run...
 BLOAD DUMP              (Load program)
 CALL -151               (Get into monitor)
 02:11 N 800G            (Store track to dump, run program)
-.pp 
+.pp
 The BSAVE commands which must be used
 with the other programs are:
 .sp1
 BSAVE ZAP,A$900,L$6C
-.BR
+.br
 BSAVE INIT,A$800,L$89
-.BR
+.br
 BSAVE FTS,A$900,L$DC
-.BR
+.br
 BSAVE COPY,A$800,L$1EC
 .bp
 DUMP -- TRACK DUMP UTILITY
@@ -230,7 +230,7 @@ I/O errors.  The DUMP program serves
 as an example of direct use of the
 DISK II hardware from assembly
 language, with little or no use of
-DOS.  
+DOS.
 
 To use DUMP, first store the number
 of the track you wish dumped at
@@ -278,7 +278,7 @@ The next step up the ladder from DUMP
 is to access data on the diskette at
 the sector level.  The ZAP program
 allows its user to specify a track
-and sector to be read into memory. 
+and sector to be read into memory.
 The programmer can then make changes
 in the image of the sector in memory
 and subsequently use ZAP to write the
@@ -337,7 +337,7 @@ entered...
 .nf
 803:02                  (Change 03 to 02)
 04:02 N 900G            (Change ZAP to write mode and do it)
-.pp 
+.pp
 Note that ZAP will remember the
 previous
 values in $02, $03, and $04.
@@ -448,7 +448,7 @@ printed by FTS to see if it is really
 a T/S List.  Additionally, FTS will
 find every T/S List image on the
 diskette, even some which were for
-files which have since been deleted. 
+files which have since been deleted.
 Since it is difficult to determine
 which files are valid and which are
 old deleted files, it is usually
@@ -484,7 +484,7 @@ read track $12, sector $0F.  At +$0C
 is the track and sector of the first
 sector in the file.  This sector can
 be read and examined to try to
-identify the file and its type. 
+identify the file and its type.
 Usually a BASIC program can be
 identified, even though it is stored
 in tokenized form, from the text
@@ -492,7 +492,7 @@ strings contained in the PRINT
 statements.  An ASCII conversion
 chart (see page 8 in the APPLE II
 REFERENCE MANUAL) can be used to
-decode these character strings. 
+decode these character strings.
 Straight T-type files will also
 contain ASCII text, with each line
 separated from the others with $8D
@@ -509,8 +509,8 @@ something else.  Given below is an
 example ZAP to the CATALOG to create
 an entry for the file whose T/S List
 is at T=12 S=0F.
-.SP1
-.NF
+.sp1
+.nf
 CALL -151
 BLOAD ZAP
  ...insert disk to be ZAPped...
@@ -531,7 +531,7 @@ found by FTS until all of the files
 have been recovered.  As each file is
 recovered, it may be RENAMEd to its
 previous name.  Once all the files
-have been copied to another disk, 
+have been copied to another disk,
 and successfully tested, the
 damaged disk may be re-INITialized.
 .bp
@@ -549,7 +549,7 @@ file.  The name of the input file is
 assumed to be "INPUT", although this
 could just as easily have been
 inputted from the keyboard, and the
-name of the output file is "OUTPUT". 
+name of the output file is "OUTPUT".
 COPY is a single drive operation,
 using the last drive which was
 referenced.

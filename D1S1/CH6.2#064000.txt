@@ -7,7 +7,7 @@ the central third of the DOS program.
 The interface to these routines is
 generalized in such a way that they
 may be called by a program running
-outside of DOS. The definition of 
+outside of DOS. The definition of
 this interface has
 never been published by APPLE (or
 anyone else, for that manner) but
@@ -19,7 +19,7 @@ these routines may be relied upon as
 "safe". Indeed, the new FID utility
 program
 uses these routines to process files
-on the diskette. 
+on the diskette.
 
 There are
 two subroutines which must be called
@@ -81,7 +81,7 @@ The general format of the file
 manager parameter list is as follows:
 .bp
 FILE MANAGER PARAMETER LIST - GENERAL FORMAT
-.NP
+.np
 BYTE  DESCRIPTION
 00    Call type: 01=OPEN      05=DELETE       09=RENAME
                  02=CLOSE     06=CATALOG      0A=POSITION
@@ -97,7 +97,7 @@ BYTE  DESCRIPTION
       FILE MANAGER PARAMETER LIST BY CALL TYPE below.
 0A    Return code (note: not all return codes can occur
                  for any call type). The processor CARRY
-                 flag is set upon return from the file 
+                 flag is set upon return from the file
                  manager if there is a non-zero return code:
                  00=No errors
                  01=Not used ("LANGUAGE NOT AVAILABLE")
@@ -114,7 +114,7 @@ BYTE  DESCRIPTION
 0C-0D Address of a 45 byte buffer which will be used by the
       file manager to save its status between calls. This
       area is called the file manager workarea and need not
-      be initialized by the caller but the space must be   
+      be initialized by the caller but the space must be
       provided and this two byte address field initialized.
       (addresses are in low/high order format)
 0E-0F Address of a 256 byte buffer which will be used by the
@@ -124,15 +124,15 @@ BYTE  DESCRIPTION
 10-11 Address of a 256 byte buffer which will be used by the
       file manager to maintain the data sector buffer.
       Buffer need not be initialized by the caller.
-.SP1
+.sp1
 *** INSERT FIGURE 6.2 ***
 .bp
 FILE MANAGER PARAMETER LIST BY CALL TYPE
-.NP
+.np
 OPEN    Locates or creates a file. A call to POSITION should
         follow every OPEN.
 .sp1
-Input:  Byte 00    - 01 
+Input:  Byte 00    - 01
              02/03 - Fixed record length or 0000 if variable
              04    - Volume number or 00 for any volume
              05    - Drive number to be used (01 or 02)
@@ -280,7 +280,7 @@ Input:  Byte 00    - 0B
 .sp1
 Output: Byte 0A    - Return code
 .sp2
-VERIFY  Verify that there are no bad sectors in a file by 
+VERIFY  Verify that there are no bad sectors in a file by
         reading every sector.
 .sp1
 Input:  Byte 00    - 0C
@@ -292,7 +292,7 @@ DOS BUFFERS
 
 Usually it is desirable to use one of DOS's buffers when
 calling the file manager to save memory. DOS buffers consist of
-each of the three buffers used by the file manager (file 
+each of the three buffers used by the file manager (file
 manager workarea, T/S List sector, and data sector) as well as
 a 30 byte file name buffer and some link pointers. All together
 a DOS buffer occupies 595 bytes of memory. The address of the
@@ -300,7 +300,7 @@ first DOS buffer is stored in the first two bytes of DOS ($9D00
 on a 48K APPLE II). The address of the next buffer is stored in
 the first and so on in a chain of linked elements. The link
 address to the next buffer in the last buffer is zeros. If the
-buffer is not being used by DOS, the first byte of the file    
+buffer is not being used by DOS, the first byte of the file
 name field is a hex 00. Otherwise, it contains the first
 character of the name of the open file. The assembly language
 programmer should follow these conventions to avoid having DOS
@@ -309,18 +309,18 @@ name of the file should be stored in the buffer to reserve it
 for exclusive use (or at least a non-zero byte stored on the
 first character) and later, when the user is through with the
 buffer, a 00 should be stored on the file name to return it
-to DOS's use. If the later is not done, DOS will eventually 
-run out of available buffers and will refuse even to do a 
+to DOS's use. If the later is not done, DOS will eventually
+run out of available buffers and will refuse even to do a
 CATALOG command. A diagram of the DOS
 buffers for MAXFILES 3 is given in
-Figure 6.3 and 
+Figure 6.3 and
 the format of a DOS buffer is given below.
-.SP1
+.sp1
 *** INSERT FIGURE 6.3 ***
 .sp1
 .ne10
 DOS BUFFER FORMAT
-.NP
+.np
 BYTE    DESCRIPTION
 000/0FF Data sector buffer (256 bytes in length)
 100/1FF T/S List sector buffer (256 bytes in length)
@@ -401,15 +401,15 @@ COMMON ALGORITHMS
 
 Given below are several pieces of code
 which are used when working with DOS:
-.SP1
+.sp1
 .ne5
 LOCATE A FREE DOS BUFFER
 
 The following subroutine may be used
 to locate an unallocated DOS buffer
 for use with the DOS file manager.
-.SP1
-.NP
+.sp1
+.np
 FBUFF   LDA     $3D2    LOCATE DOS LOAD POINT
         STA     $1
         LDY     #0
@@ -445,11 +445,11 @@ call RWTS or the file manager to
 insure that DOS is present on this
 machine.
 .sp1
-.NP
+.np
         LDA     $3D0    GET VECTOR JMP
         CMP     #$4C    IS IT A JUMP?
         BNE     NODOS   NO, DOS NOT LOADED
-.SP2
+.sp2
 .ne5
 WHICH VERSION OF DOS IS ACTIVE?
 
@@ -469,7 +469,7 @@ the DOS version may be required:
 .sp2
 .ne5
 WHICH BASIC IS SELECTED?
-.PP 
+
 Some programs depend upon either the
 INTEGER BASIC ROM or the APPLESOFT
 ROM. To find out which is active and
@@ -481,7 +481,7 @@ is used for INTEGER BASIC and $4C is
 used for APPLESOFT. To set up for
 APPLESOFT, for example:
 .sp1
-.NP
+.np
         LDA     #$4C    CODE FOR APPLESOFT
         JSR     SETBSC  CALL SUBROUTINE
         BNE     ERROR   LANGUAGE NOT AVAILABLE

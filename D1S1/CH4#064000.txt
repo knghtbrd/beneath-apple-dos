@@ -38,7 +38,7 @@ with new files or expansions of
 existing files. An example of the way
 DOS uses sectors is given in Figure
 4.1.
-.SP1
+.sp1
 *** INSERT FIGURE 4.1 ***
 .sp1
 DISKETTE SPACE ALLOCATION
@@ -96,7 +96,7 @@ following format (all  byte offsets are
 given in base 16, hexadecimal):
 .np
 VOLUME TABLE OF CONTENTS (VTOC) FORMAT
-.SP1
+.sp1
 .un
 BYTE    DESCRIPTION
 00      Not used
@@ -126,14 +126,14 @@ C4-FF   Bit maps for additional tracks if there are more
         than 35 tracks per diskette
 .bp
 BIT MAPS OF FREE SECTORS ON A GIVEN TRACK
-.SP1
+.sp1
         A four byte binary string of ones and zeros,
         representing free and allocated sectors respectively.
         Hexadecimal sector numbers are assigned to bit
         positions as follows:
 .sp1
         BYTE     SECTORS
-        +0       FEDC BA98 
+        +0       FEDC BA98
         +1       7654 3210
         +2       .... .... (not used)
         +3       .... .... (not used)
@@ -151,7 +151,7 @@ An example of a VTOC sector is given
 in Figure 4.2. This VTOC corresponds
 to the map of the diskette given in
 Figure 4.1.
-.SP1
+.sp1
 *** INSERT FIGURE 4.2 ***
 .bp
 THE CATALOG
@@ -187,7 +187,7 @@ sector (sector 1)
 has a zero pointer to indicate
 that there are no more catalog
 sectors in the chain.
-.SP1
+.sp1
 *** INSERT FIGURE 4.3 ***
 
 In each catalog
@@ -203,8 +203,8 @@ described on the following page.
 .sp1
 .np
 CATALOG SECTOR FORMAT
-.SP1
-.UN
+.sp1
+.un
 BYTE    DESCRIPTION
 00      Not used
 01      Track number of next catalog sector (usually 11 hex)
@@ -219,9 +219,9 @@ BA-DC   Sixth file descriptive entry
 DD-FF   Seventh file descriptive entry
 .bp
 FILE DESCRIPTIVE ENTRY FORMAT
-.SP1
+.sp1
 RELATIVE
-.UN
+.un
 BYTE    DESCRIPTION
 00      Track of first track/sector list sector.
         If this is a deleted file, this byte contains a hex
@@ -260,9 +260,9 @@ was needed to describe them. There
 are four entries in use and three
 entries which have never been used
 and contain zeros.
-.SP1
+.sp1
 *** INSERT FIGURE 4.4 ***
-.SP1
+.sp1
 THE TRACK/SECTOR LIST
 
 Each file has
@@ -276,7 +276,7 @@ sector points to this T/S List sector
 which, in turn, points to each sector
 in the file. This concept is
 diagramed in Figure 4.5.
-.SP1
+.sp1
 *** INSERT FIGURE 4.5 ***
 .bp
 The format of a Track/Sector List
@@ -317,9 +317,9 @@ have no data sectors allocated
 in the T/S List. This distinction is not always handled
 correctly by DOS. The VERIFY command, for instance, stops when
 it gets to the first zero T/S List entry and can not be used
-to verify some random organization text files. 
+to verify some random organization text files.
 
-An example T/S List sector is given in Figure 4.6. 
+An example T/S List sector is given in Figure 4.6.
 The example file (HELLO, from our
 previous examples) has only one data
 sector, since it is less than 256
@@ -328,7 +328,7 @@ sector and the T/S List sector, HELLO
 is 2 sectors long, and this will be
 the value shown when a CATALOG
 command is done.
-.SP1
+.sp1
 *** INSERT FIGURE 4.6 ***
 .bp
 Following the Track/Sector pointer in
@@ -349,8 +349,8 @@ the Track/Sector List, DOS can read
 each sector of the file in the correct order so
 that the programmer need never know
 that the data was broken up into
-sectors at all. 
-.SP1
+sectors at all.
+.sp1
 TEXT FILES
 
 The TEXT data type is the least
@@ -389,7 +389,7 @@ less efficient in the use of disk space than
 with a BINARY type file, since each
 digit must occupy a full byte in the
 file.
-.SP1
+.sp1
 *** INSERT FIGURE 4.7 ***
 .bp
 BINARY FILES
@@ -399,7 +399,7 @@ shown in Figure 4.8. An exact copy of
 the memory involved is written to the
 disk sector(s), preceded by the
 memory address where it was found and
-the length (a total of four bytes). 
+the length (a total of four bytes).
 The address and length (in low order,
 high order format) are those given in
 the A and L keywords from the BSAVE
@@ -419,9 +419,9 @@ address either by providing the A
 entered, or by changing the address
 in the first two bytes of the file on
 the diskette.
-.SP1
+.sp1
 *** INSERT FIGURE 4.8 ***
-.SP1
+.sp1
 APPLESOFT AND INTEGER FILES
 
 A BASIC program, be it APPLESOFT or
@@ -431,7 +431,7 @@ format of an APPLESOFT file type is
 given in Figure 4.9 and that of
 INTEGER BASIC in 4.10. When the SAVE
 command is typed, DOS determines the
-location of the BASIC program image 
+location of the BASIC program image
 in memory and its length. Since a
 BASIC program is always loaded at a
 location known to the BASIC
@@ -453,7 +453,7 @@ scope of this manual, but a
 breakdown of the example INTEGER
 BASIC program is given in Figure
 4.10.
-.SP1
+.sp1
 *** INSERT FIGURES 4.9 AND 4.10 ***
 .bp
 OTHER FILE TYPES (S,R,A,B)
@@ -478,7 +478,7 @@ based on additional information
 stored with the image itself. The
 format for this type of file is given
 in the documentation accompanying the
-DOS TOOLKIT. 
+DOS TOOLKIT.
 It is recommended that if the
 reader requires more information
 about R files he should refer to that

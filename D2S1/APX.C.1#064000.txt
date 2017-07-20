@@ -5,8 +5,8 @@
 APPENDIX C - GLOSSARY
 .sp1
 .pn5
-.IN20
-.PI-20
+.in20
+.pi-20
 
 ACCESS TIME]>The time required to
 locate and read or write data on a
@@ -31,7 +31,7 @@ ALPHANUMERIC]>An alphabetic character
 term used to refer to the class of all
 characters and digits.
 
-ANALOG]>As opposed to digital. 
+ANALOG]>As opposed to digital.
 Having a value which is continuous,
 such as a voltage or electrical
 resistance.
@@ -73,7 +73,7 @@ of a program or data against the
 possibility of its accidental loss or
 destruction.
 
-BASE]>The number system in use. 
+BASE]>The number system in use.
 Decimal is base 10, since each digit
 represents a power of 10
 (1,10,100,...).  Hexadecimal is base
@@ -155,7 +155,7 @@ predecessor via an address pointer.
 CHECKSUM/CRC]>A method for verifying
 that data has not been damaged.  When
 data is written, the sum of all its
-constituent bytes is stored with it. 
+constituent bytes is stored with it.
 If, when the data is later read, its
 sum no longer matches the checksum,
 it has been damaged.
@@ -163,7 +163,7 @@ it has been damaged.
 CLOBBERED]>Damaged or destroyed.  A
 clobbered sector is one which has
 been overwritten such that it is
-unrecoverable.  
+unrecoverable.
 
 CODE]>Executable instructions to the
 computer, usually in machine
@@ -233,7 +233,7 @@ contain a printable ASCII character, binary
 numeric data, or a machine language
 instruction.
 
-DCT]>Device Characteristics Table. 
+DCT]>Device Characteristics Table.
 Used as an input parameter table to
 Read/Write Track/Sector (RWTS) to
 describe the hardware characteristics
@@ -249,7 +249,7 @@ an executing BASIC program.  OPEN,
 READ, WRITE, and CLOSE are all
 examples of deferred commands.
 
-DIGITAL]>As opposed to analog. 
+DIGITAL]>As opposed to analog.
 Discrete values as opposed to
 continuous ones.  Only digital values
 may be stored in a computer.  Analog
@@ -281,7 +281,7 @@ data stored there.
 DISK INITIALIZATION]>The process
 which places track formatting
 information, including sectors and
-gaps, on a blank diskette. 
+gaps, on a blank diskette.
 During disk initialization, DOS also
 places a VTOC and directory on the
 newly formatted disk, as well as
@@ -289,7 +289,7 @@ saving the HELLO program.
 
 DISPLACEMENT]>The distance from the
 beginning of a block of data to a
-particular byte or field. 
+particular byte or field.
 Displacements are usually given
 beginning with 0, for the first byte,
 1 for the second, etc.  Also known as
@@ -304,7 +304,7 @@ sends them to the printer.
 
 DUMP]>An unformatted or partially
 formatted listing of the contents of
-memory or a diskette in hexadecimal. 
+memory or a diskette in hexadecimal.
 Used for diagnostic purposes.
 
 ENCODE]>To translate data from one
@@ -316,7 +316,7 @@ on a DISK II.
 
 ENTRY POINT (EPA)]>The entry point
 address is the location within a
-program where execution is to start. 
+program where execution is to start.
 This is not necessarily the same as
 the load point (or lowest memory
 address in the program).
@@ -414,7 +414,7 @@ because it easily converts with
 binary.
 
 HIGH MEMORY]>Those memory locations
-which have high address values. 
+which have high address values.
 $FFFF is the highest memory location.
 Also called the "top" of memory.
 
@@ -436,7 +436,7 @@ block of storage.
 
 INSTRUCTION]>A single step to be
 performed in an assembly language or
-machine language program. 
+machine language program.
 Instructions perform such operations
 as addition, subtraction, store, or
 load.
@@ -482,7 +482,7 @@ disk or cassette tape.
 JMP]>A 6502 assembly langauge
 instruction which causes the computer
 to begin executing instructions at a
-different location in memory. 
+different location in memory.
 Similar to a GOTO statement in BASIC.
 
 JSR]>A 6502 assembly langauge
@@ -500,7 +500,7 @@ from the keyboard or a remote
 terminal.
 
 LABEL]>A name associated with a
-location in a program or in memory. 
+location in a program or in memory.
 Labels are used in assembly langauge
 much like statement numbers are used
 in BASIC.
@@ -521,7 +521,7 @@ array of data items.
 
 LOAD POINT (LP)]>The lowest address
 of a loaded assembly language
-program -- the first byte loaded. 
+program -- the first byte loaded.
 Not necessarily the same as the entry
 point address (EPA).
 
@@ -552,7 +552,7 @@ or Least Significant Byte.  The 1's
 bit in a byte or the second pair of
 hexadecimal digits forming an
 address.  In the address $8030, $30
-is the LO order part of the address. 
+is the LO order part of the address.
 
 MASTER DISK]>A DOS diskette which
 will boot in an APPLE II of any size
@@ -602,7 +602,7 @@ stored as a file on a diskette.
 
 OFFSET]>The distance from the
 beginning of a block of data to a
-particular byte or field. 
+particular byte or field.
 Offsets are usually given
 beginning with 0, for the first byte,
 1 for the second, etc.  Also known as

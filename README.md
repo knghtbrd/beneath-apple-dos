@@ -25,6 +25,9 @@ join in--send patches, help add stuff, etc.
    * Escape all else in C-style
 3. Remove NUL at end of .txt files
 4. .pp dot command is paragraph break, replace with blank line.
+5. Remove trailing whitespace
+6. Normalize case and spacing of dot commands (lowercase here)
+
 
 This has probably broken the .s files a bit, and I haven't bothered to decompile
 the five byte HELLO ...  ;)

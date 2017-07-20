@@ -15,7 +15,7 @@ AF5E-AFDB Read a T/S List sector to file buffer.
           Is first or next wanted?
           If first, go to AFB5 to continue.
           Otherwise, get link to next T/S List from this one.
-          If link is non-zero, use it to find next one and go  
+          If link is non-zero, use it to find next one and go
           to AFB5.
           Otherwise, we are out of T/S Lists for this file.
           If we are reading file, exit with error code.
@@ -113,7 +113,7 @@ B0B6-B133 Read next data sector (if necessary).
           If non-zero, go to B114.
           Otherwise, if not writing, exit with error (no data
           to read there).
-          If writing, allocate a new sector and store its 
+          If writing, allocate a new sector and store its
           track/sector location in the list at this point
           (B134).
           Go to B120.
@@ -196,7 +196,7 @@ B23A-B243 Switch to second pass in directory scan.
 B244-B2C2 Allocate a disk sector.
           Is there a track currently allocated to this file?
           If not, go to B26A to find a track with free sectors.
-     B249 Otherwise, decrement sector number to get next 
+     B249 Otherwise, decrement sector number to get next
           possible free sector number.
           If there are no more sectors on this track, go to
           B265 to find a new track.
@@ -225,7 +225,7 @@ B244-B2C2 Allocate a disk sector.
           Compute bit map index (tracknumber*4).
           Copy track bit map from VTOC to workarea, watching
           to see if all four bytes are zero (track is full).
-          In any case, set all four bytes in VTOC to zero 
+          In any case, set all four bytes in VTOC to zero
           (allocate all sectors).
           If no free sectors in the track, go to B272 to try
           next track.
@@ -337,7 +337,7 @@ B4BB-B5BA DIRECTORY sector buffer.
 B5BB-B5D0 File manager parameter list.
      B5BB Opcode
      B5BC Subcode
-     B5BD Eight bytes of variable parameters depending on 
+     B5BD Eight bytes of variable parameters depending on
           opcode.
      B5C5 Return code.
      B5C7 Address of file manager workarea buffer.
@@ -385,7 +385,7 @@ B600-B6FF Start of Boot 2/RWTS image.
           on track 0, sector 0.
      B65D DOS 3.3 patch area.
      B65D APPEND patch flag.
-     B65E APPEND patch. Come here when file manager driver 
+     B65E APPEND patch. Come here when file manager driver
           gets an error other than end of data.
           Locate and free the file buffer.
           Clear the APPEND flag.

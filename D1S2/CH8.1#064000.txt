@@ -8,13 +8,13 @@
           If it doesn't match and if there are more entries
           left to check, go back to 9FD6.
           If it does match, go to A01B.
-          Otherwise, if command was not found in the table, 
+          Otherwise, if command was not found in the table,
           check to see if the first character was a control-D.
           If so, go to A6C4 to print "SYNTAX ERROR".
           Otherwise, call A75B to reset the state and warmstart
           flag and go to 9F95 to echo the command and exit.
           (the command must be for BASIC, not DOS)
-     A01B Compute an index into the operand table for the 
+     A01B Compute an index into the operand table for the
           command which was entered.
           Call A65E to see if a BASIC program is executing.
           If not, and the command is not a direct type command,
@@ -26,7 +26,7 @@
           is a legal operand for this command.
           If not, go to A0A0.
           Otherwise, clear the filename buffer (call A095).
-          Flush to the next non-blank (call A1A4) and copy 
+          Flush to the next non-blank (call A1A4) and copy
           the filename operand to the first filename buffer.
           Skip forward to a comma if one was not found yet.
           If a second filename is legal for this command, use
@@ -82,7 +82,7 @@ A17A-A17F Call A180 to process the command, then exit via echo
 A180-A192 Do command.
           Reset the video intercept state to zero.
           Clear the file manager parameter list.
-          Using the command index, get the address of the 
+          Using the command index, get the address of the
           command handling routine from the command handler
           routine table at 9D1E and go to it.
           Command handler will exit to caller of this routine.
@@ -93,12 +93,12 @@ A193-A1A3 Get next character on command line and check to see
 A1A4-A1AD Flush command line characters until a non-blank is
           found.
 .np
-A1AE-A1B8 Clear the file manager parameter list at B5BA to 
+A1AE-A1B8 Clear the file manager parameter list at B5BA to
           zeros.
 .np
 A1B9-A1D5 Convert numeric operand from command line. Call
           either A1D6 (decimal convert) or A203 (hex convert)
-          depending upon the presence or lack thereof of a 
+          depending upon the presence or lack thereof of a
           dollar sign ($).
 .np
 A1D6-A202 Decimal convert subroutine.

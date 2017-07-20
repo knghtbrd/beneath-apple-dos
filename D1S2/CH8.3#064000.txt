@@ -20,7 +20,7 @@ A59E-A5B1 INT command handler.
 A5B2-A5C5 Set ROM to desired BASIC.
           (This routine is passed a $4C for APPLESOFT or a $20
           for INTEGER, since these bytes appear at $E000 in
-          these BASICs.  It will work regardless of which 
+          these BASICs.  It will work regardless of which
           BASIC is onboard)
           If desired BASIC is already available, exit.
           Try selecting ROM card.
@@ -76,7 +76,7 @@ A65E-A678 Test to see if BASIC is running a program or is in
           immediate command mode.
           If active BASIC is INTEGER, go to A672.
           If line number is greater than 65280 and prompt is
-          "]" then APPLESOFT is in immediate mode. 
+          "]" then APPLESOFT is in immediate mode.
           Otherwise, it is executing a program.
           Exit to caller with appropriate return code.
      A672 Check $D9 to determine whether BASIC is executing a

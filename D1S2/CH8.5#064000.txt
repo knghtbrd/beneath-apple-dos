@@ -79,7 +79,7 @@ AC96-ACA7 READ A RANGE OF BYTES subcode handler.
           Read a byte (ACA8).
           Point $42,$43 at range address and add one to address
           Store byte read at address.
-          Loop back to AC96. (length check will exit file 
+          Loop back to AC96. (length check will exit file
           manager when length is zero.)
 .np
 ACA8-ACB8 Read a data byte.
@@ -245,7 +245,7 @@ AE8E-AF07 INIT function handler.
           Set up link from this directory sector to next (track
           $11, sector-1).
           Call RWTS to write directory sector.
-          Write each sector on track in this way except for 
+          Write each sector on track in this way except for
           sector zero.
           On last sector (sector 1) zero link pointer.
           Point RWTS parms at DOS load point (B7C2).

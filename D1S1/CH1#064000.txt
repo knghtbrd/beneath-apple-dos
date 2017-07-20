@@ -1,35 +1,35 @@
-.ec ^
+.ec^
 .na
 .ll60
 .m11
 .m22
 .m48
 .fo ''-%-
-.pn 5
+.pn5
 .pi0
 .br
 .np
 .ce
 CHAPTER 1 - INTRODUCTION
-.sp 2
+.sp2
 
 Beneath Apple DOS is intended
 to serve as a companion to Apple's
 DOS Manual, providing additional
-information for the advanced 
+information for the advanced
 programmer or
 the novice Apple user who wants to
 know more about the structure of
-diskettes.  
+diskettes.
 It is not the intent of this manual
 to replace the documentation provided
-by Apple Computer Inc.  
+by Apple Computer Inc.
 Although, for the
-sake of 
+sake of
 continuity, some of the material
 covered in the Apple manual is also
 covered here, it will be assumed that
-the reader is reasonably familiar 
+the reader is reasonably familiar
 with the
 contents of the DOS Manual.  Since
 all chapters presented here may not
@@ -45,7 +45,7 @@ It also draws from application notes,
 articles, and discussions with
 knowledgeable people.  This
 manual was not prepared with the
-assistance of Apple Computer Inc.  
+assistance of Apple Computer Inc.
 Although no
 guarantee can be made concerning the
 accuracy of the information
@@ -56,7 +56,7 @@ tested.
 
 There were several reasons
 for writing Beneath Apple DOS:
-.SP1
+.sp1
 .nf
 To show direct assembly language access to DOS.
 .br
@@ -83,15 +83,15 @@ internal workings of DOS.  With the
 advent of DOS 3.3, the old 3.2 manual
 was updated but the body of
 information in it remained
-essentially intact.  Beyond these 
-Apple manuals, 
+essentially intact.  Beyond these
+Apple manuals,
 there have been no significant
 additions to the documentation on
-DOS, 
+DOS,
 apart from a few articles in APPLE
 user group magazines and newsletters.
 This manual takes up
-where the 
+where the
 Disk Operating System
 Manual leaves off.
 .bp

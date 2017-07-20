@@ -57,7 +57,7 @@ A331-A35C BSAVE command handler.
           Open and verify a B type file (A3D5).
           Write the A keyword value as the first two bytes of
           the file.
-          Write the L keyword value as the next two bytes of 
+          Write the L keyword value as the next two bytes of
           the file.
           Use the A value to exit by writing a range of bytes
           from memory to the file.
@@ -92,7 +92,7 @@ A397-A3D4 SAVE command handler.
      A3BC Open and test for I type file (A3D5).
           Compute program length (HIMEM-PGMSTART).
           Write this two byte length to file.
-          Exit by writing program image from PGMSTART as a 
+          Exit by writing program image from PGMSTART as a
           range of bytes (A3FF).
 .np
 A3D5-A3DF Open and test file type.
@@ -124,7 +124,7 @@ A413-A479 LOAD command handler.
           Which BASIC is active?
           If INTEGER, go to A450.
           Select APPLESOFT BASIC (A4B1). This call could result
-          in DOS losing control if the RAM version must be 
+          in DOS losing control if the RAM version must be
           run.
           Read first two bytes of file as length of program.
           Add length to LOMEM (program start) to compute
@@ -159,7 +159,7 @@ A4B1-A4D0 Select desired BASIC.
           Save current command index in case we must RUN
           APPLESOFT.
           If INTEGER, go to A59E to select it.
-          Otherwise, copy primary file name to secondary 
+          Otherwise, copy primary file name to secondary
           buffer to save it in case RAM APPLESOFT is needed.
           Go to A57A to set APPLESOFT.
 .np

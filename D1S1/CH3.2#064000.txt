@@ -1,9 +1,9 @@
-.SP2
+.sp2
 DATA FIELD ENCODING
 
 Due to Apple's hardware, it is not
 possible to read all 256 possible
-byte values from a diskette. 
+byte values from a diskette.
 This is not a great problem, but it
 does require that the data written to
 the disk be encoded.  Three different
@@ -17,7 +17,7 @@ bits.  It would thus require 512
 "disk" bytes for each 256 byte sector
 of data.  Had this technique been used
 for sector data, no more than 10
-sectors would have fit on a track. 
+sectors would have fit on a track.
 This amounts to about 88K of data per
 diskette, or roughly 72K of space
 available to the user; typical for 5
@@ -43,7 +43,7 @@ comparable drives of the day.
 Currently, of course, DOS 3.3
 features 16 sectors per track and
 provides a 23% increase in disk
-storage over the 13 sector format. 
+storage over the 13 sector format.
 This was made possible by a hardware
 modification (the P6 PROM on the disk
 controller card) which allowed a "6
@@ -55,7 +55,7 @@ bytes.
 
 These three different encoding
 techniques
-will now be covered in some detail. 
+will now be covered in some detail.
 The hardware for DOS 3.2.1 (and
 earlier versions of DOS) imposed a
 number of restrictions upon how data
@@ -86,7 +86,7 @@ contained in the Address Field.  It
 is quite easy to decode the data, since the
 byte with the odd bits is simply
 shifted left and logically ANDed with
-the byte containing the even bits. 
+the byte containing the even bits.
 This is illustrated in Figure 3.16.
 .sp1
 *** INSERT FIGURE 3.16 HERE ***
@@ -121,7 +121,7 @@ bytes, thus leaving an exact mapping
 between five bit data bytes and eight bit
 "disk" bytes.  The process of
 converting eight bit data bytes to eight bit
-"disk" bytes, then, is twofold. 
+"disk" bytes, then, is twofold.
 An overview is diagrammed in Figure
 3.17.
 .sp1
@@ -132,7 +132,7 @@ up a sector must be translated to
 five bit bytes.  This is done by the
 "prenibble" routine at $B800.  It is
 a fairly involved process, involving
-a good deal of bit rearrangement. 
+a good deal of bit rearrangement.
 Figure 3.18 shows the before and
 after of prenibbilizing.  On the left
 is a buffer of eight bit data bytes, as
@@ -141,7 +141,7 @@ package by DOS.  Each byte in this
 buffer is represented by a letter (A,
 B, C, etc.) and each bit by a number
 (7 through 0).  On the right side are
-the results of the transformation. 
+the results of the transformation.
 The primary buffer contains five
 distinct areas of five bit bytes (the
 top three bits of the eight bit bytes
@@ -194,7 +194,7 @@ the checksum computation to decode
 data, the
 transformation shown in Figure 3.20
 greatly facilitates the time
-constraint.  As the data is being 
+constraint.  As the data is being
 read from a sector the accumulator
 contains the cumulative result of
 all previous bytes, exclusive-ORed
@@ -230,7 +230,7 @@ with only 64 needed.  An additional
 requirement was introduced to force
 the mapping to be one to one, namely,
 that there must be at least two
-adjacent bits set, excluding bit 7. 
+adjacent bits set, excluding bit 7.
 This produces exactly 64 valid "disk"
 values.  The initial transformation
 is done by the prenibble routine
@@ -301,7 +301,7 @@ into a "pseudo" or soft sector number
 used by DOS.  For example, if the
 sector number found on the disk were a
 2, this is used as an offset into a
-table where the number $0B is found. 
+table where the number $0B is found.
 Thus, DOS treats the physical sector
 2 as sector 11 ($0B) for all intents
 and purposes.  This presents no
@@ -322,7 +322,7 @@ access time.
 
 It is interesting to point out that
 Pascal, Fortran, and CP/M diskettes
-all use software interleaving also. 
+all use software interleaving also.
 However, each uses a different
 sector order.  A comparison of these
 differences is presented in Figure
@@ -330,4 +330,4 @@ differences is presented in Figure
 .sp1
 *** INSERT FIGURE 3.24 (22) HERE ***
 .br
-.nxch4
+.nx ch4

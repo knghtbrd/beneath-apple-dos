@@ -14,7 +14,7 @@ A909-A940 Command valid keywords table.
           This table is used to determine which keywords are
           required or may be given for any DOS command.
           Each command has a two byte entry with 16 flags,
-          indicating which keywords may be given. The flag 
+          indicating which keywords may be given. The flag
           bit settings are as follows:
 .ul
           BIT  MEANING
@@ -71,7 +71,7 @@ A909-A940 Command valid keywords table.
 .np
 A941-A94A Keyword name table.
           This table contains all the ASCII names of the DOS
-          keywords in standard order. Each keyword name 
+          keywords in standard order. Each keyword name
           occupies one byte:
                V,D,S,L,R,B,A,C,I,O
 .np
@@ -133,13 +133,13 @@ A971-AA3E Error message text table.
 .np
 AA3F-AA4F Error message text offset index table.
           This table contains the offset in bytes to the text
-          of any given error message in the table above. 
+          of any given error message in the table above.
           Entries are one byte each for each error code number.
 .np
 AA4F-AA65 DOS main routines variables.
      AA4F Current file buffer address (2 bytes).
-     AA51 Status flags: $01=READ state, $00=Warmstart, 
-                        $80=Coldstart,  $40=APPLESOFT RAM 
+     AA51 Status flags: $01=READ state, $00=Warmstart,
+                        $80=Coldstart,  $40=APPLESOFT RAM
      AA52 DOS CSWL intercept state number.
      AA53 Address of true CSWL handler (2 bytes).
      AA55 Address of true KSWL handler (2 bytes).
@@ -202,7 +202,7 @@ AAFD-AB05 File manager external entry point (from $3D6).
           Is X register zero?
           If so, allow new files by simulating an INIT command
           index.
-          Otherwise, require old file by simulating a LOAD 
+          Otherwise, require old file by simulating a LOAD
           command index.
           Fall through to main file manager entry point.
 .np

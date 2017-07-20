@@ -2,12 +2,12 @@
 .np
 .ce
 CHAPTER 3 - DISK II HARDWARE AND TRACK FORMATTING
-.sp 2
+.sp2
 
 Apple Computer's excellent manual on
 the Disk Operating System (DOS)
 provides only very basic information
-about how diskettes are formatted. 
+about how diskettes are formatted.
 This chapter will explain in detail
 how information is structured on a
 diskette.  The first section will
@@ -16,7 +16,7 @@ hardware, and may be skipped by those
 already familiar with the DOS manual.
 
 For system housekeeping, DOS divides
-diskettes into tracks and sectors. 
+diskettes into tracks and sectors.
 This is done during the
 initialization process.  A track is a
 physically defined circular path
@@ -26,14 +26,14 @@ track is identified by its distance
 from the center of the disk.  Similar
 to a phonograph stylus, the
 read/write head of the disk drive may
-be positioned over any given track. 
+be positioned over any given track.
 The tracks are similar to the grooves
 in a record, but they are not
 connected in a spiral.  Much like
 playing a record, the diskette is
 spun at a constant speed while the
 data is read from or written to its
-surface with the read/write head. 
+surface with the read/write head.
 Apple formats its diskettes into 35
 tracks.  They are numbered from 0 to
 34, track 0 being the outermost track
@@ -70,7 +70,7 @@ protection schemes.
 
 A sector is a subdivision of a track.
 It is the smallest unit of
-"updatable" data on the diskette. 
+"updatable" data on the diskette.
 DOS generally reads or writes data a
 sector at a time.  This is to avoid
 using a large chunk of memory as a
@@ -86,7 +86,7 @@ locate the first sector of the track.
 The implication is that
 the software must be able
 to locate any given track and sector
-with no help from the hardware.  
+with no help from the hardware.
 This scheme, known as "soft sectoring",
 takes a little more space
 for storage but allows flexibility,
@@ -100,14 +100,14 @@ sector formats.
 .ne10
 .nf
          DISK ORGANIZATION
-.SP1
+.sp1
 TRACKS
   All DOS versions................35
-.SP1
+.sp1
 SECTORS PER TRACK
   DOS 3.2.1 and earlier...........13
   DOS 3.3.........................16
-.SP1
+.sp1
 SECTORS PER DISKETTE
   DOS 3.2.1 and earlier..........455
   DOS 3.3........................560
@@ -118,15 +118,15 @@ BYTES PER SECTOR
 BYTES PER DISKETTE
   DOS 3.2.1 and earlier.......116480
   DOS 3.3.....................143360
-.SP1
+.sp1
 USABLE* SECTORS FOR DATA STORAGE
   DOS 3.2.1 and earlier..........403
   DOS 3.3........................496
-.SP1
+.sp1
 USABLE* BYTES PER DISKETTE
   DOS 3.2.1 and earlier.......103168
   DOS 3.3.....................126976
-.SP2
+.sp2
 * Excludes DOS, VTOC, and CATALOG
 .bp
 TRACK FORMATTING
@@ -186,12 +186,12 @@ least significant bit cell would be
 bit cell 0.  When reference is made
 to a specific data bit (i.e. data bit
 5), it is with respect to the
-corresponding bit cell (bit cell 5). 
+corresponding bit cell (bit cell 5).
 Data is written and read serially,
 one bit at a time.  Thus, during a
 write operation, bit cell 7 of each
 byte would be written first, with bit
-cell 0 being written last. 
+cell 0 being written last.
 Correspondingly, when data is being
 read back from the diskette, bit cell
 7 is read first and bit cell 0 is
@@ -245,19 +245,19 @@ instructed to write in 32
 cycle intervals.  If not, zero bits
 will continue to be written every four
 cycles, which is, in fact, exactly
-how self-sync bytes are created. 
+how self-sync bytes are created.
 Self-sync bytes will be covered in
 detail shortly.
 .sp1
 *** INSERT FIGURE 3.6 HERE ***
 
-A "field" is made up of a group of 
+A "field" is made up of a group of
 consecutive
 bytes.  The number of bytes varies,
 depending upon the nature of the
 field.  The two types of fields
 present on a diskette are the Address
-Field and the Data Field.  They are 
+Field and the Data Field.  They are
 similar in that they both contain a
 prologue, a data area, a checksum, and
 an epilogue.  Each field on a track is
@@ -277,7 +277,7 @@ beneath the read/write head.
 All gaps are primarily alike in
 content, consisting of self-sync
 hexadecimal FF's, and vary only in
-the number of bytes they contain. 
+the number of bytes they contain.
 Figure 3.7 is a diagram of a portion
 of a typical track, broken into its
 major components.
@@ -286,7 +286,7 @@ major components.
 
 Self-sync or auto-sync bytes are
 special bytes that make up the three
-different types of gaps on a track. 
+different types of gaps on a track.
 They are so named because of their
 ability to automatically bring the
 hardware into synchronization with
@@ -311,14 +311,14 @@ clock bits from data bits,
 the hardware finds
 the first bit cell with data in it
 and proceeds to read the following
-seven data 
+seven data
 bits into the eight bit latch.  In
 effect, it assumes that it had
 started at the beginning of a data
 byte.  Of course, in reality, the
 odds of its having started at the
 beginning of a byte are only one in
-eight.  
+eight.
 Pictured in Figure 3.8 is a small
 portion of a track.  The clock bits
 have been stripped out and 0's and
@@ -381,7 +381,7 @@ the track.
 
 We can now discuss the particular
 portions of a track in detail.  The
-three gaps will be covered first. 
+three gaps will be covered first.
 Unlike some other disk formats, the
 size of the three gap types will vary
 from drive to drive and even from
@@ -424,13 +424,13 @@ clarity).
 .bp
 
 Gap 2 appears after each Address
-Field and before each Data Field. 
+Field and before each Data Field.
 Its length varies from five to ten bytes
 on a normal drive.  The primary
 purpose of Gap 2 is to provide time
 for the information in an Address
 Field to be decoded by the computer
-before a read or write takes place. 
+before a read or write takes place.
 If the gap were too short, the
 beginning of the Data Field might
 spin past while DOS was still
@@ -444,7 +444,7 @@ will occur in exactly the same spot
 each time.  This is due to the fact
 that the drive which is rewriting
 the Data Field may not be the one
-which originally INITed or wrote it. 
+which originally INITed or wrote it.
 Since the speed of the drives can
 vary, it is possible that the write
 could start in mid-byte. (See Figure
@@ -472,7 +472,7 @@ boundary, thus altering an existing
 byte.  Figure 3.12 illustrates this.
 .sp1
 *** INSERT FIGURE 3.11 HERE ***
-.SP1
+.sp1
 *** INSERT FIGURE 3.12 HERE ***
 
 Gap 3 appears after each
@@ -485,7 +485,7 @@ additional time needed to manipulate
 the data that has been read before
 the next sector is to be read.  The
 length of Gap 3 is not as critical as
-that of Gap 2.  If the 
+that of Gap 2.  If the
 following Address
 Field is missed, DOS can always wait
 for the next time it spins around
@@ -503,7 +503,7 @@ An examination of the contents of the
 two types of fields is in order.
 The Address Field contains
 the "address" or identifying
-information about the Data Field 
+information about the Data Field
 which follows it.  The volume, track,
 and sector number of any given sector
 can be thought of as its "address",
@@ -519,7 +519,7 @@ Figure 3.13.
 
 The prologue consists of three bytes
 which form a unique sequence, found
-in no other component of the track. 
+in no other component of the track.
 This fact enables DOS to locate an
 Address Field with almost no
 possibility of error.  The three
@@ -539,7 +539,7 @@ where it is positioned on a
 particular diskette.  The checksum is
 computed by exclusive-ORing the first
 three pieces of information, and is
-used to verify its integrity. 
+used to verify its integrity.
 Lastly follows the epilogue, which
 contains the three bytes $DE, $AA and
 $EB.  Oddly, the $EB is always written
@@ -558,6 +558,6 @@ Field.  Much like the Address Field,
 it consists of a prologue, data,
 checksum, and an epilogue. (Refer to
 Figure 3.14)  The prologue is
-different only in the third byte. 
+different only in the third byte.
 The bytes are $D5, $AA, and $AD,
 which again form a

@@ -2,7 +2,7 @@
 .np
 .ce
 CHAPTER 5 - THE STRUCTURE OF DOS
-.sp 2
+.sp2
 DOS MEMORY USE
 
 DOS is an assembly language program
@@ -37,7 +37,7 @@ on a 48K system, it will not boot on
 less than 48K since the RAM DOS
 occupied does not exist on a smaller
 machine.
-.SP1
+.sp1
 *** INSERT FIGURE 5.1 ***
 
 A diagram of DOS's memory for a 48K
@@ -57,7 +57,7 @@ changed from 3, the space occupied by
 the file buffers also changes. This
 affects the placement of HIMEM,
 moving it up or down with fewer or
-more buffers respectively. 
+more buffers respectively.
 
 The 3.5K
 above the file buffers is occupied by
@@ -69,7 +69,7 @@ interfacing to BASIC, interpreting
 commands, and managing the file
 buffers. All disk functions are
 passed on via subroutine calls to the
-file manager. 
+file manager.
 .bp
 The file manager,
 occupying about 4.3K, is a collection
@@ -85,7 +85,7 @@ lanaguage program which is not part
 of DOS. This interface is generalized
 through a group of vectors in page 3
 of RAM and is documented in the next
-chapter. 
+chapter.
 
 The last 2.5K of DOS is the
 Read/Write Track/Sector (RWTS)
@@ -147,19 +147,19 @@ table itself starts at $3D0.
 .ll60
 .bp
 DOS VECTOR TABLE ($3D0-$3FF)
-.NP
+.np
 ADDR  USAGE
 3D0   A JMP (jump or GOTO) instruction to the DOS warmstart
-      routine. This routine reenters DOS but does not 
+      routine. This routine reenters DOS but does not
       discard the current BASIC program and does not reset
       MAXFILES or other DOS environmental variables.
-3D3   A JMP to the DOS coldstart routine. This routine 
+3D3   A JMP to the DOS coldstart routine. This routine
       reinitializes DOS as if it was rebooted, clearing the
       current BASIC file and resetting HIMEM.
 3D6   A JMP to the DOS file manager subroutine to allow a
       user written assembly language program to call it.
 3D9   A JMP to the DOS Read/Write Track/Sector (RWTS)
-      routine to allow user written assembly language 
+      routine to allow user written assembly language
       programs to call it.
 3DC   A short subroutine which locates the input parameter
       list for the file manager to allow a user written
@@ -170,9 +170,9 @@ ADDR  USAGE
       up input parameters before calling RWTS.
 3EA   A JMP to the DOS subroutine which "reconnects" the DOS
       intercepts to the keyboard and screen data streams.
-3EF   A JMP to the routine which will handle a BRK machine 
+3EF   A JMP to the routine which will handle a BRK machine
       language instruction. This vector is only supported by
-      the AUTOSTART ROM. Normally the vector contains the 
+      the AUTOSTART ROM. Normally the vector contains the
       address of the monitor ROM subroutine which displays
       the registers.
 3F2   LO/HI address of routine which will handle RESET for
@@ -185,7 +185,7 @@ ADDR  USAGE
       RESET was pressed.  If a power-up occured, the
       AUTOSTART ROM ignores the address at 3F2 (since it has
       never been initialized) and attempts to boot a
-      diskette.  To prevent this from happening when you 
+      diskette.  To prevent this from happening when you
       change $3F2 to handle your own RESETs, EOR (exclusive
       OR) the new value at $3F2 with a $A5 and store the
       result in the power-up byte.
@@ -216,7 +216,7 @@ The location of these stages on the
 diskette and a memory map are given
 in Figure 5.2 and a description of
 the bootstrap process follows.
-.SP1
+.sp1
 *** INSERT FIGURE 5.2 ***
 
 The first boot stage (let's call it
@@ -368,7 +368,7 @@ The various stages of the bootstrap
 process will be covered again in greater
 detail in Chapter 8, DOS PROGRAM
 LOGIC.
-.SP1
+.sp1
 *** INSERT FIGURE 5.3 HERE ***
-.BR
-.NX CH6.1
+.br
+.nx CH6.1

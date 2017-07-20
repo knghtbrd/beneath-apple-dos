@@ -112,7 +112,7 @@ the order of the information,
 doubling the sector numbers, or
 altering the checksum with some
 constant.  Any of the above would
-cause an I/O error in a normal DOS. 
+cause an I/O error in a normal DOS.
 Finally, we have the two closing
 bytes ($DE/$AA), which are similar to
 the starting bytes, but with a
@@ -135,7 +135,7 @@ also.  Switching the third bytes
 between the two fields is an example
 of a protective measure.  The data
 portion consists of 342 bytes of
-data, followed by a checksum byte. 
+data, followed by a checksum byte.
 Quite often the data is written so
 that the checksum computation will be
 non-zero, causing an error.  The
@@ -176,7 +176,7 @@ A state of the art protection scheme
 consists of two elements.  First, the
 data is stored on the diskette in
 some non-standard way in order to
-make copying very difficult. 
+make copying very difficult.
 Secondly, some portion of memory is
 utilized that will be altered upon a
 RESET.  (For example, the primary
@@ -186,7 +186,7 @@ software from being removed from
 memory intact.
 
 Recently, several "nibble" or byte
-copy programs have become available. 
+copy programs have become available.
 Unlike traditional copy programs
 which require the data to be in a
 predefined format, these utilities
@@ -196,7 +196,7 @@ protected disks were first
 introduced, it has been asked, "why
 can't a track be read into memory and
 then written back out to another
-diskette in exactly the same way?". 
+diskette in exactly the same way?".
 The problem lies with the self-sync
 or auto-sync bytes.  (For a full
 discussion see Chapter 3)  These
@@ -227,13 +227,13 @@ will expand the physical space needed
 to write the track back out, since
 sync bytes require 25% more room.  If
 enough hex $FF's occur in the data,
-the track will overwrite itself. 
+the track will overwrite itself.
 This can happen in general if the
 drive used to write the data is
-significantly slower than normal. 
+significantly slower than normal.
 Thus, we are back to having to
 analyze the data and, in effect, make
-some assumptions.  It appears that, 
+some assumptions.  It appears that,
 apart from using some
 hardware device to help find the sync
 bytes, a software program must make
@@ -255,7 +255,7 @@ nibble copy programs to rely heavily
 upon the user for direction.  If the
 present trend continues, it is very
 likely that protection schemes will
-evolve to a point where automated 
+evolve to a point where automated
 techniques cannot be used to defeat
 them.
 .br

@@ -5,7 +5,7 @@ B700-B749 DOS 2nd stage boot loader.
           Create new stack.
           Call SETVIC ($FE93) and SETKBD ($FE89).
           Exit to DOS coldstart ($9D84).
-.NP
+.np
 B74A-B78C Put DOS on tracks 0-2.
           Set RWTS parmlist to write DOS to disk.
           Call Read/Write group of pages ($B793).
@@ -20,7 +20,7 @@ B793-B7B4 Read/Write a group of pages.
 B7B5-B7C1 Disable interrupts and call RWTS.
 .np
 B7C2-B7D5 Set RWTS parameters for writing DOS.
-.NP
+.np
 B7D6-B7DE Zero current buffer.
           Zero 256 bytes pointed to by $42,$43.
           Exit to caller.
@@ -51,14 +51,14 @@ B7E8-B7F8 RWTS parmlist.
      B7F6 Volume number found.
      B7F7 Slot number found.
      B7F8 Drive number found.
-.NP
+.np
 B7F9-B7FA Unused.
-.NP
+.np
 B7FB-B7FE Device Characteristics Table (DCT).
      B7FB Device type (should be $00).
      B7FC Phases per track (should be $01).
      B7FD Motor on time count (2 bytes - should be $EF, $D8).
-.NP
+.np
 B7FF      Unused.
 .np
 B800-B829 PRENIBBLE routine.
@@ -128,7 +128,7 @@ B8DC-B943 READ routine.
 B944-B99F RDADR routine.
           Read an Address Field.
           Reads starting address marks ($D5/$AA/$96), address
-          information (volume/track/sector/checksum), and 
+          information (volume/track/sector/checksum), and
           closing address marks ($DE/$AA).
           On entry: X-reg:Slot number times 16
                     Read mode (Q6L,Q7L)
@@ -181,13 +181,13 @@ BA29-BA68 Write Translate Table.
           Values range from $96 to $FF.
           Codes with more than one pair of adjacent zeros or
           with no adjacent ones are excluded.
-.NP
+.np
 BA69-BA95 Unused.
 .np
 BA96-BAFF Read Translate Table.
           Contains 8 bit bytes used to convert 6 bit "nibbles".
           Values range from $96 to $FF.
-          Codes with more than one pair of adjacent zeros or 
+          Codes with more than one pair of adjacent zeros or
           with no adjacent ones are excluded.
 .np
 BB00-BBFF Primary Buffer.
@@ -220,7 +220,7 @@ BCC4-BCDE Write double byte subroutine.
 BCDF-BCFF Unused.
 .np
 BD00-BD18 Main entry to RWTS.
-          Upon entry, store Y-reg and A-reg at $48,$49 as 
+          Upon entry, store Y-reg and A-reg at $48,$49 as
           pointers to the IOB.
           Initialize maximum number of recals at 1 and seeks
           at 4.
@@ -242,9 +242,9 @@ BD54-BD73 Move pointers in IOB to zero page for future use.
 BD74-BD8F Select appropriate drive and save drive being used
           as high bit of $35.  1=drive 1, 0=drive 2.
           Get test results. If drive was on, branch to $BD90.
-          Wait for capacitor to discharge using MSWAIT 
+          Wait for capacitor to discharge using MSWAIT
           subroutine at $BA00.
-BD90-BDAA Get destination track and go to it using MYSEEK 
+BD90-BDAA Get destination track and go to it using MYSEEK
           subroutine at $BE5A.
           Check test result again and if drive was on,
           branch to TRYTRK at $BDAB.
@@ -281,17 +281,17 @@ BE0B-BE0C Used to branch to ALLDONE at $BE46.
 BE0D-BF0F FORMDSK
           Jump to DSKFORM at $BEAF.
 BE10-BE25 RTTRK
-          Check volume number found against volume number 
+          Check volume number found against volume number
           wanted.
           If no volume was specified, then no error.
           If specified volume doesn't match, load A-reg with
-          $20 (volume mismatch error) and exit via HNDLERR 
+          $20 (volume mismatch error) and exit via HNDLERR
           at $BE48.
 BE26-BE45 CRCTVOL
           Check to see if sector is correct.
           Use ILFAV table at $BFB8 for software sector
           interleaving.
-          If wrong sector, try again by branching back to 
+          If wrong sector, try again by branching back to
           TRYADR at $BDC1.
           If sector correct, find out what operation to do.
           If write, branch to WRIT at $BE51.
@@ -310,11 +310,11 @@ BE51-BE59 WRITE
           If the write was good, exit via ALLDONE ($BE46).
           If bad write, load A-reg with $10 (write protect
           error) and exit via HNDLERR ($BE48).
-BE5A-BE8D MYSEEK 
-          Provides necessary housekeeping before going to 
+BE5A-BE8D MYSEEK
+          Provides necessary housekeeping before going to
           SEEKABS routine.
           Determines number of phases per track and stores
-          track information in appropriate slot dependent 
+          track information in appropriate slot dependent
           location.
 BE8E-BE94 XTOY routine.
           Put slot in Y-reg by transferring X-reg divided
@@ -331,7 +331,7 @@ BEAF-BF0C INIT command handler
           Allow 48 retries during initialization.
           Double check that the first sector found is zero
           after calling TRACK WRITE.
-          Increment the track number after successfully 
+          Increment the track number after successfully
           formatting a track.
           Loop back until 35 tracks are done.
 BF0D-BF61 TRACK WRITE routine.
@@ -339,7 +339,7 @@ BF0D-BF61 TRACK WRITE routine.
           Preceed it with 128 self-sync bytes.
           Follow them with sectors 0 through 15 in sequence.
           Set retry count for verifying the track at 48.
-          Fill the sector initilization map with positive 
+          Fill the sector initilization map with positive
           numbers.
           Loop through a delay period to bypass most of the
           initial self-sync bytes.
@@ -355,7 +355,7 @@ BF62-BF87 VERIFY TRACK routine.
           This routine reads all 16 sectors from the track that
           was just formatted.
           If an error occurs during the read of either the
-          Address Field or the Data Field, the number of 
+          Address Field or the Data Field, the number of
           retries is decremented.
           The routine continues reading until retries is zero.
           Calls Sector Map routine ($BF88).
@@ -367,7 +367,7 @@ BF88-BFA7 Sector Map routine.
           if that value is greater than zero.
           Upon completion of track zero, the sync count is
           decremented by two if it is at least 16.
-.NP
+.np
 BFA8-BFB7 Sector Initialization Map used to mark sectors as
           they are initialized.
           Contains a $30 prior to initialization of a track.

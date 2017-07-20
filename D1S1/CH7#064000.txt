@@ -64,18 +64,18 @@ be followed to do this:
     Execute MASTER CREATE (800G)
     When MASTER CREATE finishes loading the DOS image
        it will exit. You may use the monitor to make
-       changes in the image. MASTER CREATE loads DOS 
+       changes in the image. MASTER CREATE loads DOS
        into memory at $1200 such that Boot 2 (RWTS) is
        loaded first, followed by the main part of DOS
        starting at $1C00.
     When all patches have been made, reenter MASTER CREATE
        at location $82D (82DG).
-    Complete the MASTER CREATE update normally. The 
+    Complete the MASTER CREATE update normally. The
        resulting diskette will have the patches applied.
 .br
 This procedure will work for versions 3.2, 3.2.1, and 3.3 of
 DOS.
-.SP1
+.sp1
 .ne5
 AVOIDING RELOAD OF LANGUAGE CARD
 

@@ -2,7 +2,7 @@
 .nf
 .na
 DOS ZERO PAGE USAGE
-.SP1
+.sp1
 .un
 BYTE      USE
 24        Cursor horizontal (DOS)

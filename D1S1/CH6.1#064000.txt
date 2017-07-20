@@ -29,7 +29,7 @@ eight two byte toggles that essentially
 represent pulling a TTL line high or
 low.  Applications which could use
 direct disk access range from a
-user written operating system to DOS-independent 
+user written operating system to DOS-independent
 utility programs.  The
 device address assignments are given
 in Figure 6.1.
@@ -64,7 +64,7 @@ ADDRESS LABEL           DESCRIPTION
 .bp
 The addresses are slot dependent and
 the offsets are computed by
-multiplying the slot number by 16. 
+multiplying the slot number by 16.
 In hexadecimal this works out nicely
 and we can add the value $s0 (where s
 is the slot number) to the base
@@ -106,7 +106,7 @@ Basically, each of the four phases
 (0-3) must be turned on and then off
 again.  Done in ascending order, this
 moves the arm inward.  In descending
-order, this moves the arm outward. 
+order, this moves the arm outward.
 The timing between accesses to these
 locations is critical, making this a
 non-trivial exercise.  It is
@@ -119,10 +119,10 @@ MOTOR OFF/ON:
 .sp1
 .nf
         LDA $C088,X     Turn motor off.
-.SP1
+.sp1
         LDA $C089,X     Turn motor on.
-.SP1
-.FI
+.sp1
+.fi
 NOTE: A sufficient delay should be
 provided to allow the motor time to
 come up to speed.  Shugart recommends
@@ -132,39 +132,39 @@ until data starts to change.
 .bp
 .nf
 ENGAGE DRIVE 1/2:
-.SP1
+.sp1
         LDA $C08A,X     Engage drive 1.
 .sp1
         LDA $C08B,X     Engage drive 2.
 .sp1
 READ A BYTE:
-.SP1
+.sp1
   READ  LDA $C08C,X
         BPL READ
-.SP1
-.FI
+.sp1
+.fi
 NOTE: $C08E,X must already have been
 accessed to assure Read mode.  The
 loop is necessary to assure that the
-accumulator will contain valid data. 
+accumulator will contain valid data.
 If the data latch does not yet
 contain valid data the high bit will
 be zero.
 .sp1
 .nf
 SENSE WRITE PROTECT:
-.SP1
+.sp1
         LDA $C08D,X
         LDA $C08E,X     Sense write protect.
         BMI ERROR       If high bit set, protected.
 .sp1
 WRITE LOAD AND WRITE A BYTE
-.SP1
+.sp1
         LDA DATA
         STA $C08D,X     Write load.
         ORA $C08C,X     Write byte.
 .sp1
-.FI
+.fi
 NOTE: $C08F,X must already have been
 accessed to insure Write mode and a
 100 microsecond delay should be
@@ -195,7 +195,7 @@ without an adjustment.
  WRITE  STA $C08D,X     (5)
         ORA $C08C,X     (4)
         RTS             (6)
-.SP2
+.sp2
 CALLING READ/WRITE TRACK/SECTOR (RWTS)
 
 Read/Write Track/Sector (RWTS) exists
@@ -205,7 +205,7 @@ roughly the top third of the DOS
 program.  The interface to RWTS is
 standardized and thoroughly documented by Apple
 and may be called by a
-program running outside of DOS. 
+program running outside of DOS.
 
 There are two subroutines which must
 be called or whose function must be
@@ -241,7 +241,7 @@ on the facing page (offsets are given in hexadecimal):
 .bp
 .nf
 INPUT/OUTPUT CONTROL BLOCK - GENERAL FORMAT
-.SP1
+.sp1
 BYTE    DESCRIPTION
 00      Table type, must be $01
 01      Slot number times 16 (s0: s=slot.  Example: $60)
@@ -272,14 +272,14 @@ BYTE    DESCRIPTION
 10      Drive number of last access (must be initialized)
 .sp1
 DEVICE CHARACTERISTICS TABLE
-.SP1
+.sp1
 BYTE    DESCRIPTION
 00      Device type (should be $00 for DISK II)
 01      Phases per track (should be $01 for DISK II)
 02-03   Motor on time count (should be $EFD8 for DISK II)
 .bp
 RWTS IOB BY CALL TYPE
-.SP1
+.sp1
 SEEK    Move disk arm to desired track
 .sp1
 Input:  Byte 00    - Table type ($01)
@@ -293,7 +293,7 @@ Input:  Byte 00    - Table type ($01)
 .sp1
 Output: Byte 0D    - Return code (See previous definition)
              0F    - Current Slot number * 16
-             10    - Current Drive number 
+             10    - Current Drive number
 .sp1
 READ    Read a sector into a specified buffer
 .sp1
@@ -314,7 +314,7 @@ Input:  Byte 00    - Table type ($01)
 Output: Byte 0D    - Return code (See previous definition)
              0E    - Current Volume number
              0F    - Current Slot number * 16
-             10    - Current Drive number 
+             10    - Current Drive number
 .bp
 WRITE   Write a sector from a specified buffer
 .sp1
@@ -335,7 +335,7 @@ Input:  Byte 00    - Table type ($01)
 Output: Byte 0D    - Return code (See previous definition)
              0E    - Current Volume number
              0F    - Current Slot number * 16
-             10    - Current Drive number 
+             10    - Current Drive number
 .sp1
 FORMAT  Initialize the diskette (does not put DOS on disk,
         create a VTOC/CATALOG, or store HELLO program)
@@ -353,6 +353,6 @@ Input:  Byte 00    - Table type ($01)
 Output: Byte 0D    - Return code (See previous definition)
              0E    - Current Volume number
              0F    - Current Slot number * 16
-             10    - Current Drive number 
+             10    - Current Drive number
 .bp
 .nx ch6.2

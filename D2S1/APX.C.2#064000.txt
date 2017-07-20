@@ -1,6 +1,6 @@
 
 PAGE]>256 bytes of memory which share
-a common high order address byte. 
+a common high order address byte.
 Zero page is the first 256 bytes of
 memory ($0000 through $00FF).
 
@@ -11,7 +11,7 @@ a separate line or wire.
 
 PARAMETER LIST]>An area of storage
 set aside for communication between
-a calling program and a subroutine. 
+a calling program and a subroutine.
 The parameter list contains input and
 output variables which will be used
 by the subroutine.
@@ -57,7 +57,7 @@ beginning of a disk field which
 uniquely identify it from any other
 data on the track.
 
-PROM]>Programmable Read Only Memory. 
+PROM]>Programmable Read Only Memory.
 PROMs are usually used on controller
 cards associated with peripherals to
 hold the driver program which
@@ -120,7 +120,7 @@ RELEASE]>A version of a distributed
 piece of software.  There have been
 several releases of DOS.
 
-RELOCATABLE]>The attribute of 
+RELOCATABLE]>The attribute of
 an object module file
 which contains a machine language
 program and the information necessary
@@ -131,7 +131,7 @@ RETURN CODE]>A numeric value returned
 from a subroutine, indicating the
 success or failure of the operation
 attempted.  A return code of zero
-usually means there were no errors. 
+usually means there were no errors.
 Any other value indicates the nature
 of the error, as defined by the
 design of the subroutine.
@@ -195,7 +195,7 @@ DOS image will always be loaded into
 the same memory location, regadless
 of the size of the machine.
 
-SOFT ERROR]>A recoverable I/O error. 
+SOFT ERROR]>A recoverable I/O error.
 A worn diskette might produce soft
 errors occasionally.
 
@@ -252,13 +252,13 @@ Also called "strobe".
 TOKENS]>A method where human
 recognizable words may be coded to
 single binary byte values for memory
-compression and faster processing. 
+compression and faster processing.
 BASIC statements are tokenized, where
 hex codes are assigned to words like
 IF, PRINT, and END.
 
 TRACK]>One complete circular path of
-magnetic storage on a diskette. 
+magnetic storage on a diskette.
 There are 35 concentric tracks on an APPLE
 diskette.
 
@@ -276,7 +276,7 @@ sector number for each of its data
 sectors in the order that they are to
 be read or written.
 
-TTL]>Transistor to Transistor Logic. 
+TTL]>Transistor to Transistor Logic.
 A standard for the interconnection of
 integrated circuits which also
 defines the which voltages
@@ -295,7 +295,7 @@ VOLUME]>An identification for a
 diskette, disk platter, or cassette,
 containing one or more files.
 
-VTOC]>Volume Table Of Contents. 
+VTOC]>Volume Table Of Contents.
 Based upon the IBM OS/VS VTOC.  On
 the APPLE, a sector mapping the
 free sectors on the diskette and

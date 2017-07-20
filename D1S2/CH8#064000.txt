@@ -5,8 +5,8 @@
 .m22
 .m48
 .fo ''-%-
-.pn 5
-.pi 0
+.pn5
+.pi0
 .br
 .np
 .ce
@@ -34,7 +34,7 @@ are given in decimal, addresses in
 hexadecimal (base 16).
 .sp1
 DISK II CONTROLLER CARD ROM - BOOT 0
-.SP1
+.sp1
 .pi0
 .ul
 ADDRESS
@@ -44,9 +44,9 @@ C600-C65B This routine is the first code executed when a disk
           C600G or 6 control-P.
           Dynamically build a translate table for converting
           disk codes to six bit hex at location $356-$3FF.
-          Call an RTS instruction in the monitor ROM and 
+          Call an RTS instruction in the monitor ROM and
           extract the return address from the stack to find out
-          the address of this controller card ROM. 
+          the address of this controller card ROM.
           Use this address to determine the slot number of this
           drive by shifting $Csxx.
           Save the slot number times 16 ($s0)
@@ -92,9 +92,9 @@ C65C-C6FA This subroutine reads the sector number stored at
           Otherwise, go to $801 to begin executing the second
           stage of the bootstrap.
 .sp1
-FIRST RAM BOOTSTRAP LOADER - BOOT 1 
+FIRST RAM BOOTSTRAP LOADER - BOOT 1
 .sp1
-.Ul
+.ul
 ADDRESS
 .np
 0801-084C This routine loads the second RAM loader, Boot 2,
@@ -104,7 +104,7 @@ ADDRESS
           Create the address of the ROM sector read subroutine
           (C65C in our case) and store it at $3E,$3F.
           Pick up the first memory page in which to read Boot 2
-          from location $8FE, add the length of Boot 2 in 
+          from location $8FE, add the length of Boot 2 in
           sectors from $8FF, and set that value as the first
           address to which to read (read last page first).
      081F Get sector to read, if zero, go to $839.
@@ -124,8 +124,8 @@ ADDRESS
           master disk, $B700 in its final relocated location).
 .sp1
 DOS 3.3 MAIN ROUTINES
-.SP1
-.Ul
+.sp1
+.ul
 ADDRESS
 .np
 9D00-9D0F Relocatable address constants
@@ -144,7 +144,7 @@ ADDRESS
           and this table contains the address of the routine
           which handles each state from state 0 to state 6.
 .np
-9D1E-9D55 Command handler entry point table. This table 
+9D1E-9D55 Command handler entry point table. This table
           contains the address of a command handler subroutine
           for each DOS command in the following standard order:
                INIT      A54F
@@ -186,7 +186,7 @@ ADDRESS
      9D5E Address of BASIC warmstart.
      9D60 Address of BASIC relocate (APPLESOFT only).
 .np
-9D62-9D6B Image of the entry point vector for INTEGER BASIC. 
+9D62-9D6B Image of the entry point vector for INTEGER BASIC.
           This image is copied to 9D56 if INTEGER BASIC is made
           active.
 .np
@@ -213,7 +213,7 @@ ADDRESS
           Set NOMON C,I,O.
           Set video intercept handler state to 0.
           Coldstart or warmstart the current BASIC (exit DOS).
-          (DOS will next gain control when BASIC prints its   
+          (DOS will next gain control when BASIC prints its
           input prompt character)
 .np
 9DEA-9E50 First entry processing for DOS. This routine is
@@ -227,7 +227,7 @@ ADDRESS
           Set MAXFILES to 3 by default.
           Call A7D4 to build the DOS file buffers.
           If an EXEC was active, close the EXEC file
-          Set the video intercept state to 0 and indicate 
+          Set the video intercept state to 0 and indicate
           warmstart status by calling A75B.
           If the last command executed was not INIT (this DOS
           was not just booted), go to 9E45.
@@ -242,7 +242,7 @@ ADDRESS
           If so, go to A180 to execute it. Otherwise, return
           to caller.
 .np
-9E51-9E7F An image of the DOS 3-page jump vector which the 
+9E51-9E7F An image of the DOS 3-page jump vector which the
           above routine copies to $3D0-$3FF. See Chapter 5 for
           a description of its contents.
 .np
@@ -252,7 +252,7 @@ ADDRESS
           go to 9E9E.
           Get value in A register at entry and echo it on the
           screen (erases flashing cursor).
-          If in read state (reading a file) go to A626 to get 
+          If in read state (reading a file) go to A626 to get
           next byte from disk file.
           Otherwise, call 9DEA to do first entry processing.
           Put cursor on screen in next position.
@@ -287,7 +287,7 @@ ADDRESS
           If read flag is on (file being read) and output is a
           "?" character (BASIC INPUT), go to state 6 to skip
           it.
-          If read flag is on and output is prompt character 
+          If read flag is on and output is prompt character
           ($33) go to state 2 to ignore the line.
           Set state to 2 (ignore non-DOS command) just in case.
           If output character is not a control-D, go to
@@ -329,7 +329,7 @@ ADDRESS
           Exit DOS with echo on screen if MON O.
 .np
 9F61-9F70 State 5 output handler. --Start of WRITE data line--
-          If the character is a control-D, go to state 0 to 
+          If the character is a control-D, go to state 0 to
           immediately exit write mode.
           If the character is a line feed, write it and exit,
           staying in state 5.
