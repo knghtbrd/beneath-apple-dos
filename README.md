@@ -23,6 +23,8 @@ join in--send patches, help add stuff, etc.
    * For characters 0xa0-0xfe, strip the high bit to get pure ASCII
    * Convert 0x0d and 0x8d (return) characters ti 0x0a (newline)
    * Escape all else in C-style
+3. Remove NUL at end of .txt files
+4. .pp dot command is paragraph break, replace with blank line.
 
 This has probably broken the .s files a bit, and I haven't bothered to decompile
 the five byte HELLO ...  ;)
