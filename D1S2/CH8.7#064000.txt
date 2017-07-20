@@ -1,0 +1,405 @@
+.np
+B700-B749 DOS 2nd stage boot loader.
+          Set RWTS parmlist to read DOS from disk.
+          Call Read/Write group of pages ($B793).
+          Create new stack.
+          Call SETVIC ($FE93) and SETKBD ($FE89).
+          Exit to DOS coldstart ($9D84).
+.NP
+B74A-B78C Put DOS on tracks 0-2.
+          Set RWTS parmlist to write DOS to disk.
+          Call Read/Write group of pages ($B793).
+          Exit to caller.
+.np
+B78D-B792 Unused.
+.np
+B793-B7B4 Read/Write a group of pages.
+          call RWTS through external entry point ($B7B5).
+          Exit to caller.
+.np
+B7B5-B7C1 Disable interrupts and call RWTS.
+.np
+B7C2-B7D5 Set RWTS parameters for writing DOS.
+.NP
+B7D6-B7DE Zero current buffer.
+          Zero 256 bytes pointed to by $42,$43.
+          Exit to caller.
+.np
+B7DF-B7E7 DOS 2nd stage boot loader parmlist.
+     B7DF Unused.
+     B7E0 Number of pages in 2nd DOS load.
+     B7E1 Number of sectors to read/write.
+     B7E2 Number of pages in 1st DOS load.
+     B7E3 INIT DOS page counter.
+     B7E4 Pointer to RWTS parmlist (2 bytes).
+     B7E6 Pointer to 1st stage boot location (2 bytes).
+.np
+B7E8-B7F8 RWTS parmlist.
+     B7E8 Table type. Must be $01.
+     B7E9 Slot number times 16.
+     B7EA Drive number ($01 or $02).
+     B7EB Volume number expected (0 matches any volume).
+     B7EC Track number ($00 to $22).
+     B7ED Sector number ($00 to $0F).
+     B7EE Pointer to Device Characteristics Table (2 bytes).
+     B7F0 Pointer to user data buffer for READ/WRITE (2 bytes).
+     B7F2 Unused.
+     B7F3 Byte count for partial sector (use $00 for 256).
+     B7F4 Command code: 0=SEEK, 1=READ, 2=WRITE, 4=FORMAT.
+     B7F5 Error code:(valid if carry set) $10=Write protect,
+          $20=Volume mismatch, $40=Drive error, $80=Read error.
+     B7F6 Volume number found.
+     B7F7 Slot number found.
+     B7F8 Drive number found.
+.NP
+B7F9-B7FA Unused.
+.NP
+B7FB-B7FE Device Characteristics Table (DCT).
+     B7FB Device type (should be $00).
+     B7FC Phases per track (should be $01).
+     B7FD Motor on time count (2 bytes - should be $EF, $D8).
+.NP
+B7FF      Unused.
+.np
+B800-B829 PRENIBBLE routine.
+          Converts 256 (8 bit) bytes to 342 (6 bit) "nibbles"
+          of the form 00XXXXXX.
+          Pointer to page to convert stored at $3E,$3F.
+          Data stored at primary and secondary buffers.
+          On entry: $3E,$3F contain pointer to user data.
+          On exit:  A-reg:unknown
+                    X-reg:$FF
+                    Y-reg:$FF
+                    Carry set
+          Exit to caller.
+.np
+B82A-B8B7 WRITE routine.
+          Writes prenibbilized data from primary and secondary
+          buffers to disk.
+          Calls Write a byte subroutine.
+          Writes 5 bytes autosync, starting data marks
+          ($D5/$AA/$AD), 342 bytes data, one byte checksum, and
+          closing data marks ($DE/$AA/$EB).
+          Uses Write Translate Table ($ba29).
+          On entry: X-reg:Slot number times 16
+          On exit:  Carry set if error
+                    If no error:
+                    A-reg:unknown
+                    X-reg:unchanged
+                    Y-reg:$00
+                    Carry clear
+                    Uses $26,$27,$678
+          Exit to caller.
+.np
+B8B8-B8C1 Write a byte subroutine.
+          Timing critical code used to write bytes at 32 cycle
+          intervals.
+          Exit to caller.
+.np
+B8C2-B8DB POSTNIBBLE routine.
+          Converts 342 (6 bit) "nibbles" of the form 00XXXXXX
+          to 256 (8 bit) bytes.
+          Nibbles stored at primary and secondary buffers.
+          Pointer to data page stored at $3E,$3F.
+          On entry: X-reg:Slot number times 16
+                    $36,$37:pointer to user data
+                    $26:byte count in secondary buffer ($00)
+          On exit:  A-reg:unknown
+                    X-reg:unknown
+                    Y-reg:byte count in secondary buffer
+                    Carry set
+          Exit to caller.
+.np
+B8DC-B943 READ routine.
+          Read a sector of data from disk and store it at
+          primary and secondary buffers.  (First uses secondary
+          buffer high to low, then primary low to high)
+          On entry: X-reg:Slot times 16
+                    Read mode (Q6L,Q7L)
+          On exit:  Carry set if error.
+                    If no error:
+                    A-reg:$AA
+                    X-reg:unchanged
+                    Y-reg:$00
+                    Carry clear
+                    Uses $26
+          Exit to caller.
+.np
+B944-B99F RDADR routine.
+          Read an Address Field.
+          Reads starting address marks ($D5/$AA/$96), address
+          information (volume/track/sector/checksum), and 
+          closing address marks ($DE/$AA).
+          On entry: X-reg:Slot number times 16
+                    Read mode (Q6L,Q7L)
+          On exit:  Carry set if error.
+                    If no error:
+                    A-reg:$AA
+                    X-reg:unchanged
+                    Y-reg:$00
+                    Carry clear
+                    $2F: Volume number found
+                    $2E: Track number found
+                    $2D: Sector number found
+                    $2C: Checksum found
+                    Uses $26,$27
+          Exit to caller.
+.np
+B9A0-B9FC SEEKABS routine.
+          Move disk arm to desired track.
+          Calls arm move delay subroutine ($B9FD).
+          On entry: X-reg:Slot number times 16
+                    A-reg:Desired track (halftrack for single
+                          phase disk).
+                    $478:Current track.
+          On exit:  A-reg:unknown
+                    X-reg:unchanged
+                    Y-reg:unknown
+                    $2A and $478:Final track
+                    $27:Prior track (if seek needed)
+                    Uses: $26,$27,$2A,$2B
+          Exit to caller.
+.np
+B9FD-BA10 Arm move delay subroutine.
+          Delays a specified number of 100 Usec intervals.
+          On entry: A-reg:number of 100 Usec intervals.
+                    $46,$47:Should contain motor on time count
+                    ($EF,$D8) from Device Characteristics Table
+                    $478:Current track.
+          On exit:  A-reg:$00
+                    X-reg:$00
+                    Y-reg:unchanged
+                    Carry set
+          Exit to caller.
+.np
+BA11-BA28 Arm move delay table.
+          Contains values of 100 Usec intervals used during
+          Phase-on and Phase-off of stepper motor.
+.np
+BA29-BA68 Write Translate Table.
+          Contains 6 bit "nibbles" used to convert 8 bit bytes.
+          Values range from $96 to $FF.
+          Codes with more than one pair of adjacent zeros or
+          with no adjacent ones are excluded.
+.NP
+BA69-BA95 Unused.
+.np
+BA96-BAFF Read Translate Table.
+          Contains 8 bit bytes used to convert 6 bit "nibbles".
+          Values range from $96 to $FF.
+          Codes with more than one pair of adjacent zeros or 
+          with no adjacent ones are excluded.
+.np
+BB00-BBFF Primary Buffer.
+BC00-BC55 Secondary Buffer.
+.np
+BC56-BCC3 Write Address Field during initialization.
+          Calls Write double byte subroutine.
+          Writes number of autosync bytes contained in Y-reg,
+          starting address marks ($D5/$AA/$96), address
+          information (volume/track/sector/checksum), closing
+          address marks ($DE/$AA/$EB).
+          On entry: X-reg:Slot number times 16
+                    Y-reg:number of autosync to write
+                    $3E: $AA
+                    $3F: sector number
+                    $41: volume number
+                    $44: track number
+          On exit:  A-reg:unknown
+                    X-reg:unchanged
+                    Y-reg:$00
+                    Carry set
+          Exit to caller.
+.np
+BCC4-BCDE Write double byte subroutine.
+          Timing critical code that encodes address information
+          into even and odd bits and writes it at 32 cycle
+          intervals.
+          Exit to caller.
+.np
+BCDF-BCFF Unused.
+.np
+BD00-BD18 Main entry to RWTS.
+          Upon entry, store Y-reg and A-reg at $48,$49 as 
+          pointers to the IOB.
+          Initialize maximum number of recals at 1 and seeks
+          at 4.
+          Check if the slot number has changed.  If not,
+          branch to SAMESLOT at $BD34.
+BD19-BD33 Update slot number in IOB and wait for old drive
+          to turn off.
+BD34-BD53 SAMESLOT
+          Enter read mode and read with delays to see if disk
+          is spinning.
+          Save result of test and turn on motor just in case.
+BD54-BD73 Move pointers in IOB to zero page for future use.
+          Device Characteristics Table pointer at $3C,$3D
+          and data buffer pointer at $3E,$3F.
+          Set up $47 (motor on time) with $D8 from DCT.
+          Check if the drive number has changed.  If not,
+          branch to $BD74.
+          If so, change test results to show drive off.
+BD74-BD8F Select appropriate drive and save drive being used
+          as high bit of $35.  1=drive 1, 0=drive 2.
+          Get test results. If drive was on, branch to $BD90.
+          Wait for capacitor to discharge using MSWAIT 
+          subroutine at $BA00.
+BD90-BDAA Get destination track and go to it using MYSEEK 
+          subroutine at $BE5A.
+          Check test result again and if drive was on,
+          branch to TRYTRK at $BDAB.
+          Delay for motor to come up to speed.
+BDAB-BDBB TRYTRK
+          Get command code.
+          If null, exit through ALLDONE at $BE46, turning drive
+          off and returning to caller.
+          If =4, branch to FORMDSK at $BE0D.
+          Otherwise, move low bit into carry (set=read,
+          clear=write) and save value on status reg.
+          If write operation, data is prenibbilized via a call
+          to PRENIB16 at $B800.
+BDBC-BDEC Initialize maximum retries at 48 and read an
+          Address Field via RDADR16 at $B944.
+          If read was good, branch to RDRIGHT at $BDED.
+          If bad read, decrement retries, and, if still some
+          left try again. Else, prepare to recalibrate.
+          Decrement recal count.  If no more, then indicate
+          drive error via DRVERR at $BE04.
+          Otherwise, reinitialize reseeks at 4 and recalibrate
+          arm.  Move to desired track and try again.
+BDED-BE03 RDRIGHT
+          Verify on correct track.  If so branch to RTTRK
+          at $BE10.
+          If not, set correct track via SETTRK subroutine at
+          $BE95 and decrement reseek count.
+          If not zero then reseek track.  If zero, then recal.
+BE04-BE0A DRVERR
+          Clean up stack and status reg.
+          Load A-reg with $40 (drive error)
+          Goto HNDLERR at $BE48.
+BE0B-BE0C Used to branch to ALLDONE at $BE46.
+BE0D-BF0F FORMDSK
+          Jump to DSKFORM at $BEAF.
+BE10-BE25 RTTRK
+          Check volume number found against volume number 
+          wanted.
+          If no volume was specified, then no error.
+          If specified volume doesn't match, load A-reg with
+          $20 (volume mismatch error) and exit via HNDLERR 
+          at $BE48.
+BE26-BE45 CRCTVOL
+          Check to see if sector is correct.
+          Use ILFAV table at $BFB8 for software sector
+          interleaving.
+          If wrong sector, try again by branching back to 
+          TRYADR at $BDC1.
+          If sector correct, find out what operation to do.
+          If write, branch to WRIT at $BE51.
+          Otherwise, read data via READ16 ($B8DC).
+          If read is good, then postnibble data via POSTNB16
+          ($B8C2) and return to caller with no error.
+BE46-BE47 ALLDONE
+          Skip over set carry instruction in HNDLERR.
+BE48-BE50 HNDLERR
+          Set carry.
+          Store A-reg in IOB as return code.
+          Turn off motor.
+          Return to caller.
+BE51-BE59 WRITE
+          Write a sector using WRITE16 ($B82A).
+          If the write was good, exit via ALLDONE ($BE46).
+          If bad write, load A-reg with $10 (write protect
+          error) and exit via HNDLERR ($BE48).
+BE5A-BE8D MYSEEK 
+          Provides necessary housekeeping before going to 
+          SEEKABS routine.
+          Determines number of phases per track and stores
+          track information in appropriate slot dependent 
+          location.
+BE8E-BE94 XTOY routine.
+          Put slot in Y-reg by transferring X-reg divided
+          by 16 into Y-reg.
+BE95-BEAE Set track number.
+BEAF-BF0C INIT command handler
+          Provides setup for initializing a disk.
+          Get the desired volume number from the IOB.
+          Zero both the primary and secondary buffers.
+          Recalibrate the disk arm to track 0.
+          Set the number of sync bytes to be written between
+          sectors to $28 (40.).
+          Call TRACK WRITE routine for the actual formatting.
+          Allow 48 retries during initialization.
+          Double check that the first sector found is zero
+          after calling TRACK WRITE.
+          Increment the track number after successfully 
+          formatting a track.
+          Loop back until 35 tracks are done.
+BF0D-BF61 TRACK WRITE routine.
+          Start with sector zero.
+          Preceed it with 128 self-sync bytes.
+          Follow them with sectors 0 through 15 in sequence.
+          Set retry count for verifying the track at 48.
+          Fill the sector initilization map with positive 
+          numbers.
+          Loop through a delay period to bypass most of the
+          initial self-sync bytes.
+          Read the first Address Field found.
+          If the read is good and sector zero was found,
+          enter the VERIFY TRACK routine.
+          Decrement the sync count by 2 (until it reaches 16
+          at which time it is decremented by 1).
+          If sync count is greater than or equal to 5, exit
+          via $BF71.
+          If not, set carry and return to caller.
+BF62-BF87 VERIFY TRACK routine.
+          This routine reads all 16 sectors from the track that
+          was just formatted.
+          If an error occurs during the read of either the
+          Address Field or the Data Field, the number of 
+          retries is decremented.
+          The routine continues reading until retries is zero.
+          Calls Sector Map routine ($BF88).
+BF88-BFA7 Sector Map routine.
+          This routine marks the sector initialization map as
+          each sector is verified.
+          If an error occurs, the routine exits through $BF6C,
+          which decrements the number of retries and continues
+          if that value is greater than zero.
+          Upon completion of track zero, the sync count is
+          decremented by two if it is at least 16.
+.NP
+BFA8-BFB7 Sector Initialization Map used to mark sectors as
+          they are initialized.
+          Contains a $30 prior to initialization of a track.
+          Value changed to $FF as each sector is completed.
+.np
+BFB8-BFC7 Sector Translate Table
+          Sector interleaving done with software.
+.np
+BFC8-BFD6 Patch area starts here.
+          Patch from $B741 to zero language card during boot.
+          Call SETVID ($FE93).
+          Unprotect Language Card (if present).
+          Store $00 at $E000.
+          Exit through SETKBD ($FE89) and DOS coldstart.
+.np
+BFD9-BFDB Unused.
+.np
+BFDC-BFE5 Patch called from $A0E2.
+          Set three additional defaults (Byte offset=0).
+          Return to caller.
+.np
+BFE6-BFEC Patch called from $A6D5.
+          Call $A75B to reset state and set warmstart flag.
+          Mark RUN not interrupted.
+          Return to caller.
+.np
+BFED-BFFF Patch called from $B377.
+          Call $AE7E to save file manager workarea.
+          Restore stack.
+          Close all open files ($A316).
+          Save stack again.
+          Exit through $B385 ("DISK FULL ERROR").
+.br
+.nx ch8 zpage use
+\x00

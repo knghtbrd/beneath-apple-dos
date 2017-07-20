@@ -1,0 +1,166 @@
+          Set the command index to -1 (none).
+          Reset the pending command flag (none pending).
+     9FD6 Add one to command index.
+          If first charcater is a control-D, skip it.
+          Flush to a non-blank (call A1A4).
+          Compare command to command name in command name table
+          at A884 for the current command index.
+          If it doesn't match and if there are more entries
+          left to check, go back to 9FD6.
+          If it does match, go to A01B.
+          Otherwise, if command was not found in the table, 
+          check to see if the first character was a control-D.
+          If so, go to A6C4 to print "SYNTAX ERROR".
+          Otherwise, call A75B to reset the state and warmstart
+          flag and go to 9F95 to echo the command and exit.
+          (the command must be for BASIC, not DOS)
+     A01B Compute an index into the operand table for the 
+          command which was entered.
+          Call A65E to see if a BASIC program is executing.
+          If not, and the command is not a direct type command,
+          (according to the operand table) go to A6D2 to print
+          "NOT DIRECT COMMAND".
+          Otherwise, if the command is RUN, make the prompt
+          character ($33) non-printing.
+          Check the operand table to see if a first filename
+          is a legal operand for this command.
+          If not, go to A0A0.
+          Otherwise, clear the filename buffer (call A095).
+          Flush to the next non-blank (call A1A4) and copy 
+          the filename operand to the first filename buffer.
+          Skip forward to a comma if one was not found yet.
+          If a second filename is legal for this command, use
+          the code above to copy it into the second filename
+          buffer.
+          Check both filenames to see if they are blank.
+          If one was required by the command but not given,
+          give a syntax error or pass it through to BASIC.
+          (As in the case of LOAD with no operands)
+          If all is well, go to A0D1 to continue.
+     A095 A subroutine to blank both filename buffers.
+     A0A0 Indicate no filename parsed.
+          Check operand table to see if a positional operand
+          is expected.
+          If not, go to A0D1 to continue.
+          Otherwise, call A1B9 to convert the numeric operand.
+          If omitted, give syntax error.
+          If number converted exceeds 16, give "RANGE ERROR"
+          If number is supposed to be a slot number, give
+          "RANGE ERROR" if it exceeds 7.
+          If number is not a slot number, give "RANGE ERROR" if
+          it is zero. (MAXFILES 0 is a no-no)
+     A0D1 Set defaults for the keyword operands (V=0,L=0,B=0)
+     A0E8 Get the line offset index and flush to the next
+          non-blank, skipping any commas found.
+          If we are not yet to the end of the line, go to A10C.
+          Check to see if any keywords were given which were
+          not allowed for this command.
+          If not, go to A17A to process the command.
+     A10C Lookup the keyword found on the command line in the
+          table of valid keywords (A940)
+          If not in table, give "SYNTAX ERROR" message.
+          Get its bit position in the keywords-given flag.
+          If the keyword does not have an operand value, go to
+          A164.
+          Otherwise, indicate keyword found in flag.
+          Convert the numeric value associated with keyword.
+          Give "SYNTAX ERROR" message if invalid.
+          Check to see if the number is within the acceptable
+          range as given in the keyword valid range table at
+          A955.
+          Save the value of the keyword in the keyword values
+          table starting at AA66.
+          Go parse the next keyword. go to A0E8.
+     A164 Indicate C, I, or O keywords were parsed.
+          Update the MON value in the keyword value table
+          appropriately.
+          Go parse the next keyword. go to A0E8.
+.np
+A17A-A17F Call A180 to process the command, then exit via echo
+          at 9F83.
+.np
+A180-A192 Do command.
+          Reset the video intercept state to zero.
+          Clear the file manager parameter list.
+          Using the command index, get the address of the 
+          command handling routine from the command handler
+          routine table at 9D1E and go to it.
+          Command handler will exit to caller of this routine.
+.np
+A193-A1A3 Get next character on command line and check to see
+          if it is a carriage return or a comma.
+.np
+A1A4-A1AD Flush command line characters until a non-blank is
+          found.
+.np
+A1AE-A1B8 Clear the file manager parameter list at B5BA to 
+          zeros.
+.np
+A1B9-A1D5 Convert numeric operand from command line. Call
+          either A1D6 (decimal convert) or A203 (hex convert)
+          depending upon the presence or lack thereof of a 
+          dollar sign ($).
+.np
+A1D6-A202 Decimal convert subroutine.
+.np
+A203-A228 Hexadecimal convert subroutine.
+.np
+A229-A22D PR#n command handler.
+          Load the parsed numeric value and exit via FE95 in
+          the monitor ROM.
+.np
+A22E-A232 IN#n command handler.
+          Load the parsed numeric value and exit via FE8B in
+          the monitor ROM.
+.np
+A233-A23C MON command handler.
+          Add new MON flags to old in AA5E and exit.
+.np
+A23D-A250 NOMON command handler.
+          If C was given, put out a carriage return since this
+          line was echoed but its CR was not.
+          Turn off the proper bits in AA5E and exit.
+.np
+A251-A262 MAXFILES command handler.
+          Turn off any EXEC file which is active.
+          Close all open files (call A316).
+          Set the new MAXFILES number at AA57.
+          Go to A7D4 to rebuild the DOS file buffers and exit.
+.np
+A263-A270 DELETE command handler.
+          Load the delete file manager opcode (05).
+          Call the file manager open driver (A2AA) to perform
+          the delete.
+          Find the file buffer used to do the delete and free
+          it (call A764).
+          Exit to caller.
+.np
+A271-A274 LOCK command handler.
+          Load the lock file manager opcode (07) and go to
+          A277.
+.np
+A275-A27C UNLOCK command handler.
+          Load the unlock file manager opcode (08).
+     A277 Call the file manager open driver (A2AA) to perform
+          the desired function.
+          Exit to the caller via close (A2EA).
+.np
+A27D-A280 VERIFY command handler.
+          Load the verify file manager opcode (0C) and go to
+          A277 to perform function.
+.np
+A281-A297 RENAME command handler.
+          Store address of second file name in file manager
+          parameter list.
+          Load the rename file manager opcode (09).
+          Call the file manager driver at A2C8.
+          Exit via close (A2EA).
+.np
+A298-A2A2 APPEND command handler.
+          Call A2A3 to OPEN the file.
+          Read the file byte by byte until a zero is found.
+          If append flag is on, add one to record number
+          and turn flag off.
+          Exit via a call to POSITION.
+.nx ch8.2
+\x00

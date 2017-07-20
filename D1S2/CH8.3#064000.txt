@@ -1,0 +1,222 @@
+          Call file manager with CATALOG opcode.
+          Set new V value as default for future commands.
+          Exit to caller.
+.np
+A57A-A59D FP command handler.
+          Set ROM card, if any, for APPLESOFT (A5B2).
+          If successful, coldstart DOS (9D84).
+          Otherwise, set status flag to indicate INTEGER BASIC
+          is active.
+          Set primary filename buffer to "APPLESOFT".
+          Set flags to indicate RAM APPLESOFT and coldstart.
+          Go to RUN command handler.
+.np
+A59E-A5B1 INT command handler.
+          Set ROM card, if any, for INTEGER BASIC (A5B2).
+          If not successful, issue "LANGUAGE NOT AVAILABLE".
+          Otherwise, clear RUN intercepted flag.
+          Coldstart DOS (9D84).
+.np
+A5B2-A5C5 Set ROM to desired BASIC.
+          (This routine is passed a $4C for APPLESOFT or a $20
+          for INTEGER, since these bytes appear at $E000 in
+          these BASICs.  It will work regardless of which 
+          BASIC is onboard)
+          If desired BASIC is already available, exit.
+          Try selecting ROM card.
+          If desired BASIC is now available, exit.
+          Try selecting onboard ROM.
+          If desired BASIC is now available, exit.
+          Otherwise, exit with error return code.
+.np
+A5C6-A5DC EXEC command handler.
+          Open the file (A2A3).
+          Copy file buffer address to EXEC's buffer pointer at
+          AAB4,AAB5.
+          Set EXEC active flag (AAB3).
+          Jump into POSITION command handler to skip R lines.
+.np
+A5DD-A60D POSITION command handler.
+          Locate the open file buffer (A764).
+          If not found, open one as a TEXT file.
+          Copy buffer pointers to file manager parmlist.
+          If R was not given on command, exit.
+     A5F2 Otherwise, test R value for zero and exit if so.
+          Decrement R value by one.
+          Read file byte by byte until a carriage return (end
+          of line - $8D) is reached.
+          If at end of file, issue "END OF FILE" message.
+          Otherwise, go to A5F2 to skip next record.
+.np
+A60E-A625 Write one data byte to file.
+          Insure that BASIC is running a program (A65E).
+          If not, close file and warmstart DOS.
+          Set up file manager parmlist to write the data byte
+          to the open file.
+          Call file manager and exit.
+.np
+A626-A65B Read one data byte from file.
+          Insure that BASIC is running a program (A65E).
+          If not, close file and warmstart DOS.
+          Set CSWL intercept state to 6 (skip prompt character)
+     A630 Read next file byte (A68C).
+          If not at end of file, go to A644.
+          Otherwise, close file.
+          If state is not 3 (EXEC) issue "END OF DATA" message.
+          Exit to caller.
+     A644 If data byte is lower case character, turn its most
+          significant bit off to fool GETIN routine in monitor.
+          Store data byte in A register saved at entry to DOS.
+          Using line index, turn high bit back on in previous
+          data byte stored at $200 (input line buffer) to make
+          it lower case if necessary.
+          Exit DOS (9FB3).
+.np
+A65E-A678 Test to see if BASIC is running a program or is in
+          immediate command mode.
+          If active BASIC is INTEGER, go to A672.
+          If line number is greater than 65280 and prompt is
+          "]" then APPLESOFT is in immediate mode. 
+          Otherwise, it is executing a program.
+          Exit to caller with appropriate return code.
+     A672 Check $D9 to determine whether BASIC is executing a
+          program and exit with proper return code.
+.np
+A679-A681 Close current file and warmstart DOS.
+.np
+A682-A68B EXEC read one byte from file.
+          Select EXEC file buffer.
+          Copy file buffer addresses to file manager parmlist.
+          Set state to 3 (input echo).
+          Go to A62D to read a file byte.
+.np
+A68C-A69C Read next text file byte.
+          Set up file manager parmlist to read one byte.
+          Call file manager driver.
+          Return to caller with the data byte.
+.np
+A69D-A6A7 Set $40,$41 to point to EXEC file buffer.
+.np
+A6A8-A6C3 File manager driver routine.
+          Call the file manager itself (AB06).
+          If no errors, exit to caller.
+          Otherwise, point $40,$41 at file buffer.
+          If found, release it by storing a zero on the file
+          name field.
+          If error was not "END OF DATA", print error message.
+          Otherwise, pretend a $00 was read and return to
+          caller.
+.np
+A6C4-A6D4 Miscellaneous error messages.
+     A6C4 "COMMAND SYNTAX ERROR"
+     A6C8 "NO FILE BUFFERS AVAILABLE"
+     A6CC "PROGRAM TOO LARGE"
+     A6D0 "FILE TYPE MISMATCH"
+.np
+A6D5-A701 Error handler.
+          Set warmstart flag and clear status (BFE6).
+          If APPLESOFT ONERR is active, go to A6EF.
+          Otherwise, print RETURN BELL RETURN.
+          Print text of error message (A702).
+          Print another RETURN.
+     A6EF Replace DOS intercepts.
+          If a BASIC program is in execution, pass error code
+          to BASIC's error handler.
+          Otherwise, warmstart BASIC.
+.np
+A702-A719 Print text of error message.
+          Using the error number as an index, print the message
+          text from the message table (A971) byte by byte.
+          Last character has most significant bit on.
+.np
+A71A-A742 Complete file manager parameter list.
+          Copy Volume value to parmlist.
+          Copy Drive value to parmlist.
+          Copy Slot value to parmlist.
+          Copy address of primary filename buffer to parmlist.
+          Save file buffer address in $40,$41.
+          Return to caller.
+.np
+A743-A74D Copy primary filename to file buffer filename field.
+.np
+A74E-A75A Copy current buffer pointers to file manager parmlist
+          Copy file manager workarea buffer pointer.
+          Copy T/S List sector buffer pointer.
+          Copy data sector buffer address.
+          Copy next file buffer link address.
+          Return to caller.
+.np
+A75B-A763 Reset state to 0 and set warmstart flag.
+.np
+A764-A791 Locate an open or free file buffer.
+          Assume there are no free file buffers by zeroing $45.
+          Point $40,$41 at first buffer on chain.
+          Go to A773.
+     A76E Point $40,$41 at next buffer on chain.
+          If at end of chain, exit with file not open code.
+     A773 Get first byte of filename field.
+          If zero (file buffer free), save file buffer address
+          at $44,$45 as an available buffer and go to A76E.
+          Otherwise, see if name in primary filename buffer
+          matches the name in this file buffer.
+          If not, go to A76E to get next buffer.
+          If so, return to caller with open file found code.
+.np
+A792-A799 Point $40,$41 at first file buffer on chain.
+.np
+A79A-A7A9 Point $40,$41 at next file buffer on chain.
+.np
+A7AA-A7AE Get first byte of file name in file buffer.
+.np
+A7AF-A7C3 See if current buffer belongs to EXEC.
+          Is EXEC active?
+          If not, exit.
+          If so, does current buffer address match EXEC's?
+          Return to caller with appropriate code.
+.np
+A7C4-A7D3 Check file type.
+          Does file type of open file match desired file type?
+          If so, exit.
+          Otherwise, turn lock bit off and test again.
+          If ok, exit.
+          Otherwise, close file and issue "FILE TYPE MISMATCH".
+.np
+A7D4-A850 Initialize (build) DOS file buffer chain.
+          Set $40,$41 to point to first buffer.
+          Set counter to MAXFILES value.
+     A7E5 Store zero on filename field to mark as free.
+          Set up link pointers in buffer to point to file
+          manager workarea (45 bytes prior to filename field).
+          Set up link pointer to T/S List sector buffer (-256
+          bytes from file manager workarea buffer).
+          Set up link pointer to data sector buffer 256 bytes
+          before that.
+          Decrement counter.
+          If zero, go to A82D to set HIMEM.
+          Otherwise, set link to next file buffer as 38 bytes
+          prior to data sector buffer.
+          Go to A7E5 to set up next buffer.
+     A82D Set link of last buffer to $0000.
+          If INTEGER BASIC is active, go to A846.
+          Otherwise, set APPLESOFT's HIMEM and STRING START
+          pointers in zeropage to point just below the last
+          buffer.
+          Exit to caller.
+     A846 Set INTEGER BASIC's HIMEM and PROGRAM START pointers
+          to point just below the last buffer.
+          Exit to caller.
+.np
+A851-A883 Replace DOS keyboard/video intercept vectors.
+          Is DOS keyboard (KSWL) vector still set?
+          If so, go to A86A.
+          Otherwise, save current KSWL vector ($38,$39) at
+          AA55,AA56 and replace with DOS intercept routine's
+          address.
+     A86A Is DOS video (CSWL) vector still set?
+          If so, exit to caller.
+          Otherwise, save current CSWL vector ($36,$37) at
+          AA53,AA54 and replace with DOS intercept routine's
+          address.
+          Exit to caller.
+.nx ch8.4
+\x00

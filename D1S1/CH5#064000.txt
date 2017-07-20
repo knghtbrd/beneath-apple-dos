@@ -1,0 +1,375 @@
+.bp
+.np
+.ce
+CHAPTER 5 - THE STRUCTURE OF DOS
+.sp 2
+DOS MEMORY USE
+.pp
+DOS is an assembly language program
+which is loaded into RAM memory when
+the user boots his disk. If the
+diskette booted is a master diskette,
+the DOS image is loaded into the last
+possible part of RAM memory,
+dependent upon the size of the actual
+machine on which it is run. By doing
+this, DOS fools the active BASIC
+into believing that there is
+actually less RAM memory on the
+machine than there is. On a 48K APPLE
+II wi\x17\x0b\x43\x27\x2fS\x2f##\x5c#?/g\x19\x72or instance, BASIC believes that
+there is only about 38K of RAM. DOS does
+this by adjusting HIMEM after it is
+loaded to prevent BASIC from using
+the memory DOS is occupying.
+If a slave diskette is booted, DOS is
+loaded into whatever RAM it occupied
+when the slave diskette was
+INITialized. If the slave was created
+on a 16K APPLE, DOS will be loaded in
+the 6 to 16K range of RAM, even if
+the machine now has 48K.
+In this case, the APPLE will appear,
+for all intents an purposes, to have
+only 6K of RAM.
+If the slave was created
+on a 48K system, it will not boot on
+less than 48K since the RAM DOS
+occupied does not exist on a smaller
+machine.
+.SP1
+*** INSERT FIGURE 5.1 ***
+.pp
+A diagram of DOS's memory for a 48K
+APPLE II is given in
+Figure 5.1. As can be seen, there are
+four major divisions to the memory
+occupied by DOS. The first 1.75K is
+used for file buffers. With the
+default of MAXFILES 3, there are
+three file buffers set aside here.
+Each buffer occupies 595 bytes and
+corresponds to one potentially
+open file. File
+buffers are also used by DOS to LOAD
+and SAVE files, etc. If MAXFILES is
+changed from 3, the space occupied by
+the file buffers also changes. This
+affects the placement of HIMEM,
+moving it up or down with fewer or
+more buffers respectively. 
+.pp
+The 3.5K
+above the file buffers is occupied by
+the main DOS routines. It is here
+that DOS's executable machine language
+code begins. The main routines are
+responsible for initializing DOS,
+interfacing to BASIC, interpreting
+commands, and managing the file
+buffers. All disk functions are
+passed on via subroutine calls to the
+file manager. 
+.bp
+The file manager,
+occupying about 4.3K, is a collection
+of subroutines which perform almost
+any function needed to access a disk
+file. Functions include: OPEN, CLOSE,
+READ, WRITE, POSITION, DELETE,
+CATALOG, LOCK, UNLOCK, RENAME, INIT,
+and VERIFY. Although the file manager
+is a subroutine of DOS it may also be
+called by a user written assembly
+lanaguage program which is not part
+of DOS. This interface is generalized
+through a group of vectors in page 3
+of RAM and is documented in the next
+chapter. 
+.pp
+The last 2.5K of DOS is the
+Read/Write Track/Sector (RWTS)
+package. RWTS is the next step lower
+in protocol from the file manager -
+in fact it is called as a subroutine
+by the file manager. Where the file
+manager deals with files, RWTS deals
+with tracks and sectors on the
+diskette. A typical call to RWTS
+would be to read track 17 sector 0 or
+to write 256 bytes of data in memory
+onto track 5 sector E. An external
+interface is also provided for access
+to RWTS from a user written assembly
+language program and is described in
+the next chapter.
+.sp1
+.ne5
+THE DOS VECTORS IN PAGE 3
+.ll30
+.pp
+In addition to the approximately 10K
+of RAM occupied by DOS in high
+memory, DOS maintains a group of what
+are called "vectors" in page 3
+of low memory ($300
+through $3FF). These
+vectors allow access to certain
+places within the DOS collection of
+routines via a fixed location ($3D0
+for instance). Because DOS may be
+loaded in various locations,
+depending upon the size of the
+machine and whether a slave or master
+diskette is booted, the addresses of
+the externally callable subroutines
+within DOS will change. By putting
+the addresses of these routines in a
+vector at a fixed location,
+dependencies on DOS's location in
+memory are eliminated. The page 3
+vector table is also useful in
+locating subroutines within DOS which
+may not be in the same memory
+location for different versions of
+DOS. Locations $300 through $3CF were
+used by earlier versions of DOS
+during the boot process to load the
+Boot 1 program but are used by DOS
+3.3 as a data buffer and disk code
+translate table.
+Presumably, this change was made to
+provide more memory for the first
+bootstrap loader (more on this
+later). The vector
+table itself starts at $3D0.
+.br
+.ll60
+.bp
+DOS VECTOR TABLE ($3D0-$3FF)
+.NP
+ADDR  USAGE
+3D0   A JMP (jump or GOTO) instruction to the DOS warmstart
+      routine. This routine reenters DOS but does not 
+      discard the current BASIC program and does not reset
+      MAXFILES or other DOS environmental variables.
+3D3   A JMP to the DOS coldstart routine. This routine 
+      reinitializes DOS as if it was rebooted, clearing the
+      current BASIC file and resetting HIMEM.
+3D6   A JMP to the DOS file manager subroutine to allow a
+      user written assembly language program to call it.
+3D9   A JMP to the DOS Read/Write Track/Sector (RWTS)
+      routine to allow user written assembly language 
+      programs to call it.
+3DC   A short subroutine which locates the input parameter
+      list for the file manager to allow a user written
+      program to set up input parameters before calling the
+      file manager.
+3E3   A short subroutine which locates the input parameter
+      list for RWTS to allow a user written program to set
+      up input parameters before calling RWTS.
+3EA   A JMP to the DOS subroutine which "reconnects" the DOS
+      intercepts to the keyboard and screen data streams.
+3EF   A JMP to the routine which will handle a BRK machine 
+      language instruction. This vector is only supported by
+      the AUTOSTART ROM. Normally the vector contains the 
+      address of the monitor ROM subroutine which displays
+      the registers.
+3F2   LO/HI address of routine which will handle RESET for
+      the AUTOSTART ROM. Normally the DOS restart address is
+      stored here but the user may change it if he wishes to
+      handle RESET himself.
+3F4   Power-up byte. Contains a "funny complement" of the
+      RESET address with a $A5. This scheme is used to
+      determine if the machine was just powered up or if
+      RESET was pressed.  If a power-up occured, the
+      AUTOSTART ROM ignores the address at 3F2 (since it has
+      never been initialized) and attempts to boot a
+      diskette.  To prevent this from happening when you 
+      change $3F2 to handle your own RESETs, EOR (exclusive
+      OR) the new value at $3F2 with a $A5 and store the
+      result in the power-up byte.
+3F5   A JMP to a machine language routine which is to be
+      called when the '&' feature is used in APPLESOFT.
+3F8   A JMP to a machine language routine which is to be
+      called when a control-Y is entered from the monitor.
+3FB   A JMP to a machine language routine which is to be
+      called when a non-maskable interrupt occurs.
+3FE   LO/HI address of a routine which is to be called when
+      a maskable interrupt occurs.
+.bp
+WHAT HAPPENS DURING BOOTING
+.PP
+When an APPLE is powered on its
+memory is essentially devoid of any
+programs. In order to get DOS
+running, a diskette is "booted". The
+term "boot" refers to the process of
+bootstrap loading DOS into RAM.
+Bootstrap loading involves a series
+of steps which load successively
+bigger pieces of a program until all
+of the program is in memory and is
+running. In the case of DOS,
+bootstrapping occurs in four stages.
+The location of these stages on the
+diskette and a memory map are given
+in Figure 5.2 and a description of
+the bootstrap process follows.
+.SP1
+*** INSERT FIGURE 5.2 ***
+.pp
+The first boot stage (let's call it
+Boot 0) is the execution of the ROM
+on the disk controller card. When the
+user types PR#6 or C600G or 6(ctrl)P, for
+instance, control is
+.br
+.ll30
+.br
+transfered to
+the disk controller ROM on the card
+in slot 6. This ROM is a machine
+language program of about 256 bytes
+in length. When executed, it
+"recalibrates" the disk arm by
+pulling it back to track 0 (the
+"clacketty-clack" noise that is
+heard) and then reads sector 0 from
+track 0 into RAM memory at location
+$800 (DOS 3.3. Earlier versions used
+$300). Once this sector is read, the
+first stage boot jumps (GOTO's) $800
+which is the second stage boot (Boot
+1).
+.pp
+Boot 1, also about 256 bytes long,
+uses part of the Boot 0 ROM as a
+subroutine and, in a loop, reads the
+next nine sectors on track 0 (sectors
+1 through 9) into RAM. Taken
+together, these sectors contain the
+next stage of the bootstrap process,
+Boot 2. Boot 2 is loaded in one of
+two positions in memory, depending
+upon whether a slave or a master
+diskette is being booted. If the
+diskette is a slave diskette, Boot 2
+will be loaded 9 pages (256 bytes per
+page) below the end of the DOS under
+which the slave was INITed. Thus, if
+the slave was created on a 32K DOS,
+Boot 2 will be loaded in the RAM from
+$7700 to $8000. If a master diskette
+is being booted, Boot 2 will be
+loaded in the same place as for a 16K
+slave ($3700 to $4000). In the
+process of loading Boot 2, Boot 1 is
+loaded a second time in the page
+in memory
+right below Boot 2 ($3600
+for a master diskette). This is so
+that, should a new diskette be INITed,
+a copy of Boot 1 will be available in
+memory to
+be written to its track 0 sector 0.
+When Boot 1 is finished loading Boot
+2, it jumps there to begin execution
+of the next stage of the bootstrap.
+.br
+.ll60
+.bp
+Boot 2 consists of two parts: a
+loader "main program"; and the RWTS
+subroutine package. Up to this point
+there has been no need to move the
+disk arm since all of the necessary
+sectors have been on track 0. Now,
+however, more sectors must be loaded,
+requiring arm movement to access
+additional tracks. Since this
+complicates the disk access, RWTS is
+called by the Boot 2 loader to move
+the arm and read the sectors it needs
+to load the last part of the
+bootstrap, DOS itself. Boot 2 now
+locates track 2 sector 4 and reads
+its contents into RAM just below the
+image of Boot 1 (this would be at
+$3500 for a master diskette). In a
+loop, Boot 2 reads 26 more sectors
+into memory, each one 256 bytes
+before the last. The last sector
+(track 0 sector A) is read into $1B00
+for a master diskette. The 27 sectors
+which were read are the image of the
+DOS main routines and the file
+manager. With the loading of these
+routines, all of DOS has been loaded
+into memory. At this point, the
+bootstrap process for a slave
+diskette is complete and a jump is
+taken to the DOS coldstart address.
+If the diskette is a master, the
+image of DOS is only valid if the
+machine is a 16K APPLE II. If more
+memory is present, the DOS image must
+be relocated into the highest
+possible RAM present in the machine.
+To do this, the master version of
+Boot 2 jumps to a special relocation
+program at $1B03. This relocator is
+512 bytes in length and was
+automatically loaded as the two
+lowest pages of the DOS image. (In the
+case of a slave diskette, these pages
+contain binary zeros.) The relocator
+determines the size of the machine by
+systematically storing and loading on
+high RAM memory pages until it finds
+the last valid page. It then moves
+the DOS image from $1D00 to its final
+location ($9D00 for 48K) and, using
+tables built into the program, it
+modifies the machine language code so
+that it will execute properly at its
+new home. The relocator then jumps to
+the high memory copy of DOS and the
+old image is forgotten.
+.pp
+The DOS boot is completed by the DOS
+coldstart routine. This code
+initializes DOS, making space for the
+file buffers, setting HIMEM, building
+the page 3 vector table, and running
+the HELLO program.
+.bp
+Previous versions of DOS were
+somewhat more complicated in the
+implementation of the bootstrap. In
+these versions, Boot 1 was loaded at
+$300 and it, in turn, loaded Boot 2
+at $3600, as does version 3.3. Unlike
+3.3, however, 27 sectors of DOS were
+not always loaded. If the diskette
+was a slave diskette, only 25 sectors
+were loaded, and, on 13 sector
+diskettes, this meant the DOS image
+ended either with sector 8 or sector
+A of track 2 depending upon whether
+the diskette was a slave or master.
+In addition, Boot 1 had a different
+form of nibbilization (see chapter 3)
+than any other sector on the
+diskette, making its raw appearance
+in memory at $3600 non-executable.
+.pp
+The various stages of the bootstrap
+process will be covered again in greater
+detail in Chapter 8, DOS PROGRAM
+LOGIC.
+.SP1
+*** INSERT FIGURE 5.3 HERE ***
+.BR
+.NX CH6.1
+\x00

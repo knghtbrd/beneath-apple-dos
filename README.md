@@ -19,7 +19,13 @@ join in--send patches, help add stuff, etc.
 ## The method
 
 1. The DOS 3.3 disks were dumped using cppo
-2. There is no #2 yet.
+2. Apply the following transformations to each document file:
+   * For characters 0xa0-0xfe, strip the high bit to get pure ASCII
+   * Convert 0x0d and 0x8d (return) characters ti 0x0a (newline)
+   * Escape all else in C-style
+
+This has probably broken the .s files a bit, and I haven't bothered to decompile
+the five byte HELLO ...  ;)
 
 [dons-disks]: http://www.6502lane.net/2015/03/12/don-worths-beneath-apple-dos-original-text-files/
 [archive.org]: https://archive.org/

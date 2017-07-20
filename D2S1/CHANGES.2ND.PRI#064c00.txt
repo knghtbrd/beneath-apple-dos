@@ -1,0 +1,133 @@
+.na
+.fi
+.ll60
+.br
+SECOND PRINTING CORRECTIONS
+.sp3
+3-3
+.sp1
+Data bits are recorded on the
+diskette in precise intervals.  For
+the purposes of this discussion, the
+demarcation of these intervals will
+be depicted by a clock bit.  Using
+this representation, data written to
+and read back from the diskette takes
+the form shown in Figure 3.2.  The
+data pattern shown represents a
+binary value of 101.
+.sp3
+3-10
+.sp1
+at least as long as a typical Gap 3
+(in practice its length is usually
+more than 400 sync bytes, enabling it
+to serve as a Gap 3 type for Address
+Field number 0 (See Figure 3.7 for
+clarity).
+.sp3
+3-17
+.sp1
+page.*
+.sp1
+diagrammed in Figure 3.21.*
+.sp1
+*Figures 3.20 and 3.21 present the
+nibblizing process used by the "6 and
+2" encoding technique.  However, the
+concept is the same for the "5 and 3"
+technique.
+.sp3
+4-17
+.sp1
+.nf
+occurred. Either a bad checksum was detected on the data in a
+.fi
+.sp1
+program given there will read any
+track/sector on an unprotected
+diskette into memory, allowing the
+user to examine it or modify the data
+and then, optionally, rewrite it to a
+diskette.  Using such a program is
+very important when learning about
+diskette formats and when fixing
+clobbered data.
+.sp3
+5-2
+.sp1
+The file manager, occupying about
+2.8K, is a collection of
+.bp
+5-5     (note correction to correction - first $3F2 is ok)
+.sp1
+.nf
+      change $3F2 to handle your own RESETs, EOR (exclusive
+      OR) the new value at $3F3 with a $A5 and store the
+      result in the power-up byte.
+.sp3
+.fi
+6-5
+.sp1
+NOTE: RWTS uses zero-page location
+$48, which is also used by the
+APPLE
+monitor to hold the P-register value.
+Location $48 should be set to zero
+after each call to RWTS.
+.sp3
+6-11
+.sp1
+.nf
+             04/05 - Byte offset of current file position*
+.sp1
+.fi
+*The current file position is updated
+to point to the byte following the
+data read or written.
+.sp3
+8-5
+.sp1
+.nf
+9E51-9E7F An image of the DOS page 3 jump vector which the
+          above routine copies to $3D0-$3FF. See Chapter 5 for
+          a description of its contents.
+.sp3
+8-36
+.sp1
+B9A0-B9FF SEEKABS routine.
+          Move disk arm to desired track.
+          Calls arm move delay subroutine ($BA00).
+.sp3
+8-37
+.sp1
+BA00-BA10 Arm move delay subroutine.
+.sp3
+A-3
+.sp1
+.fi
+A diskette containing these five
+programs is available at a reasonable
+cost directly from Quality Software,
+6660 Reseda Blvd., Reseda, CA. or
+telephone (213) 344-6599.
+.bp
+A-12
+.sp1
+at location $03 (the volume number
+should match the volume number of the
+other tracks), and then begin
+execution at $800.  INIT will return
+to the monitor upon completion.  If
+the track can not be formatted for
+some reason (eg.  physical damage or
+problems with the disk drive itself)
+a return code is printed.  For
+example:
+.sp3
+A-20
+.sp1
+.nf
+800G                    (Run the COPY program)
+.br
+\x00

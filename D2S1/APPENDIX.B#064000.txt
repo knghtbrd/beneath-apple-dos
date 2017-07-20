@@ -1,0 +1,263 @@
+.bp
+.np
+.ce
+APPENDIX B - DISK PROTECTION SCHEMES
+.sp1
+.PP
+As the quantity and quality
+of Apple II software
+has increased, so has the incidence
+of illegal duplication of copyrighted
+software.  To combat this, software
+vendors have introduced methods for
+protecting their software.
+Since most protection
+schemes involve a modified or custom
+Disk Operating System, it seems
+appropriate to discuss disk
+protection in general.
+.pp
+Typically, a protection scheme's
+purpose is to stop unauthorized
+duplication of the contents of the
+diskette, although it may also
+include, or be limited to, preventing
+the listing of the software (if it is
+in BASIC).  This has been attempted
+in a variety of ways, all of which
+necessitate reading and writing
+non-standard formats on the disk.  If
+the reader is unclear about how a
+normal diskette is formatted, he
+should refer to Chapter 3 for more
+information.
+.pp
+Early protection methods were
+primitive in comparison to what is
+being done now.  Just as the methods
+of protection have improved, so have
+the techniques people have used to
+break them.  The cycle seems endless.
+As new and more sophisticated schemes
+are developed, they are soon broken,
+prompting the software vendor to try
+to create even more sophisticated
+systems.
+.pp
+It seems reasonable at this time to
+say that it is impossible to protect
+a disk in such a way that it can't be
+broken.  This is, in large part, due
+to the fact that the diskette must be
+"bootable"; i.e. that it must contain
+at least one sector (Track 0, Sector
+0) which can be read by the program
+in the PROM
+on the disk controller card.  This
+means that it is possible to trace
+the boot process by disassembling the
+normal sector or sectors that must be
+on the disk.  It turns out that it is
+even possible to protect these
+sectors.  Because of a lack of space
+on the PROM (256 bytes), the software
+doesn't fully check either the
+Address Field or the Data Field.  But
+potential protection schemes
+which take advantage of this
+are limited and must
+involve only certain changes which
+will be discussed below.
+.pp
+Most protected disks use a modified
+version of Apple's DOS.  This is a
+much easier task than writing one's
+own Disk Operating System and will be
+the primary area covered by this
+discussion.
+.pp
+Although there are a vast array of
+different protection schemes, they
+all consist of having some portion of
+the disk unreadable by a normal Disk
+Operating System.  The two logical
+areas to alter are the Address Field
+and the Data Field.  Each include a
+number of bytes which, if changed,
+will cause a sector to be unreadable.
+We will examine how that is done in
+some detail.
+.pp
+The Address Field normally starts
+with the bytes $D5/$AA/$96.  If any
+one of these bytes were changed, DOS
+would not be able to locate that
+particular Address Field, causing an
+error.  While all three bytes can and
+have been changed by various schemes,
+it is important to remember that they
+must be chosen in such a way as to
+guarantee their uniqueness.  Apple's
+DOS does this by reserving the bytes
+$D5 and $AA; i.e. these bytes are not
+used in the storage of data.  The
+sequence chosen by the would-be disk
+protector can not occur anywhere else
+on the track, other than in another
+Address Field.  Next comes the
+address information itself (volume,
+track, sector, and checksum).  Some
+common techniques include changing
+the order of the information,
+doubling the sector numbers, or
+altering the checksum with some
+constant.  Any of the above would
+cause an I/O error in a normal DOS. 
+Finally, we have the two closing
+bytes ($DE/$AA), which are similar to
+the starting bytes, but with a
+difference.  Their uniqueness is not
+critical, since DOS will read
+whatever two bytes follow the
+information field, using them for
+verification, but not to locate the
+field itself.
+.pp
+The Data Field is quite similar to
+the Address Field in that its three
+parts correspond almost identically,
+as far as protection schemes are
+concerned.  The Data Field starts
+with $D5/$AA/$AD, only the third byte
+being different, and all that applies
+to the Address Field applies here
+also.  Switching the third bytes
+between the two fields is an example
+of a protective measure.  The data
+portion consists of 342 bytes of
+data, followed by a checksum byte. 
+Quite often the data is written so
+that the checksum computation will be
+non-zero, causing an error.  The
+closing bytes are identical to those
+of the Address Field ($DE/$AA).
+.pp
+As mentioned earlier, the PROM on the
+disk controller skips certain parts
+of both types of fields.  In
+particular, neither trailing byte
+($DE/$AA) is read or verified
+nor is the checksum tested,
+allowing these bytes to be modified
+even in track 0 sector 0.
+However, this protection is easily
+defeated by making slight
+modifications to DOS's RWTS
+routines, rendering it
+unreliable as a protective measure.
+.pp
+In the early days of disk protection,
+a single alteration was all that was
+needed to stop all but a few from
+copying the disk.  Now, with more
+educated users and powerful
+utilities available, multiple schemes
+are quite commonly used.  The first
+means of protection was probably that
+of hidden control characters imbedded
+in a file name.  Now it is common to
+find a disk using multiple
+non-standard formats written even
+.ul
+between
+tracks.
+.pp
+A state of the art protection scheme
+consists of two elements.  First, the
+data is stored on the diskette in
+some non-standard way in order to
+make copying very difficult. 
+Secondly, some portion of memory is
+utilized that will be altered upon a
+RESET.  (For example, the primary
+text page or certain zero page
+locations)  This is to prevent the
+software from being removed from
+memory intact.
+.pp
+Recently, several "nibble" or byte
+copy programs have become available. 
+Unlike traditional copy programs
+which require the data to be in a
+predefined format, these utilities
+make as few assumptions as possible
+about the data structure.  Ever since
+protected disks were first
+introduced, it has been asked, "why
+can't a track be read into memory and
+then written back out to another
+diskette in exactly the same way?". 
+The problem lies with the self-sync
+or auto-sync bytes.  (For a full
+discussion see Chapter 3)  These
+bytes contain extra zero bits that
+are lost when read into memory.  In
+memory it is impossible to determine
+the difference between a hexadecimal
+$FF that was data and a hex $FF that
+was a self-sync byte.  Two solutions
+are currently being implemented in
+nibble copy programs.  One is to
+analyze the data on a track with the
+hope that the sync gaps can be
+located by deduction.  This has a
+high probability of success if 13 or
+16 sectors are present, even if they
+have been modified, but may not be
+effective in dealing with
+non-standard sectoring where sectors
+are larger than 256 bytes.  In short,
+this method is effective but by no
+means foolproof.  The second method
+is simple but likewise has a
+difficulty.  It simply writes every
+hex $FF found on the track as if it
+were a sync byte.  This, however,
+will expand the physical space needed
+to write the track back out, since
+sync bytes require 25% more room.  If
+enough hex $FF's occur in the data,
+the track will overwrite itself. 
+This can happen in general if the
+drive used to write the data is
+significantly slower than normal. 
+Thus, we are back to having to
+analyze the data and, in effect, make
+some assumptions.  It appears that, 
+apart from using some
+hardware device to help find the sync
+bytes, a software program must make
+some assumptions about how the data
+is structured on the diskette.
+.pp
+The result of the
+introduction of nibble copy programs
+has been to "force the hand" of the
+software vendors.  The initial
+response was to develop new
+protection schemes that defeated the
+nibble copy programs.  More recent
+protection schemes, however,
+involve hardware
+and timing dependencies which
+require current
+nibble copy programs to rely heavily
+upon the user for direction.  If the
+present trend continues, it is very
+likely that protection schemes will
+evolve to a point where automated 
+techniques cannot be used to defeat
+them.
+.br
+.nx appendix c.1
+\x00

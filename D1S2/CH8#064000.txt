@@ -1,0 +1,380 @@
+.ec^
+.na
+.ll60
+.m11
+.m22
+.m48
+.fo ''-%-
+.pn 5
+.pi 0
+.br
+.np
+.ce
+CHAPTER 8 - DOS PROGRAM LOGIC
+.sp1
+.PP
+This chapter will take a detailed
+look at the operation of the DOS
+program itself to aid the APPLE user
+in understanding it and to help him
+to make intelligent use of its
+facilities. Each subroutine and group
+of variables or constants will be
+covered separately by storage
+address. The enterprising programmer
+may wish to create a disassembly of
+DOS on his printer and transfer the
+annotations given here directly to
+such a listing. Addresses used will
+be for DOS 3.3 and for a 48K master
+diskette version of DOS. Slot 6 is
+assumed. Unless specifically
+indicated by a $ character, lengths
+are given in decimal, addresses in
+hexadecimal (base 16).
+.sp1
+DISK II CONTROLLER CARD ROM - BOOT 0
+.SP1
+.pi0
+.ul
+ADDRESS
+.np
+C600-C65B This routine is the first code executed when a disk
+          is to be booted. It receives control via PR#6 or
+          C600G or 6 control-P.
+          Dynamically build a translate table for converting
+          disk codes to six bit hex at location $356-$3FF.
+          Call an RTS instruction in the monitor ROM and 
+          extract the return address from the stack to find out
+          the address of this controller card ROM. 
+          Use this address to determine the slot number of this
+          drive by shifting $Csxx.
+          Save the slot number times 16 ($s0)
+          Clear disk I/O latches, set read mode, select drive
+          1, turn disk drive on.
+          Pull disk arm back over 80 tracks to recalibrate the
+          arm to track zero.
+          Set up parms to read sector zero on track zero to
+          location $800.
+          Execution falls through into a general sector read
+          subroutine at C65C.
+.np
+C65C-C6FA This subroutine reads the sector number stored at
+          $3D on the track indicated by $41 to the address
+          stored at $26,$27.
+          Look for D5/AA/96 sector address header on the disk.
+          If D5/AA/AD is found and sector data was wanted, go
+          to C6A6.
+     C683 Handle a sector address block.
+          Read three double bytes from the disk and combine
+          them to obtain the volume, track, and sector number
+          of the sector being read from the disk at this time.
+          Store the track at $40.
+          Compare the sector found to the sector wanted and the
+          track found to the track wanted.
+          If no match, go back to C65C.
+          Otherwise, if sector is correct, go to C65D to find
+          the sector data itself.
+     C6A6 Handle sector data block.
+          Read the 85 bytes of secondary data to $300-$355.
+          Read 256 bytes of primary data to the address stored
+          at $26,$27.
+          Verify that the data checksum is valid.
+          If not, start over at C65C.
+          "Nibbilize" the primary and secondary data together
+          into the primary data buffer ($26,$27).
+          Increment $27 (address page of read data) and $3D
+          (sector number to be read) and check against $800
+          to see if additional sectors need to be read.
+          If so, reload slot*16 and go back to C65C to read
+          next sector. (This feature is not used when loading
+          DOS but is used when loading from a BASICS diskette.)
+          Otherwise, go to $801 to begin executing the second
+          stage of the bootstrap.
+.sp1
+FIRST RAM BOOTSTRAP LOADER - BOOT 1 
+.sp1
+.Ul
+ADDRESS
+.np
+0801-084C This routine loads the second RAM loader, Boot 2,
+          including RWTS, into memory and jumps to it.
+          If this is not the first entry to Boot 1, go to $81F.
+          Get slot*16 and shift down to slot number.
+          Create the address of the ROM sector read subroutine
+          (C65C in our case) and store it at $3E,$3F.
+          Pick up the first memory page in which to read Boot 2
+          from location $8FE, add the length of Boot 2 in 
+          sectors from $8FF, and set that value as the first
+          address to which to read (read last page first).
+     081F Get sector to read, if zero, go to $839.
+          Translate theoretical sector number into physical
+          sector number by indexing into skewing table at $84D.
+          Decrement theoretical sector number (8FF) for next
+          iteration through.
+          Set up parameters for ROM subroutine (C65C) and
+          jump to it. It will return to $801 when the sector
+          has been read.
+     0839 Adjust page number at 8FE to locate entry point of
+          Boot 2.
+          Perform a PR#0 and IN#0 by calling the monitor.
+          Initialize the monitor (TEXT mode, standard window,
+          etc.)
+          Get slot*16 again and go to Boot 2 ($3700 for a
+          master disk, $B700 in its final relocated location).
+.sp1
+DOS 3.3 MAIN ROUTINES
+.SP1
+.Ul
+ADDRESS
+.np
+9D00-9D0F Relocatable address constants
+     9D00 Address of first DOS buffer at its file name field.
+     9D02 Address of the DOS keyboard intercept routine.
+     9D04 Address of the DOS video intercept routine.
+     9D06 Address of the primary file name buffer.
+     9D08 Address of the secondary (RENAME) file name buffer.
+     9D0A Address of the range length parameter used for LOAD.
+     9D0C Address of the DOS load address ($9D00).
+     9D0E Address of the file manager parameter list.
+.np
+9D10-9D1C DOS video (CSWL) intercept's state handler address
+          table. States are used to drive the handling of DOS
+          commands as they appear as output of PRINT statements
+          and this table contains the address of the routine
+          which handles each state from state 0 to state 6.
+.np
+9D1E-9D55 Command handler entry point table. This table 
+          contains the address of a command handler subroutine
+          for each DOS command in the following standard order:
+               INIT      A54F
+               LOAD      A413
+               SAVE      A397
+               RUN       A4D1
+               CHAIN     A4F0
+               DELETE    A263
+               LOCK      A271
+               UNLOCK    A275
+               CLOSE     A2EA
+               READ      A51B
+               EXEC      A5C6
+               WRITE     A510
+               POSITION  A5DD
+               OPEN      A2A3
+               APPEND    A298
+               RENAME    A281
+               CATALOG   A56E
+               MON       A233
+               NOMON     A23D
+               PR#       A229
+               IN#       A22E
+               MAXFILES  A251
+               FP        A57A
+               INT       A59E
+               BSAVE     A331
+               BLOAD     A35D
+               BRUN      A38E
+               VERIFY    A27D
+.np
+9D56-9D61 Active BASIC entry point vector table. The addresses
+          stored here are maintained by DOS such that they
+          apply to the current version of BASIC running.
+     9D56 Address of CHAIN entry point to BASIC.
+     9D58 Address of RUN.
+     9D5A Address of error handler.
+     9D5C Address of BASIC coldstart.
+     9D5E Address of BASIC warmstart.
+     9D60 Address of BASIC relocate (APPLESOFT only).
+.np
+9D62-9D6B Image of the entry point vector for INTEGER BASIC. 
+          This image is copied to 9D56 if INTEGER BASIC is made
+          active.
+.np
+9D6C-9D77 Image of the entry point vector for the ROM version
+          of APPLESOFT.
+.np
+9D78-9D83 Image of the entry point vector for the RAM version
+          of APPLESOFT.
+.np
+9D84-9DBE DOS coldstart entry routine.
+          Get the slot and drive numbers and store as default
+          values for command keywords.
+          Copy APPLESOFT ROM or INTEGER BASIC entry point
+          vector into current BASIC entry point vector.
+          Remember which BASIC is active.
+          Go to 9DD1.
+.np
+9DBF-9DE9 DOS warmstart entry routine.
+          Get the remembered BASIC type and set the ROM card
+          as necessary (calls A5B2).
+     9DD1 Remember whether entry is coldstart or warmstart
+          Call A851 to replace DOS keyboard and video
+          intercepts.
+          Set NOMON C,I,O.
+          Set video intercept handler state to 0.
+          Coldstart or warmstart the current BASIC (exit DOS).
+          (DOS will next gain control when BASIC prints its   
+          input prompt character)
+.np
+9DEA-9E50 First entry processing for DOS. This routine is
+          called by the keyboard intercept handler when the
+          first keyboard input request is made by BASIC after
+          a DOS coldstart.
+          If RAM APPLESOFT is active, copy its entry point
+          vector to the active BASIC entry point vector and
+          blank out the primary file name buffer so that no
+          HELLO file will be run.
+          Set MAXFILES to 3 by default.
+          Call A7D4 to build the DOS file buffers.
+          If an EXEC was active, close the EXEC file
+          Set the video intercept state to 0 and indicate 
+          warmstart status by calling A75B.
+          If the last command executed was not INIT (this DOS
+          was not just booted), go to 9E45.
+          Otherwise, copy an image of the DOS jump vector to
+          $3D0-$3FF.
+          Point $3F2,$3F3 to DOS warmstart routine.
+          Set the AUTOSTART ROM power-up byte since the RESET
+          handler address was changed.
+          Set the command index for RUN (to run the HELLO file)
+          and go to A180 to execute it.
+     9E45 See if there is a pending command.
+          If so, go to A180 to execute it. Otherwise, return
+          to caller.
+.np
+9E51-9E7F An image of the DOS 3-page jump vector which the 
+          above routine copies to $3D0-$3FF. See Chapter 5 for
+          a description of its contents.
+.np
+9E81-9EB9 DOS keyboard intercept routine.
+          Call 9ED1 to save the registers at entry to DOS.
+          If not coldstarting or reading a disk file,
+          go to 9E9E.
+          Get value in A register at entry and echo it on the
+          screen (erases flashing cursor).
+          If in read state (reading a file) go to A626 to get 
+          next byte from disk file.
+          Otherwise, call 9DEA to do first entry processing.
+          Put cursor on screen in next position.
+          If EXECing, call A682 to get the next byte from the
+          EXEC file.
+          Set the video intercept state to 3 (input echo).
+          Call 9FBA to restore the registers at entry to DOS.
+          Call the true keyboard input routine.
+          Save the input character so that it will be restored
+          with the registers in the A register.
+          Do the same with the new X register value.
+          Exit DOS via 9FB3.
+.np
+9EBA-9EBC A jump to the true KSWL handler routine.
+.np
+9EBD-9ED0 DOS video intercept routine.
+          Call 9ED1 to save the registers at entry to DOS.
+          Get the video intercept state and, using it as an
+          index into the state handler table (9D11), go to
+          the proper handler routine, passing it the character
+          being printed.
+.np
+9ED1-9EEA Common intercept save registers routine.
+          Save the A, X, Y, and S registers at AA59-AA5C.
+          While in DOS, restore the true I/O handlers (KSWL and
+          CSWL) to $36-$39.
+          Return to caller.
+.np
+9EEB-9F11 State 0 output handler. --start of line--
+          If a RUN command was interrupted (by loading RAM
+          APPLESOFT) go to 9F78 to complete it.
+          If read flag is on (file being read) and output is a
+          "?" character (BASIC INPUT), go to state 6 to skip
+          it.
+          If read flag is on and output is prompt character 
+          ($33) go to state 2 to ignore the line.
+          Set state to 2 (ignore non-DOS command) just in case.
+          If output character is not a control-D, go to
+          state 2.
+          Otherwise, set state to 1 (collect possible DOS
+          command), set line index to zero, and fall through
+          to state 1.
+.np
+9F12-9F22 State 1 output handler. --collect DOS command--
+          Using line index, store character in input buffer at
+          $200.
+          Increment line index.
+          If character is not a carriage return, exit DOS
+          via 9F95 (echo character on screen if MON I).
+          Otherwise, go to command scanner at 9FCD.
+.np
+9F23-9F2E State 2 output handler. --non-DOS command ignore--
+          If the character is not a carriage return, exit DOS
+          via 9FA4 (echo character on screen).
+          Otherwise, set state back to 0 and exit DOS via
+          9FA4.
+.np
+9F2F-9F51 State 3 output handler. --INPUT statement handler--
+          Set state to 0 in case INPUT ends.
+          If character is not a carriage return, echo it on
+          screen as long as EXEC is not in effect with NOMON I
+          but exit DOS in any case. (KSWL will set state=3)
+          Otherwise, call A65E to see if BASIC is executing a
+          program or is in immediate mode. If EXEC is running
+          or if BASIC is in immediate mode, go to state 1 to
+          collect the possible DOS command.
+          Otherwise, exit DOS, echoing the character as
+          appropriate.
+.np
+9F52-9F60 State 4 output handler. --WRITE data to a file--
+          If the character is a carriage return, set state to
+          5 (start of write data line).
+          Call A60E to write the byte to the disk file.
+          Exit DOS with echo on screen if MON O.
+.np
+9F61-9F70 State 5 output handler. --Start of WRITE data line--
+          If the character is a control-D, go to state 0 to 
+          immediately exit write mode.
+          If the character is a line feed, write it and exit,
+          staying in state 5.
+          Otherwise, set the state to 4 and go to state 4.
+.np
+9F71-9F77 State 6 output handler. --Skip prompt character--
+          Set state to 0.
+          Exit DOS via 9F9D (echo if MON I).
+.np
+9F78-9F82 Finish RUN command, interrupted by APPLESOFT RAM LOAD
+          Reset the "RUN interrupted" flag.
+          Call A851 to replace the DOS CSWL/KSWL intercepts.
+          Go to A4DC to complete the RUN command.
+.np
+9F83-9F94 DOS command scanner exit to BASIC routine.
+          If first character of command line is control-D,
+          go to echo exit (9F95).
+          Otherwise, set things up so BASIC won't see the DOS
+          command by passing a zero length line (only a
+          carriage return). Fall through to echo exit.
+.np
+9F95-9FB0 Echo character on screen (conditionally) and exit DOS
+     9F95 Echo only if MON C set, otherwise, go to 9FB3.
+     9F99 Echo only if MON O set, otherwise, go to 9FB3.
+     9F9D Echo only if MON I set, otherwise, go to 9FB3.
+     9FA4 Always echo character.
+          Call 9FBA to restore registers at entry to DOS.
+          Call 9FC5 to echo character on screen.
+          Save contents of the registers after echoing.
+          Fall through to DOS exit routine.
+.np
+9FB3-9FC4 DOS exit routine and register restore.
+          Call A851 to put back DOS KSWL/CSWL intercepts.
+          Restore S (stack) register from entry to DOS.
+     9FBA DOS register restore subroutine.
+          Restore registers from first entry to DOS and return
+          to caller.
+.np
+9FC5-9FC7 A jump to the true CSWL routine.
+.np
+9FC8-9FCC Skip a line on the screen.
+          Load a carriage return into the A register and
+          call 9FC5 to print it.
+.np
+9FCD-A179 DOS command parse routine.
+.br
+.nx ch8.1
+\x00
