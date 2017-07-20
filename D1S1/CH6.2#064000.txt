@@ -1,5 +1,5 @@
 CALLING THE DOS FILE MANAGER
-.pp
+
 The DOS file manager exists in every
 version of DOS as a collection of
 subroutines occupying approximately
@@ -20,7 +20,7 @@ these routines may be relied upon as
 program
 uses these routines to process files
 on the diskette. 
-.pp
+
 There are
 two subroutines which must be called
 in order to access the file manager.
@@ -289,7 +289,7 @@ Input:  Byte 00    - 0C
 Output: Byte 0A    - Return code
 .bp
 DOS BUFFERS
-.pp
+
 Usually it is desirable to use one of DOS's buffers when
 calling the file manager to save memory. DOS buffers consist of
 each of the three buffers used by the file manager (file 
@@ -336,7 +336,7 @@ BYTE    DESCRIPTION
         the chain then this field contains zeros.
 .bp
 THE FILE MANAGER WORKAREA
-.pp
+
 The file manager workarea contains
 the variables which, taken together,
 constitute all of the information the
@@ -398,13 +398,13 @@ BYTE    DESCRIPTION
 2A/2C   Not used
 .bp
 COMMON ALGORITHMS
-.PP
+
 Given below are several pieces of code
 which are used when working with DOS:
 .SP1
 .ne5
 LOCATE A FREE DOS BUFFER
-.PP
+
 The following subroutine may be used
 to locate an unallocated DOS buffer
 for use with the DOS file manager.
@@ -438,7 +438,7 @@ NBUF    SEC             INDICATE-NO FREE BUFFERS
         RTS             RETURN TO CALLER
 .bp
 IS DOS IN THE MACHINE?
-.PP
+
 The following series of instructions
 should be used prior to attempting to
 call RWTS or the file manager to
@@ -452,7 +452,7 @@ machine.
 .SP2
 .ne5
 WHICH VERSION OF DOS IS ACTIVE?
-.pp
+
 In case the program has version dependent code, a check of
 the DOS version may be required:
 .sp1
@@ -498,7 +498,7 @@ SETBSC  CMP     $E000   CORRECT BASIC ALREADY THERE?
 \x2c\x40\x42\x5b\x33\x03\x61\x9fTS     RTS             IN ANY CASE, EXIT TO CALLER
 .bp
 SEE IF A BASIC PROGRAM IS IN EXECUTION
-.PP
+
 To determine if there is a BASIC program running or
 if BASIC is in immediate command mode, use the following
 statements:
@@ -519,4 +519,3 @@ statements:
         BNE     EXEC    ELSE, PROGRAM IS EXECUTING
 .br
 .nx ch7
-\x00

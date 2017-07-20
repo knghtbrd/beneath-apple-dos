@@ -163,4 +163,3 @@ A298-A2A2 APPEND command handler.
           and turn flag off.
           Exit via a call to POSITION.
 .nx ch8.2
-\x00

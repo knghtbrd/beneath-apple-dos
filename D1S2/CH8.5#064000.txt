@@ -278,4 +278,3 @@ AF34-AF4A Checkpoint write T/S List sector buffer to disk.
           need of checkpoint.
           Exit to caller.
 .nx ch8.6
-\x00

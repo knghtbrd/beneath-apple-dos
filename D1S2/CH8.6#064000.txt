@@ -406,4 +406,3 @@ B600-B6FF Start of Boot 2/RWTS image.
      B6FF Number of sectors (pages) in Boot 2.
 .br
 .nx ch8.7
-\x00

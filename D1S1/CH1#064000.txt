@@ -12,7 +12,7 @@
 .ce
 CHAPTER 1 - INTRODUCTION
 .sp 2
-.pp
+
 Beneath Apple DOS is intended
 to serve as a companion to Apple's
 DOS Manual, providing additional
@@ -35,7 +35,7 @@ contents of the DOS Manual.  Since
 all chapters presented here may not
 be of use to each Apple owner, each
 has been written to stand on its own.
-.pp
+
 The information presented here is a
 result of intensive disassembly and
 annotation of various versions of DOS
@@ -53,7 +53,7 @@ presented here, all of the material
 included in Beneath Apple DOS has
 been thoroughly researched and
 tested.
-.pp
+
 There were several reasons
 for writing Beneath Apple DOS:
 .SP1
@@ -68,7 +68,7 @@ To allow you to customize DOS to fit your needs.
 .br
 To provide complete information on diskette formatting.
 .br
-.pp
+
 When Apple Computer Inc. introduced
 its Disk Operating System (DOS)
 version 3 in 1978 to support the
@@ -95,7 +95,7 @@ where the
 Disk Operating System
 Manual leaves off.
 .bp
-.pp
+
 Throughout this manual, discussion
 centers primarily on DOS version
 3.3.  The reasons for this are that 3.3
@@ -106,7 +106,7 @@ would imagine.  Wherever there is a
 major difference between the various
 DOS releases in a given topic, each
 release will be covered.
-.pp
+
 In addition to the DOS dependent
 information provided, many of the
 discussions also apply to
@@ -117,4 +117,3 @@ the track and sector level is, for
 the most part, the same.
 .br
 .nx ch2
-\x00

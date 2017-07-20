@@ -12,7 +12,7 @@
 .ce
 APPENDIX A - EXAMPLE PROGRAMS
 .sp1
-.PP
+
 This section is intended to supply
 the reader with utility programs
 which can be used to examine and
@@ -47,7 +47,7 @@ Five programs are provided:
 DUMP    TRACK DUMP UTILITY
 .pi8
 .in8
-.pp
+
 This is an example of how to directly
 access the disk drive through its I/O
 select addresses.  DUMP may be used
@@ -63,7 +63,7 @@ diskettes.
 ZAP     DISK UPDATE UTILITY
 .pi8
 .in8
-.pp
+
 This program is the backbone of any
 attempt to patch a diskette directory
 back together.  It is also useful in
@@ -81,7 +81,7 @@ Read/Write Track/Sector (RWTS).
 INIT    REFORMAT A SINGLE TRACK
 .pi8
 .in8
-.pp
+
 This program will initialize a single
 track on a diskette.  Any volume
 number ($00-$FF) may be specified. 
@@ -95,7 +95,7 @@ diskette.  DOS 3.3 and 48K is assumed.
 FTS     FIND T/S LISTS UTILITY
 .pi8
 .in8
-.pp
+
 FTS may be used when the directory
 for a diskette has been destroyed. 
 It searches every sector on a
@@ -111,7 +111,7 @@ together a new catalog using ZAP.
 COPY    CONVERT FILES
 .pi8
 .in8
-.pp
+
 COPY is provided as an example of
 direct use of the DOS File Manager
 package from assembly language.  The
@@ -146,7 +146,7 @@ non-assembly language programmer, the
 binary object code of each program
 may be entered from the monitor using
 the following procedure.
-.pp
+
 The assembly language listings
 consist of columns of information as
 follows:
@@ -185,7 +185,7 @@ CALL -151               (Enter the monitor from BASIC)
 0879:85 3F
 087B:4C B3 FD
 BSAVE DUMP,A$800,L$7E   (Save program to disk)
-.pp
+
 Note that if a line (such as line 4
 in DUMP) has no object bytes
 associated with it, it may be
@@ -210,7 +210,7 @@ BSAVE COPY,A$800,L$1EC
 .bp
 DUMP -- TRACK DUMP UTILITY
 .sp1
-.pp
+
 The DUMP program will dump any track
 on a diskette in its raw,
 pre-nibbilized format, allowing the
@@ -231,7 +231,7 @@ as an example of direct use of the
 DISK II hardware from assembly
 language, with little or no use of
 DOS.  
-.pp
+
 To use DUMP, first store the number
 of the track you wish dumped at
 location $02, then begin execution at
@@ -257,7 +257,7 @@ The output might look like this...
 1010- 9E FF FF FF FF FF D5 AA   (Start of sector data)
 1018- AD AE B2 9D AC AE 96 96   (Sector data)
  ...etc...
-.pp
+
 Quite often, a sector with an I/O
 error will have only one bit which is
 in error, either in the address or
@@ -273,7 +273,7 @@ is necessary to accomplish this feat.
 .bp
 ZAP -- DISK UPDATE UTILITY
 .sp1
-.pp
+
 The next step up the ladder from DUMP
 is to access data on the diskette at
 the sector level.  The ZAP program
@@ -288,7 +288,7 @@ when it is necessary to patch up a
 damaged directory.  Its use in this
 regard will be covered in more detail
 when FTS is explained.
-.pp
+
 To use ZAP, store the number of the
 track and sector you wish to access
 in $02 and $03 respectively.  Tracks
@@ -327,7 +327,7 @@ The output might look like this...
 0810- 00 00 00 00 00 00 00 00
 0818- 00 00 00 00 00 00 00 00
  ...etc...
-.pp
+
 In the above example, if the byte at
 offset 3 (the version of DOS which
 INITed this diskette) is to be
@@ -342,7 +342,7 @@ Note that ZAP will remember the
 previous
 values in $02, $03, and $04.
 .bp
-.pp
+
 If something is wrong with the sector
 to be read (an I/O error, perhaps),
 ZAP will print an error message of
@@ -362,7 +362,7 @@ these errors.
 .bp
 INIT -- REFORMAT A SINGLE TRACK
 .sp1
-.pp
+
 Occasionally the sectoring information
 on a diskette can become damaged so
 that one or more sectors can no
@@ -387,7 +387,7 @@ run they can be copied back to the
 repaired diskette and data can be
 written to the previously damaged
 sector.
-.pp
+
 To run INIT, first store the number
 of the track you wish reformatted at
 location $02, the volume number of
@@ -418,7 +418,7 @@ sizes.
 .bp
 FTS -- FIND T/S LISTS UTILITY
 .sp1
-.pp
+
 From time to time one of your
 diskettes will develop an I/O error
 smack in the middle of the catalog
@@ -456,7 +456,7 @@ necessary to restore all the files
 and copy them to another diskette,
 and later delete the duplicate or
 unwanted ones.
-.pp
+
 To run FTS, simply load the program
 and start execution at $900.  FTS
 will print the track and sector
@@ -477,7 +477,7 @@ T=13 S=0F
 T=14 S=0D
 T=14 S=0F
 .bp
-.pp
+
 Here, only four possible files were
 found.  ZAP should now be used to
 read track $12, sector $0F.  At +$0C
@@ -523,7 +523,7 @@ BLOAD ZAP
 :A0 A0
 02:11 0F 02 N 900G      (Write new sector image out as
                          first (and only) catalog sector)
-.pp
+
 The file should immediately be copied
 to another diskette and then the
 process repeated for each T/S List
@@ -537,7 +537,7 @@ damaged disk may be re-INITialized.
 .bp
 COPY -- CONVERT FILES
 .sp1
-.pp
+
 The COPY program demonstrates the use
 of the DOS File Manager subroutine
 package from assembly language.  COPY
@@ -553,7 +553,7 @@ name of the output file is "OUTPUT".
 COPY is a single drive operation,
 using the last drive which was
 referenced.
-.pp
+
 To run COPY, load it and begin
 execution at $800:
 .sp1
@@ -562,7 +562,7 @@ CALL -151               (Get into the monitor from BASIC)
 BLOAD COPY              (Load the COPY program)
  ...Now insert the disk containing INPUT...
 900G                    (Run the COPY program)
-.pp
+
 When COPY finishes, it will return to
 BASIC.  If any errors occur, the
 return code passed back from the File
@@ -572,4 +572,3 @@ parameter list in Chapter 6
 for a list of these return codes.
 .br
 .nx appendix b
-\x00

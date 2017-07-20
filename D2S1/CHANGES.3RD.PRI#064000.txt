@@ -33,4 +33,3 @@ utilities called BENEATH APPLE DOS'
 BAG OF TRICKS.  See the page facing
 1-1 for more details.
 .br
-\x00

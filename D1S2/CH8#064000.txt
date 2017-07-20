@@ -12,7 +12,7 @@
 .ce
 CHAPTER 8 - DOS PROGRAM LOGIC
 .sp1
-.PP
+
 This chapter will take a detailed
 look at the operation of the DOS
 program itself to aid the APPLE user
@@ -377,4 +377,3 @@ ADDRESS
 9FCD-A179 DOS command parse routine.
 .br
 .nx ch8.1
-\x00

@@ -253,4 +253,3 @@ AB28-ABDB Common open routine.
           And write it back (AF3A).
           Set return code to 6 ("FILE NOT FOUND").
 .nx ch8.5
-\x00

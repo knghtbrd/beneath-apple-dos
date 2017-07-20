@@ -219,4 +219,3 @@ A851-A883 Replace DOS keyboard/video intercept vectors.
           address.
           Exit to caller.
 .nx ch8.4
-\x00

@@ -123,4 +123,3 @@ C-15
 .sp1
                     the voltages which represent 0's and
 .br
-\x00

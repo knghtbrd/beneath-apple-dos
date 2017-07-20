@@ -4,7 +4,7 @@
 CHAPTER 6 - USING DOS FROM ASSEMBLY LANGUAGE
 .sp1
 CAVEAT
-.PP
+
 This chapter is aimed at the advanced
 assembly language programmer who
 wishes to access the disk without
@@ -17,7 +17,7 @@ present) of a programmer who has
 never used assembly language.
 .sp2
 DIRECT USE OF DISK DRIVE
-.PP
+
 It is often desirable or necessary to
 access the Apple's disk drives
 directly from assembly language,
@@ -78,7 +78,7 @@ generally desirable to write code
 that is not slot dependent, one would
 normally use $C08A,X (where the
 X register contains the value $s0).
-.pp
+
 In general, the above addresses need
 only be accessed with any valid 6502
 instruction.  However, in the case of
@@ -92,7 +92,7 @@ number 1. (Assume slot number 6)
         LDA $C0EA
         BIT $C08A,X (where X-reg contains $60)
         CMP $C08A,X (where X-reg contains $60)
-.pp
+
 Below are typical examples
 demonstrating the use of the device
 address assignments.  For more
@@ -101,7 +101,7 @@ assumed and the X-register contains
 $60.
 .sp1
 STEPPER PHASE OFF/ON:
-.PP
+
 Basically, each of the four phases
 (0-3) must be turned on and then off
 again.  Done in ascending order, this
@@ -169,7 +169,7 @@ NOTE: $C08F,X must already have been
 accessed to insure Write mode and a
 100 microsecond delay should be
 invoked before writing.
-.pp
+
 Due to hardware constraints, data
 bytes must be written in 32 cycle
 loops.  Below is an example for an
@@ -197,7 +197,7 @@ without an adjustment.
         RTS             (6)
 .SP2
 CALLING READ/WRITE TRACK/SECTOR (RWTS)
-.pp
+
 Read/Write Track/Sector (RWTS) exists
 in every version of DOS as a
 collection of subroutines, occupying
@@ -206,11 +206,11 @@ program.  The interface to RWTS is
 standardized and thoroughly documented by Apple
 and may be called by a
 program running outside of DOS. 
-.pp
+
 There are two subroutines which must
 be called or whose function must be
 performed.
-.pp
+
 JSR $3E3 - When this subroutine is
 called, the Y and A registers are
 loaded with the address of the
@@ -227,7 +227,7 @@ to RWTS.  Of course, you may set up
 your own IOB as long as the Y and A
 registers point to your IOB upon
 calling RWTS.
-.pp
+
 JSR $3D9 - This is the main entry to
 the RWTS routine.  Prior to making
 this call, the Y and A registers must
@@ -356,4 +356,3 @@ Output: Byte 0D    - Return code (See previous definition)
              10    - Current Drive number 
 .bp
 .nx ch6.2
-\x00

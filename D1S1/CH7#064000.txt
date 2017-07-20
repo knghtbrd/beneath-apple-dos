@@ -3,7 +3,7 @@
 .ce
 CHAPTER 7 - CUSTOMIZING DOS
 .sp1
-.PP
+
 Although DOS usually provides most of
 the functionality needed by the BASIC
 or assembly language programmer, at
@@ -22,7 +22,7 @@ implications of each change can
 result in an unreliable system.
 .sp1
 SLAVE VS MASTER PATCHING
-.PP
+
 The usual procedure for making
 changes to DOS involves "patching"
 the object or machine language code
@@ -78,7 +78,7 @@ DOS.
 .SP1
 .ne5
 AVOIDING RELOAD OF LANGUAGE CARD
-.PP
+
 A rather annoying addition to DOS 3.3
 was a patch to the Boot 2 code to
 store a binary zero in the first byte
@@ -122,7 +122,7 @@ store instruction for a 32K DOS is
 7FD3 and for a 16K DOS is 3FD3.
 .sp1
 INSERTING A PROGRAM BETWEEN DOS AND ITS BUFFERS
-.pp
+
 Once in a while it is useful to find
 a "safe" place to load a machine
 language program (a printer driver,
@@ -154,7 +154,7 @@ since its HIMEM is below the DOS
 buffers.
 .bp
 BRUN OR EXEC THE HELLO FILE
-.pp
+
 Ordinarily, when DOS finishes booting
 into memory, it performs a RUN
 command on the HELLO file in its file
@@ -170,7 +170,7 @@ following patch to DOS (48K):
 .sp1
 .ne5
 REMOVING THE PAUSE DURING A LONG CATALOG
-.pp
+
 Normally, when a CATALOG command is
 done on a disk with many files, DOS
 will pause every time the screen
@@ -186,4 +186,3 @@ patch to DOS (48K):
 .bp
 .st waiting for ch8 diskette
 .nx ch8
-\x00

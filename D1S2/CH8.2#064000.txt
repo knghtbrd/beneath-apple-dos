@@ -218,4 +218,3 @@ A54F-A56D INIT command handler.
 .np
 A56E-A579 CATALOG command handler.
 .nx ch8.3
-\x00

@@ -3,7 +3,7 @@
 .ce
 APPENDIX B - DISK PROTECTION SCHEMES
 .sp1
-.PP
+
 As the quantity and quality
 of Apple II software
 has increased, so has the incidence
@@ -16,7 +16,7 @@ schemes involve a modified or custom
 Disk Operating System, it seems
 appropriate to discuss disk
 protection in general.
-.pp
+
 Typically, a protection scheme's
 purpose is to stop unauthorized
 duplication of the contents of the
@@ -31,7 +31,7 @@ the reader is unclear about how a
 normal diskette is formatted, he
 should refer to Chapter 3 for more
 information.
-.pp
+
 Early protection methods were
 primitive in comparison to what is
 being done now.  Just as the methods
@@ -43,7 +43,7 @@ are developed, they are soon broken,
 prompting the software vendor to try
 to create even more sophisticated
 systems.
-.pp
+
 It seems reasonable at this time to
 say that it is impossible to protect
 a disk in such a way that it can't be
@@ -68,14 +68,14 @@ which take advantage of this
 are limited and must
 involve only certain changes which
 will be discussed below.
-.pp
+
 Most protected disks use a modified
 version of Apple's DOS.  This is a
 much easier task than writing one's
 own Disk Operating System and will be
 the primary area covered by this
 discussion.
-.pp
+
 Although there are a vast array of
 different protection schemes, they
 all consist of having some portion of
@@ -87,7 +87,7 @@ number of bytes which, if changed,
 will cause a sector to be unreadable.
 We will examine how that is done in
 some detail.
-.pp
+
 The Address Field normally starts
 with the bytes $D5/$AA/$96.  If any
 one of these bytes were changed, DOS
@@ -122,7 +122,7 @@ whatever two bytes follow the
 information field, using them for
 verification, but not to locate the
 field itself.
-.pp
+
 The Data Field is quite similar to
 the Address Field in that its three
 parts correspond almost identically,
@@ -141,7 +141,7 @@ that the checksum computation will be
 non-zero, causing an error.  The
 closing bytes are identical to those
 of the Address Field ($DE/$AA).
-.pp
+
 As mentioned earlier, the PROM on the
 disk controller skips certain parts
 of both types of fields.  In
@@ -155,7 +155,7 @@ defeated by making slight
 modifications to DOS's RWTS
 routines, rendering it
 unreliable as a protective measure.
-.pp
+
 In the early days of disk protection,
 a single alteration was all that was
 needed to stop all but a few from
@@ -171,7 +171,7 @@ non-standard formats written even
 .ul
 between
 tracks.
-.pp
+
 A state of the art protection scheme
 consists of two elements.  First, the
 data is stored on the diskette in
@@ -184,7 +184,7 @@ text page or certain zero page
 locations)  This is to prevent the
 software from being removed from
 memory intact.
-.pp
+
 Recently, several "nibble" or byte
 copy programs have become available. 
 Unlike traditional copy programs
@@ -239,7 +239,7 @@ hardware device to help find the sync
 bytes, a software program must make
 some assumptions about how the data
 is structured on the diskette.
-.pp
+
 The result of the
 introduction of nibble copy programs
 has been to "force the hand" of the
@@ -260,4 +260,3 @@ techniques cannot be used to defeat
 them.
 .br
 .nx appendix c.1
-\x00

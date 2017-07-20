@@ -7,12 +7,12 @@ APPENDIX C - GLOSSARY
 .pn5
 .IN20
 .PI-20
-.PP
+
 ACCESS TIME]>The time required to
 locate and read or write data on a
 direct access storage device, such as
 a diskette drive.
-.pp
+
 ADDRESS]>The numeric location of a
 piece of data in memory.  Usually
 given as a hexadecimal number from
@@ -20,33 +20,33 @@ $0000 to $FFFF (65535 decimal).  A
 disk address is the location of a
 data sector, expressed in terms of its
 track and sector numbers.
-.pp
+
 ALGORITHM]>A sequence of steps which
 may be performed by a program or
 other process, which will produce a
 given result.
-.pp
+
 ALPHANUMERIC]>An alphabetic character
 (A-Z) or a numeric digit (0-9).  The
 term used to refer to the class of all
 characters and digits.
-.pp
+
 ANALOG]>As opposed to digital. 
 Having a value which is continuous,
 such as a voltage or electrical
 resistance.
-.pp
+
 AND]>The logical process of
 determining whether two bits are both
 ones.  0 AND 1 results in 0 (false),
 1 AND 1 results in 1 (true).
-.pp
+
 ARM]>The portion of a disk drive
 which suspends the read/write head
 over the disk's surface.  The arm can
 be moved radially to allow access to
 different tracks.
-.pp
+
 ASCII]>American Standard Code for
 Information Interchange.  A
 hexadecimal to character conversion
@@ -57,7 +57,7 @@ special, or control character.  ASCII
 is used when interfacing to
 peripherals, such as keyboards,
 printers, or video text displays.
-.pp
+
 ASSEMBLY LANGUAGE]>Also known as
 MACHINE LANGUAGE.  The native
 programming language of the
@@ -67,40 +67,40 @@ and is not humanized, as is BASIC,
 PASCAL, or FORTRAN.  An assembler is
 used to convert assembly language
 statements to an executable program.
-.pp
+
 BACKUP]>The process of making a copy
 of a program or data against the
 possibility of its accidental loss or
 destruction.
-.pp
+
 BASE]>The number system in use. 
 Decimal is base 10, since each digit
 represents a power of 10
 (1,10,100,...).  Hexadecimal is base
 16 (1,16,256,...).  Binary is base 2
 (1,2,4,8,...).
-.pp
+
 BINARY]>A number system based upon
 powers of 2.  Only the digits 0 and 1
 are used.  101 in binary, for
 example, is 1 units digit, 0 twos,
 and 1 fours, or 5 in decimal.
-.pp
+
 BIT]>A single binary digit (a 1 or a
 0).  A bit is the smallest unit of
 storage or information in a computer.
-.PP
+
 BIT CELL]>The space on a diskette,
 between two clock pulses, which can
 hold the value of a single binary 0
 or 1 (bit).
-.pp
+
 BIT SLIP MARKS]>The epilogue of a
 disk field.  Used to double check
 that the disk head is still in read
 sync and the sector has not been
 damaged.
-.pp
+
 BOOT/BOOTSTRAP]>The process of
 loading a very large program into
 memory by loading successively larger
@@ -108,50 +108,50 @@ pieces, each of which loads its
 successor.  The program loads itself
 by "pulling itself up by its
 bootstraps".
-.pp
+
 BRK]>BREAK.  An assembly langauge instruction
 which can be used to force an
 interrupt and immediate suspension of
 execution of a program.
-.pp
+
 BUFFER]>An area of memory used to
 temporarily hold data as it is being
 transferred to or from a peripheral,
 such as a disk drive.
-.pp
+
 BUG]>A programming error.  Faulty
 operation of a program.
-.pp
+
 BYTE]>The smallest unit of
 addressable memory in a computer.  A
 byte usually consists of 8 bits and
 can contain a decimal number ranging
 from 0 to 255 or a single
 alphanumeric character.
-.pp
+
 CARRIAGE RETURN]>A control character
 which instructs the printer to end
 one line and begin another.  When
 printing a carriage return is usually
 followed by a line feed.
-.pp
+
 CARRY FLAG]>A 6502 processor flag
 which indicates that a previous
 addition resulted in a carry.  Also
 used
 as an error indicator by many system
 programs.
-.PP
+
 CATALOG]>A directory of the files on
 a diskette.  See DIRECTORY.
-.pp
+
 CHAIN]>A linked list of data
 elements.  Data is chained if its
 elements need not be contiguous in
 storage and
 each element can be found from its
 predecessor via an address pointer.
-.pp
+
 CHECKSUM/CRC]>A method for verifying
 that data has not been damaged.  When
 data is written, the sum of all its
@@ -159,34 +159,34 @@ constituent bytes is stored with it.
 If, when the data is later read, its
 sum no longer matches the checksum,
 it has been damaged.
-.pp
+
 CLOBBERED]>Damaged or destroyed.  A
 clobbered sector is one which has
 been overwritten such that it is
 unrecoverable.  
-.pp
+
 CODE]>Executable instructions to the
 computer, usually in machine
 language.
-.pp
+
 COLDSTART]>A restart of a program
 which reinitializes all of its
 parameters, usually erasing any work
 which was in progress at the time of
 the restart.  A DOS coldstart erases
 the BASIC program in memory.
-.pp
+
 CONTIGUOUS]>Physically next to.  Two
 bytes are contiguous if they are
 adjoining each other in memory or on
 the disk.
-.pp
+
 CONTROL BLOCK]>A collection of data
 which is used by the operating system
 to manage resources.  Examples of a
 control block used by DOS are the
 file buffers.
-.pp
+
 CONTROL CHARACTER]>A special ASCII
 code which is used to perform a
 unique function on a peripheral, but
@@ -195,7 +195,7 @@ character.
 Carriage return, line feed, form
 feed, and bell are all control
 characters.
-.pp
+
 CONTROLLER CARD]>A hardware circuit
 board which is plugged into an APPLE
 connector which allows communication
@@ -203,11 +203,11 @@ with a peripheral device, such as a
 disk or printer.  A controller card
 usually contains a small driver
 program in ROM.
-.PP
+
 CSWL]>A vector in zero-page through
 which output data is passed for
 display on the CRT or for printing.
-.pp
+
 CYCLE]>The smallest unit of time
 within the central processor of the
 computer.  Each machine language
@@ -215,9 +215,9 @@ instruction requires two or more
 cycles to complete.  One cycle (on
 the APPLE) is one micro-second or one
 millionth of a second.
-.pp
+
 DATA]>Units of information.
-.pp
+
 DATA SECTOR BUFFER]>On the APPLE, a
 256 byte buffer used by DOS to hold
 the image of any given sector on the
@@ -226,29 +226,29 @@ from the file, data is extracted from
 the data sector buffer until it is
 exhausted, at which time it is
 refilled with the next sector image.
-.pp
+
 DATA TYPE]>The type of information
 stored in a byte.  A byte might
 contain a printable ASCII character, binary
 numeric data, or a machine language
 instruction.
-.pp
+
 DCT]>Device Characteristics Table. 
 Used as an input parameter table to
 Read/Write Track/Sector (RWTS) to
 describe the hardware characteristics
 of the diskette drive.
-.pp
+
 DECIMAL]>A number system based upon
 powers of 10.  Digits range from 0 to
 9.
-.pp
+
 DEFERRED COMMANDS]>DOS commands which
 may (or must) be invoked from within
 an executing BASIC program.  OPEN,
 READ, WRITE, and CLOSE are all
 examples of deferred commands.
-.pp
+
 DIGITAL]>As opposed to analog. 
 Discrete values as opposed to
 continuous ones.  Only digital values
@@ -259,7 +259,7 @@ light outside, must be converted into
 a numerical value which, of
 necessity, must be "rounded off" to a
 discrete value.
-.pp
+
 DIRECT ACCESS]>Peripheral storage
 allowing rapid access of any piece of
 data, regardless of its placement on
@@ -270,14 +270,14 @@ read to locate the last byte.  A
 diskette is direct access, since the
 arm may be rapidly moved to any
 track and sector.
-.pp
+
 DIRECTORY]>A catalog of all files
 stored on a diskette.  The directory
 must contain each file's name and its
 location on the disk as well as other
 information regarding the type of
 data stored there.
-.pp
+
 DISK INITIALIZATION]>The process
 which places track formatting
 information, including sectors and
@@ -286,7 +286,7 @@ During disk initialization, DOS also
 places a VTOC and directory on the
 newly formatted disk, as well as
 saving the HELLO program.
-.pp
+
 DISPLACEMENT]>The distance from the
 beginning of a block of data to a
 particular byte or field. 
@@ -294,59 +294,59 @@ Displacements are usually given
 beginning with 0, for the first byte,
 1 for the second, etc.  Also known as
 an offset.
-.pp
+
 DRIVER]>A program which provides an
 input stream to another program or an
 output device.  A printer driver
 accepts input from a user program in
 the form of lines to be printed, and
 sends them to the printer.
-.pp
+
 DUMP]>An unformatted or partially
 formatted listing of the contents of
 memory or a diskette in hexadecimal. 
 Used for diagnostic purposes.
-.pp
+
 ENCODE]>To translate data from one
 form to another for any of a number
 of reasons.  In DOS 3.3,
 Data is encoded from 8
 bit bytes to 6 bit bytes for storage
 on a DISK II.
-.pp
+
 ENTRY POINT (EPA)]>The entry point
 address is the location within a
 program where execution is to start. 
 This is not necessarily the same as
 the load point (or lowest memory
 address in the program).
-.pp
+
 EOF]>End Of File.  This mark signals
 the end of a data file.  $00 for
 APPLE DOS text files.
-.pp
+
 EPILOGUE]>The last three bytes of a
 field on a track.  These unique bytes
 are used to insure the integrity of
 the data which preceeds them.
-.pp
+
 EXCLUSIVE OR]>A logical operation
 which compares two bits to determine
 if they are different.  1 EOR 0
 results in 1.  1 EOR 1 results in 0.
-.pp
+
 FIELD]>A group of contiguous bytes
 forming a single piece of data, such
 as a person's name, his age, or his
 social security number.  In disk
 formatting, a group of data bytes
 surrounded by gaps.
-.pp
+
 FILE]>A named collection of data on a
 diskette or other mass storage
 medium.  Files can contain data or
 programs.
-.pp
+
 FILE BUFFERS]>In APPLE DOS, a
 collection of buffers used to manage
 one open file.  Included are a data
@@ -356,51 +356,51 @@ workarea buffer, the name of the
 file, and pointers.  The DOS command,
 MAXFILES 3, causes 3 of these file
 buffers to be allocated.
-.pp
+
 FILE DESCRIPTOR]>A single entry in a
 diskette directory which describes
 one file.  Included are the name of
 the file, its data type, its length,
 and its location on the diskette.
-.pp
+
 FILE MANAGER]>That portion of DOS
 which manages files.  The file
 manager handles such general
 operations as OPEN, CLOSE, READ,
 WRITE, POSITION, RENAME, DELETE, etc.
-.pp
+
 FILE TYPE]>The type of data held by a
 file.  Valid DOS file types are
 Binary, Applesoft, Integer-BASIC,
 Text, Relocatable, S, A, and B.
-.pp
+
 FIRMWARE]>A middle ground between
 hardware and software.  Usually used
 to describe micro-code or programs
 which have been stored in read-only
 memory.
-.pp
+
 GAPS]>The spaces between fields of
 data on a diskette.  Gaps on an APPLE
 diskette contain self-sync bytes.
-.pp
+
 HARD ERROR]>An unrecoverable
 Input/Output error.  The data stored
 in the disk sector can never be
 successfully read again.
-.pp
+
 HARDWARE]>Physical computer
 equipment, as opposed to programs
 which run on the equipment.
 A disk drive is an example of a
 hardware component.
-.pp
+
 HEAD]>The read/write head on a
 diskette drive.  A magnetic pickup,
 similar in nature to the head on a
 stereo tapedeck, which rests on the
 spinning surface of the diskette.
-.pp
+
 HEXADECIMAL/HEX]>A numeric system
 based on powers of 16.  Valid hex
 digits range from 0 to 9 and A to F,
@@ -412,39 +412,39 @@ represent the contents of one byte.
 Hexadecimal is used with computers
 because it easily converts with
 binary.
-.pp
+
 HIGH MEMORY]>Those memory locations
 which have high address values. 
 $FFFF is the highest memory location.
 Also called the "top" of memory.
-.pp
+
 HIMEM]>APPLE's zero-page address
 which identifies the first byte past
 the available memory which can be
 used to store BASIC programs and
 their variables.
-.pp
+
 IMMEDIATE COMMAND]>A DOS command
 which may be entered at any time,
 especially when DOS is waiting for a
 command from the keyboard.  Deferred
 commands are the opposite of
 immediate commands.
-.pp
+
 INDEX]>A displacement into a table or
 block of storage.
-.pp
+
 INSTRUCTION]>A single step to be
 performed in an assembly language or
 machine language program. 
 Instructions perform such operations
 as addition, subtraction, store, or
 load.
-.pp
+
 INTEGER]>As opposed to floating
 point.  A "whole" number with no
 fraction associated with it.
-.pp
+
 INTERCEPT]>A program which logically
 places itself in the execution path
 of another program, or pair of
@@ -452,13 +452,13 @@ programs.  A video intercept
 is used to re-direct program output
 from the screen to a printer,
 for example.
-.pp
+
 INTERLEAVE]>The practice of selecting
 the order of sectors on a diskette
 track to minimize access time due to
 rotational delay.  Also called
 "skewing" or interlacing.
-.pp
+
 INTERRUPT]>A hardware signal which
 causes the computer to halt execution
 of a program and enter a special
@@ -466,103 +466,103 @@ handler routine.  Interrupts are used
 to service real-time clock
 time-outs, BRK instructions, and
 RESET.
-.pp
+
 IOB]>Input/Output Block.  A
 collection of parameter data, passed
 to Read/Write Track/Sector,
 describing the operation to be
 performed.
-.pp
+
 I/O ERROR]>Input/Output Error.
 An error which occurs
 during transmission of data to or
 from a peripheral device, such as a
 disk or cassette tape.
-.pp
+
 JMP]>A 6502 assembly langauge
 instruction which causes the computer
 to begin executing instructions at a
 different location in memory. 
 Similar to a GOTO statement in BASIC.
-.pp
+
 JSR]>A 6502 assembly langauge
 instruction which causes the computer
 to "call" a subroutine.  Similar to a
 CALL statement in BASIC.
-.pp
+
 K]>A unit of measurement, usually
 applied to bytes.  1 K bytes is
 equivalent to 1024 bytes.
-.PP
+
 KSWL]>A vector in zero-page through
 which input data is passed for
 from the keyboard or a remote
 terminal.
-.pp
+
 LABEL]>A name associated with a
 location in a program or in memory. 
 Labels are used in assembly langauge
 much like statement numbers are used
 in BASIC.
-.PP
+
 LATCH]>A component into which the
 Input/Output
 hardware can store a byte value,
 which will hold that value until the
 central processor has time to read
 it (or vice versa).
-.pp
+
 LINK]>An address pointer in an
 element of a linked chain of data or
 buffers.
-.pp
+
 LIST]>A one dimensional sequential
 array of data items.
-.pp
+
 LOAD POINT (LP)]>The lowest address
 of a loaded assembly language
 program -- the first byte loaded. 
 Not necessarily the same as the entry
 point address (EPA).
-.pp
+
 LOGICAL]>A form of arithmetic which
 operates with binary "truth" or
 "false", 1 or 0.  AND, OR, NAND, NOR,
 and EXCLUSIVE OR are all logical
 operations.
-.pp
+
 LOOP]>A programming construction in
 which a
 group of instructions or statements
 are repeatedly executed.
-.pp
+
 LOW MEMORY]>The memory locations with
 the lowest addresses.  $0000 is the
 lowest memory location.  Also called
 the "bottom" of memory.
-.pp
+
 LOMEM]>APPLE's zero-page address
 which identifies the first byte of
 the available memory which can be
 used to store BASIC programs and
 their variables.
-.pp
+
 LSB/LO ORDER]>Least Significant Bit
 or Least Significant Byte.  The 1's
 bit in a byte or the second pair of
 hexadecimal digits forming an
 address.  In the address $8030, $30
 is the LO order part of the address. 
-.pp
+
 MASTER DISK]>A DOS diskette which
 will boot in an APPLE II of any size
 memory and take full advantage of it.
-.pp
+
 MICROSECOND]>A millionth of a
 second.  Equivalent to one cycle of
 the APPLE II central processor.
 Also written as "Usec".
-.pp
+
 MONITOR]>A machine language program
 which always resides in the computer
 and which is the first to receive
@@ -571,35 +571,35 @@ up.  The APPLE monitor resides in ROM
 and allows examination and
 modification of memory at a byte
 level.
-.pp
+
 MSB/HI ORDER]>Most Significant Bit or
 Most Significant Byte.  The 128's bit
 of a byte (the left-most) or the
 first pair of hexadecimal digits in
 an address.  In the byte value $83,
 the MSB is on (is a 1).
-.pp
+
 NULL]>Empty, having no length or
 value.  A null string is one which
 contains no characters.  The null
 control character ($00) produces no
 effect on a printer (also called an
 idle).
-.pp
+
 NIBBLE/NYBBLE]>A portion of a byte,
 usually 4 bits and represented by a
 single hexadecimal digit.  $FE
 contains two nibbles, $F and $E.
-.pp
+
 OBJECT CODE]>A machine language
 program in binary form, ready to
 execute.  Object code is the output
 of an assembler.
-.pp
+
 OBJECT MODULE]>A complete machine
 language program in object code form,
 stored as a file on a diskette.
-.pp
+
 OFFSET]>The distance from the
 beginning of a block of data to a
 particular byte or field. 
@@ -607,26 +607,26 @@ Offsets are usually given
 beginning with 0, for the first byte,
 1 for the second, etc.  Also known as
 a displacement.
-.pp
+
 OPCODE]>Operation Code.  The three
 letter mnemonic representing a single
 assembly langauge instruction.  JMP
 is the opcode for the jump
 instruction.
-.pp
+
 OPERATING SYSTEM]>A machine language
 program which manages the memory and
 peripherals automatically,
 simplifying the job of the
 applications programmer.
-.pp
+
 OR]>The logical operation comparing
 two bits to determine if either of
 them are 1.  1 OR 1 results in 1
 (true), 1
 OR 0 results in 1, 0 OR 0 results in
 0 (false).
-.pp
+
 OVERHEAD]>The space required by the
 system, either in memory or on the
 disk, to manage either.  The disk
@@ -634,4 +634,3 @@ directory and VTOC are part of a
 diskette's overhead.
 .br
 .nx appendix c.2
-\x00

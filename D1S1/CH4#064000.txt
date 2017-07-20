@@ -2,7 +2,7 @@
 .np
 .ce
 CHAPTER 4 - DISKETTE DATA FORMATS
-.pp
+
 As was described in CHAPTER 3, a 16
 sector diskette consists of 560 data
 areas of 256 bytes each, called
@@ -12,7 +12,7 @@ rings or tracks of 16 sectors each.
 The way DOS allocates these tracks of
 sectors is the subject of
 this chapter.
-.pp
+
 A file (be it APPLESOFT,
 INTEGER, BINARY, or TEXT type)
 consists of one or more sectors
@@ -42,7 +42,7 @@ DOS uses sectors is given in Figure
 *** INSERT FIGURE 4.1 ***
 .sp1
 DISKETTE SPACE ALLOCATION
-.pp
+
 The map in Figure 4.1 shows that the
 first three tracks of each diskette
 are always reserved for the bootstrap
@@ -80,7 +80,7 @@ track is allocated elsewhere on the
 disk in the manner described above.
 .bp
 THE VTOC
-.pp
+
 The Volume Table Of Contents is the "anchor" of the
 entire diskette. On any diskette
 accessible by any version of DOS, the
@@ -146,7 +146,7 @@ BIT MAPS OF FREE SECTORS ON A GIVEN TRACK
         If all sectors are free:
 
         FFFF0000
-.pp
+
 An example of a VTOC sector is given
 in Figure 4.2. This VTOC corresponds
 to the map of the diskette given in
@@ -156,7 +156,7 @@ Figure 4.1.
 .bp
 THE CATALOG
 .ll30
-.pp
+
 In order for DOS to find a given
 file, it must first read the VTOC to
 find out where the first catalog
@@ -189,7 +189,7 @@ that there are no more catalog
 sectors in the chain.
 .SP1
 *** INSERT FIGURE 4.3 ***
-.PP
+
 In each catalog
 sector up to seven files may be
 listed and described. Thus, on a
@@ -251,7 +251,7 @@ BYTE    DESCRIPTION
         this length giving 1-255 but a full 65,535 may be
         stored here.
 .sp
-.pp
+
 Figure 4.4 is an example of a typical
 catalog sector. In this example there
 are only four files on the entire
@@ -264,7 +264,7 @@ and contain zeros.
 *** INSERT FIGURE 4.4 ***
 .SP1
 THE TRACK/SECTOR LIST
-.PP
+
 Each file has
 associated with it a "Track/Sector
 List" sector. This sector contains a
@@ -309,7 +309,7 @@ BYTE    DESCRIPTION
 0E-0F   Track and sector of second data sector or zeros
 10-FF   Up to 120 more Track/Sector pairs
 .sp1
-.pp
+
 A sequential file will end when the first zero T/S List entry
 is encountered. A random file, however, can have spaces within
 it which were never allocated and therefore
@@ -318,7 +318,7 @@ in the T/S List. This distinction is not always handled
 correctly by DOS. The VERIFY command, for instance, stops when
 it gets to the first zero T/S List entry and can not be used
 to verify some random organization text files. 
-.pp
+
 An example T/S List sector is given in Figure 4.6. 
 The example file (HELLO, from our
 previous examples) has only one data
@@ -352,7 +352,7 @@ that the data was broken up into
 sectors at all. 
 .SP1
 TEXT FILES
-.pp
+
 The TEXT data type is the least
 complicated
 file data structure. It consists of
@@ -393,7 +393,7 @@ file.
 *** INSERT FIGURE 4.7 ***
 .bp
 BINARY FILES
-.pp
+
 The structure of a BINARY type file is
 shown in Figure 4.8. An exact copy of
 the memory involved is written to the
@@ -423,7 +423,7 @@ the diskette.
 *** INSERT FIGURE 4.8 ***
 .SP1
 APPLESOFT AND INTEGER FILES
-.pp
+
 A BASIC program, be it APPLESOFT or
 INTEGER, is saved to the diskette in
 a way that is similar to BSAVE. The
@@ -457,7 +457,7 @@ BASIC program is given in Figure
 *** INSERT FIGURES 4.9 AND 4.10 ***
 .bp
 OTHER FILE TYPES (S,R,A,B)
-.pp
+
 Additional file types have been
 defined within DOS as can be seen in
 the file descriptive entry format,
@@ -485,7 +485,7 @@ about R files he should refer to that
 documentation.
 .sp1
 EMERGENCY REPAIRS
-.PP
+
 From time to time the information on
 a diskette can become damaged or
 lost. This can create various
@@ -499,7 +499,7 @@ and a few program tools can allow any
 reasonably sharp APPLE II user to
 patch up most errors on his
 diskettes.
-.pp
+
 A first question would be, "how do
 errors occur". The most common cause
 of an error is a worn or physically
@@ -517,7 +517,7 @@ the files on
 the aged diskette to a brand new one
 and discards the old one or keeps it
 as a backup.
-.pp
+
 Another cause of damaged diskettes is
 the practice of hitting the RESET key
 to abort the execution of a program
@@ -553,7 +553,7 @@ checksum (see CHAPTER 3) it may be
 possible to read the bad sector and
 ignore the error and get most of the
 data.
-.pp
+
 An I/O error usually means that one
 of two conditions has occured. Either
 a bad checksum was detected on the
@@ -571,7 +571,7 @@ to copy all readable sectors from the
 damaged diskette to another formatted
 diskette and then reconstruct the
 lost data there.
-.pp
+
 Many commercially available utilities
 exist which allow the user to
 read and display the contents of
@@ -616,7 +616,7 @@ files periodically to simplify
 recovery.  More information on the
 above procedures is given in APPENDIX
 A.
-.pp
+
 A less significant form of diskette
 clobber, but very annoying, is the
 loss of free sectors. Since DOS
@@ -644,7 +644,7 @@ another diskette (note that FID must
 be used, not COPY, since COPY copies
 an image of the diskette, bad VTOC
 and all).
-.pp
+
 If a file is deleted it can usually
 be recovered, providing that
 additional sector allocations have
@@ -661,4 +661,3 @@ and then the original deleted so that
 the VTOC freespace bit map will
 be updated.
 .nx ch5
-\x00

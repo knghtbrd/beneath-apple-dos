@@ -130,4 +130,3 @@ A-20
 .nf
 800G                    (Run the COPY program)
 .br
-\x00

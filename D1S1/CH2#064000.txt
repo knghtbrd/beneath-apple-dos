@@ -3,7 +3,7 @@
 .ce
 CHAPTER 2 - THE EVOLUTION OF DOS
 .sp 2
-.pp
+
 Since its introduction, Apple DOS has
 gone through three major versions.
 All of these versions look
@@ -22,7 +22,7 @@ fit on a track from 13 to 16.
 DOS 3   - 29 June 1978
 .br
 DOS 3.1 - 20 July 1978
-.pp
+
 The first release of DOS was
 apparently a victim of a rush at
 Apple to introduce the DISK II. As
@@ -32,7 +32,7 @@ and the introduction of the AUTOSTART
 ROM, a new release was needed.
 .SP1
 DOS 3.2 - 16 February 1979
-.pp
+
 Although DOS 3.2 embodied more 
 changes from its
 predecessor than any other release of
@@ -44,37 +44,37 @@ are listed below:
 .pi-2
 .in2
 .ps0
-.pp
+
 - NOMON C,I,O is the initial default
 under DOS 3.2.  MON C,I,O was the
 default under DOS 3.1.
-.pp
+
 - Input prompts (>,],*) are echoed
 when MON O is in effect, not under
 MON I as was the case under 3.1.
-.pp
+
 - When a DOS command was entered from
 the keyboard, DOS executed it and
 then passed a blank followed by a
 carriage return to BASIC under 3.1. Under 3.2
 only a carriage return is passed.
-.pp
+
 - Under 3.2, certain commands may not
 be entered from the keyboard but may
 only be used within a BASIC program
 (READ, WRITE, POSITION, OPEN,
 APPEND).
-.pp
+
 - Under 3.2, when LOADing an APPLESOFT program,
 DOS automatically
 converts from APPLESOFT ROM format to
 APPLESOFT RAM format if the RAM version of
 BASIC is in use and vice versa.
-.pp
+
 - DOS 3.1 could not read lower case
 characters from a text file; DOS 3.2
 can.
-.pp
+
 .bp
 - Some DOS commands are allowed to
 create a new file, others will not. 
@@ -88,30 +88,30 @@ XYZ, and then printed the file not
 found error message.) Under 3.2, OPEN
 is allowed to create a file if one
 does not exist, but LOAD may not.
-.pp
+
 - Under 3.1, exiting to the monitor
 required that the monitor status
 register location ($48) be set to
 zero before reentering DOS. Under DOS
 3.2 this is no longer necessary.
-.pp
+
 - The Read/Write-Track/Sector (RWTS)
 section of DOS disables interrupts
 while it is executing. Under 3.1,
 RWTS could be interrupted by a
 peripheral while writing to a disk,
 destroying the disk.
-.pp
+
 - The default for the B (byte offset) keyword is 0
 under 3.2.
-.pp
+
 - DOS was reassembled for 3.2 causing most of
 its interesting locations and
 routines to move slightly. This
 played havoc with user programs and
 utilities which had DOS addresses
 built into them.
-.pp
+
 - Additional file types (beyond
 T, I, A, and B) are defined within
 DOS 3.2, although no commands yet
@@ -122,14 +122,14 @@ DOS TOOLKIT for relocatable object
 module assembler files.  At present,
 no other use is made of these
 extra file types.
-.pp
+
 - Support was added under 3.2 for the
 AUTOSTART ROM.
-.pp
+
 - All files open when a disk full
 condition occurs are closed by DOS
 3.2.
-.pp
+
 - As with each new release of DOS,
 several new programs were added to
 the master diskette for 3.2. Among
@@ -145,7 +145,7 @@ renamed.
 .ps1
 .sp1
 DOS 3.2.1 - 31 July 1979
-.PP
+
 DOS 3.2.1 was essentially a
 "maintenance release" of DOS 3.2.
 Minor patches were made to RWTS and
@@ -155,7 +155,7 @@ done. Additional delays were added
 following a switch between drives.
 .bp
 DOS 3.3 - 25 August 1980
-.PP
+
 Introduced in mid 1980 as a
 hardware/software upgrade from DOS
 3.2.1, the DOS 3.3 package includes
@@ -183,7 +183,7 @@ received a few patches:
 .pi-2
 .in2
 .ps0
-.pp
+
 - The initial DOS bootstrap loader
 was moved to $800 under 3.3. It was
 at $300 under 3.2. In addition, as
@@ -191,16 +191,16 @@ stored on the diskette (track 0
 sector 0) it is nibbilized in the
 same way as all other sectors under
 3.3.
-.pp
+
 - A bug in APPEND which caused it to
 position improperly if the file was a
 multiple of 256 bytes long was fixed
 under 3.3.
-.pp
+
 - A VERIFY command is internally
 executed after every SAVE or BSAVE
 under 3.3.
-.pp
+
 - All 4 bytes are used in the Volume
 Table Of Contents (VTOC) free sector bit map when
 keeping track of free sectors.  This
@@ -208,20 +208,20 @@ allows DOS to handle up to 32 sectors
 per track. Of course, RWTS will only
 handle 16 sectors due to hardware
 limitations.
-.pp
+
 - If a LANGUAGE CARD is present, DOS
 stores a zero on it at $E000 during
 bootstrap to force the HELLO program
 on the master diskette to reload
 BASIC.
-.pp
+
 - DOS is read into memory from the
 top down (backwards) under 3.3 rather than the
 bottom up. Its image is
 still stored in the same order on the
 diskette (tracks 0, 1, and 2),
 however.
-.pp
+
 - Additional programs added to the
 master diskette under 3.3 include
 FID, a generalized file utility which
@@ -234,7 +234,7 @@ will boot a 13 sector diskette,
 and a new COPY program
 which will also support single drive
 copies.
-.pp
+
 - Under 3.2, speed differences in
 some drives prevented their use
 together with the DOS COPY program.
@@ -246,4 +246,3 @@ applies.
 .in0
 .ps1
 .nx ch3.1
-\x00

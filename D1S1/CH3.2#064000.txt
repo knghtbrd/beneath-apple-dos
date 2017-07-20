@@ -1,6 +1,6 @@
 .SP2
 DATA FIELD ENCODING
-.pp
+
 Due to Apple's hardware, it is not
 possible to read all 256 possible
 byte values from a diskette. 
@@ -22,7 +22,7 @@ This amounts to about 88K of data per
 diskette, or roughly 72K of space
 available to the user; typical for 5
 1/4 single density drives.
-.pp
+
 Fortunately, a second technique for
 writing data to diskette was devised
 that allows 13
@@ -39,7 +39,7 @@ track format used by DOS 3 through
 DOS 3.2.1.  The "5 and 3" scheme
 represented a hefty 33% increase over
 comparable drives of the day.
-.pp
+
 Currently, of course, DOS 3.3
 features 16 sectors per track and
 provides a 23% increase in disk
@@ -52,7 +52,7 @@ was to the logic of the "state
 machine" in the P6 PROM, now allowing
 two consecutive zero bits in data
 bytes.
-.pp
+
 These three different encoding
 techniques
 will now be covered in some detail. 
@@ -74,7 +74,7 @@ are all set to one to guarantee
 meeting the two requirements.
 .sp1
 *** INSERT FIGURE 3.15 HERE ***
-.PP
+
 No matter what value the original
 data data byte has, this technique
 insures that the high bit is set and
@@ -90,7 +90,7 @@ the byte containing the even bits.
 This is illustrated in Figure 3.16.
 .sp1
 *** INSERT FIGURE 3.16 HERE ***
-.PP
+
 It is important that the least
 significant bit contain a 1 when the
 odd-bits byte is left shifted.  The
@@ -98,7 +98,7 @@ entire
 operation is carried out in the
 RDADR subroutine at $B944 in DOS
 (48K).
-.pp
+
 The major difficulty with the above
 technique is that it takes up a lot of
 room on the track.  To overcome this
@@ -126,7 +126,7 @@ An overview is diagrammed in Figure
 3.17.
 .sp1
 *** INSERT FIGURE 3.17 HERE ***
-.PP
+
 First, the 256 bytes that will make
 up a sector must be translated to
 five bit bytes.  This is done by the
@@ -150,7 +150,7 @@ contains three areas, graphically
 illustrating the name "5 and 3".
 .bp
 *** INSERT FIGURE 3.18 HERE ***
-.PP
+
 A total of 410 bytes are needed to
 store the original 256.  This can be
 calculated by finding the total bits
@@ -166,7 +166,7 @@ involving a one to one look-up in the
 table given in Figure 3.19.
 .sp1
 *** INSERT FIGURE 3.19 HERE ***
-.pp
+
 The Data Field has a checksum much
 like the one in the Address Field,
 used to verify the integrity of the
@@ -181,7 +181,7 @@ Figure 3.19.  This can best be
 illustrated by Figure 3.20 on the following page.
 .sp1
 *** INSERT FIGURE 3.20 HERE ***
-.PP
+
 The reason for this transformation
 can be better understood by examining
 how the information is retrieved from
@@ -205,7 +205,7 @@ for that point in the series.
 This process is diagrammed in Figure 3.21.
 .bp
 *** INSERT FIGURE 3.21 HERE ***
-.pp
+
 The third encoding technique, currently
 used by DOS 3.3, is similar to the "5
 and 3".  It was made possible by a
@@ -238,7 +238,7 @@ is done by the prenibble routine
 results are shown in Figure 3.22.
 .sp1
 *** INSERT FIGURE 3.22 (20) HERE ***
-.PP
+
 A total of 342 bytes are needed,
 shown by finding the total number of
 bits (256 x 8 = 2048) and dividing by
@@ -255,7 +255,7 @@ of exclusive-ORs, exactly as with the
 *** INSERT FIGURE 3.23 (21) HERE ***
 .sp1
 SECTOR INTERLEAVING
-.PP
+
 Sector interleaving is the staggering
 of sectors on a track to maximize
 access speed.  There is usually a
@@ -287,7 +287,7 @@ are stored in descending sequential
 order, no single interleaving scheme
 works well for both booting and
 sequentially accessing a file.
-.pp
+
 A different approach has been used in
 DOS 3.3 in an attempt to maximize
 performance.  The interleaving is now
@@ -309,7 +309,7 @@ problem if RWTS is used for disk
 access, but would become a
 consideration if access were made
 without RWTS.
-.pp
+
 To eliminate the access differences
 between booting and reading files,
 another change has been made.  During
@@ -319,7 +319,7 @@ order into memory, just as files are
 accessed.  This means one
 interleaving scheme can minimize disk
 access time.
-.pp
+
 It is interesting to point out that
 Pascal, Fortran, and CP/M diskettes
 all use software interleaving also. 
@@ -331,4 +331,3 @@ differences is presented in Figure
 *** INSERT FIGURE 3.24 (22) HERE ***
 .br
 .nxch4
-\x00

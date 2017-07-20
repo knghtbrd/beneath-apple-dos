@@ -402,4 +402,3 @@ BFED-BFFF Patch called from $B377.
           Exit through $B385 ("DISK FULL ERROR").
 .br
 .nx ch8 zpage use
-\x00

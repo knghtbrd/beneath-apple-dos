@@ -50,4 +50,3 @@ D6        APPLESOFT BASIC PROGRAM protection flag (DOS)
 D8,D9     INTEGER BASIC line number (DOS)
           APPLESOFT BASIC ONERR (DOS)
 .br
-\x00

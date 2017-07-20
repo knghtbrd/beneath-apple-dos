@@ -4,7 +4,7 @@
 CHAPTER 5 - THE STRUCTURE OF DOS
 .sp 2
 DOS MEMORY USE
-.pp
+
 DOS is an assembly language program
 which is loaded into RAM memory when
 the user boots his disk. If the
@@ -39,7 +39,7 @@ occupied does not exist on a smaller
 machine.
 .SP1
 *** INSERT FIGURE 5.1 ***
-.pp
+
 A diagram of DOS's memory for a 48K
 APPLE II is given in
 Figure 5.1. As can be seen, there are
@@ -58,7 +58,7 @@ the file buffers also changes. This
 affects the placement of HIMEM,
 moving it up or down with fewer or
 more buffers respectively. 
-.pp
+
 The 3.5K
 above the file buffers is occupied by
 the main DOS routines. It is here
@@ -86,7 +86,7 @@ of DOS. This interface is generalized
 through a group of vectors in page 3
 of RAM and is documented in the next
 chapter. 
-.pp
+
 The last 2.5K of DOS is the
 Read/Write Track/Sector (RWTS)
 package. RWTS is the next step lower
@@ -107,7 +107,7 @@ the next chapter.
 .ne5
 THE DOS VECTORS IN PAGE 3
 .ll30
-.pp
+
 In addition to the approximately 10K
 of RAM occupied by DOS in high
 memory, DOS maintains a group of what
@@ -199,7 +199,7 @@ ADDR  USAGE
       a maskable interrupt occurs.
 .bp
 WHAT HAPPENS DURING BOOTING
-.PP
+
 When an APPLE is powered on its
 memory is essentially devoid of any
 programs. In order to get DOS
@@ -218,7 +218,7 @@ in Figure 5.2 and a description of
 the bootstrap process follows.
 .SP1
 *** INSERT FIGURE 5.2 ***
-.pp
+
 The first boot stage (let's call it
 Boot 0) is the execution of the ROM
 on the disk controller card. When the
@@ -242,7 +242,7 @@ $300). Once this sector is read, the
 first stage boot jumps (GOTO's) $800
 which is the second stage boot (Boot
 1).
-.pp
+
 Boot 1, also about 256 bytes long,
 uses part of the Boot 0 ROM as a
 subroutine and, in a loop, reads the
@@ -336,7 +336,7 @@ that it will execute properly at its
 new home. The relocator then jumps to
 the high memory copy of DOS and the
 old image is forgotten.
-.pp
+
 The DOS boot is completed by the DOS
 coldstart routine. This code
 initializes DOS, making space for the
@@ -363,7 +363,7 @@ form of nibbilization (see chapter 3)
 than any other sector on the
 diskette, making its raw appearance
 in memory at $3600 non-executable.
-.pp
+
 The various stages of the bootstrap
 process will be covered again in greater
 detail in Chapter 8, DOS PROGRAM
@@ -372,4 +372,3 @@ LOGIC.
 *** INSERT FIGURE 5.3 HERE ***
 .BR
 .NX CH6.1
-\x00
