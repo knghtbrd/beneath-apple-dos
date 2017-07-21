@@ -1,11 +1,8 @@
-.na
-.fi
-.ll60
-.br
 THIRD PRINTING CORRECTIONS
-.sp3
+
+
 4-17
-.sp1
+
 Disk utilities, such as Quality
 Software's BAG OF TRICKS, allow the
 user to read and display the contents
@@ -24,12 +21,12 @@ rewrite it to a diskette.  Using such
 a program is very important when
 learning about diskette formats and
 when fixing clobbered data.
-.sp3
+
+
 A-3
-.sp1
+
 Also available from Quality Software
 is an expanded version of these
 utilities called BENEATH APPLE DOS'
 BAG OF TRICKS.  See the page facing
 1-1 for more details.
-.br
