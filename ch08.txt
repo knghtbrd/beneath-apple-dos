@@ -1,44 +1,19 @@
-.ec^
-.na
-.ll60
-.m11
-.m22
-.m48
-.fo ''-%-
-.pn5
-.pi0
-.br
-.np
-.ce
-CHAPTER 8 - DOS PROGRAM LOGIC
-.sp1
+# CHAPTER 8 - DOS PROGRAM LOGIC
 
-This chapter will take a detailed
-look at the operation of the DOS
-program itself to aid the APPLE user
-in understanding it and to help him
-to make intelligent use of its
-facilities. Each subroutine and group
-of variables or constants will be
-covered separately by storage
-address. The enterprising programmer
-may wish to create a disassembly of
-DOS on his printer and transfer the
-annotations given here directly to
-such a listing. Addresses used will
-be for DOS 3.3 and for a 48K master
-diskette version of DOS. Slot 6 is
-assumed. Unless specifically
-indicated by a $ character, lengths
-are given in decimal, addresses in
-hexadecimal (base 16).
-.sp1
+This chapter will take a detailed look at the operation of the DOS program
+itself to aid the APPLE user in understanding it and to help him to make
+intelligent use of its facilities. Each subroutine and group of variables or
+constants will be covered separately by storage address. The enterprising
+programmer may wish to create a disassembly of DOS on his printer and transfer
+the annotations given here directly to such a listing. Addresses used will be
+for DOS 3.3 and for a 48K master diskette version of DOS. Slot 6 is assumed.
+Unless specifically indicated by a $ character, lengths are given in decimal,
+addresses in hexadecimal (base 16).
+
 DISK II CONTROLLER CARD ROM - BOOT 0
-.sp1
-.pi0
-.ul
+
 ADDRESS
-.np
+
 C600-C65B This routine is the first code executed when a disk
           is to be booted. It receives control via PR#6 or
           C600G or 6 control-P.
@@ -58,7 +33,7 @@ C600-C65B This routine is the first code executed when a disk
           location $800.
           Execution falls through into a general sector read
           subroutine at C65C.
-.np
+
 C65C-C6FA This subroutine reads the sector number stored at
           $3D on the track indicated by $41 to the address
           stored at $26,$27.
@@ -91,12 +66,11 @@ C65C-C6FA This subroutine reads the sector number stored at
           DOS but is used when loading from a BASICS diskette.)
           Otherwise, go to $801 to begin executing the second
           stage of the bootstrap.
-.sp1
+
 FIRST RAM BOOTSTRAP LOADER - BOOT 1
-.sp1
-.ul
+
 ADDRESS
-.np
+
 0801-084C This routine loads the second RAM loader, Boot 2,
           including RWTS, into memory and jumps to it.
           If this is not the first entry to Boot 1, go to $81F.
@@ -122,12 +96,11 @@ ADDRESS
           etc.)
           Get slot*16 again and go to Boot 2 ($3700 for a
           master disk, $B700 in its final relocated location).
-.sp1
+
 DOS 3.3 MAIN ROUTINES
-.sp1
-.ul
+
 ADDRESS
-.np
+
 9D00-9D0F Relocatable address constants
      9D00 Address of first DOS buffer at its file name field.
      9D02 Address of the DOS keyboard intercept routine.
@@ -137,13 +110,13 @@ ADDRESS
      9D0A Address of the range length parameter used for LOAD.
      9D0C Address of the DOS load address ($9D00).
      9D0E Address of the file manager parameter list.
-.np
+
 9D10-9D1C DOS video (CSWL) intercept's state handler address
           table. States are used to drive the handling of DOS
           commands as they appear as output of PRINT statements
           and this table contains the address of the routine
           which handles each state from state 0 to state 6.
-.np
+
 9D1E-9D55 Command handler entry point table. This table
           contains the address of a command handler subroutine
           for each DOS command in the following standard order:
@@ -175,7 +148,7 @@ ADDRESS
                BLOAD     A35D
                BRUN      A38E
                VERIFY    A27D
-.np
+
 9D56-9D61 Active BASIC entry point vector table. The addresses
           stored here are maintained by DOS such that they
           apply to the current version of BASIC running.
@@ -185,17 +158,17 @@ ADDRESS
      9D5C Address of BASIC coldstart.
      9D5E Address of BASIC warmstart.
      9D60 Address of BASIC relocate (APPLESOFT only).
-.np
+
 9D62-9D6B Image of the entry point vector for INTEGER BASIC.
           This image is copied to 9D56 if INTEGER BASIC is made
           active.
-.np
+
 9D6C-9D77 Image of the entry point vector for the ROM version
           of APPLESOFT.
-.np
+
 9D78-9D83 Image of the entry point vector for the RAM version
           of APPLESOFT.
-.np
+
 9D84-9DBE DOS coldstart entry routine.
           Get the slot and drive numbers and store as default
           values for command keywords.
@@ -203,7 +176,7 @@ ADDRESS
           vector into current BASIC entry point vector.
           Remember which BASIC is active.
           Go to 9DD1.
-.np
+
 9DBF-9DE9 DOS warmstart entry routine.
           Get the remembered BASIC type and set the ROM card
           as necessary (calls A5B2).
@@ -215,7 +188,7 @@ ADDRESS
           Coldstart or warmstart the current BASIC (exit DOS).
           (DOS will next gain control when BASIC prints its
           input prompt character)
-.np
+
 9DEA-9E50 First entry processing for DOS. This routine is
           called by the keyboard intercept handler when the
           first keyboard input request is made by BASIC after
@@ -241,11 +214,11 @@ ADDRESS
      9E45 See if there is a pending command.
           If so, go to A180 to execute it. Otherwise, return
           to caller.
-.np
+
 9E51-9E7F An image of the DOS 3-page jump vector which the
           above routine copies to $3D0-$3FF. See Chapter 5 for
           a description of its contents.
-.np
+
 9E81-9EB9 DOS keyboard intercept routine.
           Call 9ED1 to save the registers at entry to DOS.
           If not coldstarting or reading a disk file,
@@ -265,22 +238,22 @@ ADDRESS
           with the registers in the A register.
           Do the same with the new X register value.
           Exit DOS via 9FB3.
-.np
+
 9EBA-9EBC A jump to the true KSWL handler routine.
-.np
+
 9EBD-9ED0 DOS video intercept routine.
           Call 9ED1 to save the registers at entry to DOS.
           Get the video intercept state and, using it as an
           index into the state handler table (9D11), go to
           the proper handler routine, passing it the character
           being printed.
-.np
+
 9ED1-9EEA Common intercept save registers routine.
           Save the A, X, Y, and S registers at AA59-AA5C.
           While in DOS, restore the true I/O handlers (KSWL and
           CSWL) to $36-$39.
           Return to caller.
-.np
+
 9EEB-9F11 State 0 output handler. --start of line--
           If a RUN command was interrupted (by loading RAM
           APPLESOFT) go to 9F78 to complete it.
@@ -295,7 +268,7 @@ ADDRESS
           Otherwise, set state to 1 (collect possible DOS
           command), set line index to zero, and fall through
           to state 1.
-.np
+
 9F12-9F22 State 1 output handler. --collect DOS command--
           Using line index, store character in input buffer at
           $200.
@@ -303,13 +276,13 @@ ADDRESS
           If character is not a carriage return, exit DOS
           via 9F95 (echo character on screen if MON I).
           Otherwise, go to command scanner at 9FCD.
-.np
+
 9F23-9F2E State 2 output handler. --non-DOS command ignore--
           If the character is not a carriage return, exit DOS
           via 9FA4 (echo character on screen).
           Otherwise, set state back to 0 and exit DOS via
           9FA4.
-.np
+
 9F2F-9F51 State 3 output handler. --INPUT statement handler--
           Set state to 0 in case INPUT ends.
           If character is not a carriage return, echo it on
@@ -321,36 +294,36 @@ ADDRESS
           collect the possible DOS command.
           Otherwise, exit DOS, echoing the character as
           appropriate.
-.np
+
 9F52-9F60 State 4 output handler. --WRITE data to a file--
           If the character is a carriage return, set state to
           5 (start of write data line).
           Call A60E to write the byte to the disk file.
           Exit DOS with echo on screen if MON O.
-.np
+
 9F61-9F70 State 5 output handler. --Start of WRITE data line--
           If the character is a control-D, go to state 0 to
           immediately exit write mode.
           If the character is a line feed, write it and exit,
           staying in state 5.
           Otherwise, set the state to 4 and go to state 4.
-.np
+
 9F71-9F77 State 6 output handler. --Skip prompt character--
           Set state to 0.
           Exit DOS via 9F9D (echo if MON I).
-.np
+
 9F78-9F82 Finish RUN command, interrupted by APPLESOFT RAM LOAD
           Reset the "RUN interrupted" flag.
           Call A851 to replace the DOS CSWL/KSWL intercepts.
           Go to A4DC to complete the RUN command.
-.np
+
 9F83-9F94 DOS command scanner exit to BASIC routine.
           If first character of command line is control-D,
           go to echo exit (9F95).
           Otherwise, set things up so BASIC won't see the DOS
           command by passing a zero length line (only a
           carriage return). Fall through to echo exit.
-.np
+
 9F95-9FB0 Echo character on screen (conditionally) and exit DOS
      9F95 Echo only if MON C set, otherwise, go to 9FB3.
      9F99 Echo only if MON O set, otherwise, go to 9FB3.
@@ -360,22 +333,21 @@ ADDRESS
           Call 9FC5 to echo character on screen.
           Save contents of the registers after echoing.
           Fall through to DOS exit routine.
-.np
+
 9FB3-9FC4 DOS exit routine and register restore.
           Call A851 to put back DOS KSWL/CSWL intercepts.
           Restore S (stack) register from entry to DOS.
      9FBA DOS register restore subroutine.
           Restore registers from first entry to DOS and return
           to caller.
-.np
+
 9FC5-9FC7 A jump to the true CSWL routine.
-.np
+
 9FC8-9FCC Skip a line on the screen.
           Load a carriage return into the A register and
           call 9FC5 to print it.
-.np
+
 9FCD-A179 DOS command parse routine.
-.br
           Set the command index to -1 (none).
           Reset the pending command flag (none pending).
      9FD6 Add one to command index.
@@ -453,10 +425,10 @@ ADDRESS
           Update the MON value in the keyword value table
           appropriately.
           Go parse the next keyword. go to A0E8.
-.np
+
 A17A-A17F Call A180 to process the command, then exit via echo
           at 9F83.
-.np
+
 A180-A192 Do command.
           Reset the video intercept state to zero.
           Clear the file manager parameter list.
@@ -464,47 +436,47 @@ A180-A192 Do command.
           command handling routine from the command handler
           routine table at 9D1E and go to it.
           Command handler will exit to caller of this routine.
-.np
+
 A193-A1A3 Get next character on command line and check to see
           if it is a carriage return or a comma.
-.np
+
 A1A4-A1AD Flush command line characters until a non-blank is
           found.
-.np
+
 A1AE-A1B8 Clear the file manager parameter list at B5BA to
           zeros.
-.np
+
 A1B9-A1D5 Convert numeric operand from command line. Call
           either A1D6 (decimal convert) or A203 (hex convert)
           depending upon the presence or lack thereof of a
           dollar sign ($).
-.np
+
 A1D6-A202 Decimal convert subroutine.
-.np
+
 A203-A228 Hexadecimal convert subroutine.
-.np
+
 A229-A22D PR#n command handler.
           Load the parsed numeric value and exit via FE95 in
           the monitor ROM.
-.np
+
 A22E-A232 IN#n command handler.
           Load the parsed numeric value and exit via FE8B in
           the monitor ROM.
-.np
+
 A233-A23C MON command handler.
           Add new MON flags to old in AA5E and exit.
-.np
+
 A23D-A250 NOMON command handler.
           If C was given, put out a carriage return since this
           line was echoed but its CR was not.
           Turn off the proper bits in AA5E and exit.
-.np
+
 A251-A262 MAXFILES command handler.
           Turn off any EXEC file which is active.
           Close all open files (call A316).
           Set the new MAXFILES number at AA57.
           Go to A7D4 to rebuild the DOS file buffers and exit.
-.np
+
 A263-A270 DELETE command handler.
           Load the delete file manager opcode (05).
           Call the file manager open driver (A2AA) to perform
@@ -512,39 +484,39 @@ A263-A270 DELETE command handler.
           Find the file buffer used to do the delete and free
           it (call A764).
           Exit to caller.
-.np
+
 A271-A274 LOCK command handler.
           Load the lock file manager opcode (07) and go to
           A277.
-.np
+
 A275-A27C UNLOCK command handler.
           Load the unlock file manager opcode (08).
      A277 Call the file manager open driver (A2AA) to perform
           the desired function.
           Exit to the caller via close (A2EA).
-.np
+
 A27D-A280 VERIFY command handler.
           Load the verify file manager opcode (0C) and go to
           A277 to perform function.
-.np
+
 A281-A297 RENAME command handler.
           Store address of second file name in file manager
           parameter list.
           Load the rename file manager opcode (09).
           Call the file manager driver at A2C8.
           Exit via close (A2EA).
-.np
+
 A298-A2A2 APPEND command handler.
           Call A2A3 to OPEN the file.
           Read the file byte by byte until a zero is found.
           If append flag is on, add one to record number
           and turn flag off.
           Exit via a call to POSITION.
-.np
+
 A2A3-A2A7 OPEN command handler.
           Set file type as TEXT.
           Go to A3D5 to open file.
-.np
+
 A2A8-A2E9 Command handler common file management code.
           Set opcode to OPEN.
      A2AA If no L value was given on the command, use 0001 and
@@ -559,7 +531,7 @@ A2A8-A2E9 Command handler common file management code.
           Finish filling in the file manager parmlist (A71A).
           Set operation code in parmlist.
           Exit through the file manager driver.
-.np
+
 A2EA-A2FB CLOSE command handler.
           If no filename was given as part of command,
           go to A316 to close all files.
@@ -569,7 +541,7 @@ A2EA-A2FB CLOSE command handler.
           Otherwise, close file and free buffer (A2FC).
           Go back through CLOSE command handler to make sure
           there are not more open buffers for the same file.
-.np
+
 A2FC-A315 Close a file and free its file buffer.
           Find out if this buffer is EXEC's (A7AF).
           If so, turn EXEC flag off.
@@ -579,7 +551,7 @@ A2FC-A315 Close a file and free its file buffer.
           parmlist.
           Set file manager opcode to CLOSE.
           Exit through the file manager driver routine.
-.np
+
 A316-A330 Close all open files.
           Point to first file buffer (A792).
           Go to A320.
@@ -591,7 +563,7 @@ A316-A330 Close all open files.
           If so, skip it and go to A31B.
           Otherwise, close it and free it (A2FC).
           Go to A316 to start all over.
-.np
+
 A331-A35C BSAVE command handler.
           Insure that the A and L keywords were present on the
           command.
@@ -603,7 +575,7 @@ A331-A35C BSAVE command handler.
           the file.
           Use the A value to exit by writing a range of bytes
           from memory to the file.
-.np
+
 A35D-A38D BLOAD command handler.
           Open the file, ignoring its type.
           Insure the type is B.
@@ -613,13 +585,13 @@ A35D-A38D BLOAD command handler.
           If A keyword was not given, use the value just read.
           Read L value as next two bytes in file.
           Go to A471 to read range of bytes to memory from file
-.np
+
 A38E-A396 BRUN command handler.
           Call BLOAD command handler to load file into memory.
           Replace DOS intercepts.
           Exit DOS by jumping to the A address value to begin
           execution of the binary program.
-.np
+
 A397-A3D4 SAVE command handler.
           Get the active BASIC type (AAB6).
           If INTEGER, go to A3BC.
@@ -636,18 +608,18 @@ A397-A3D4 SAVE command handler.
           Write this two byte length to file.
           Exit by writing program image from PGMSTART as a
           range of bytes (A3FF).
-.np
+
 A3D5-A3DF Open and test file type.
           Set file type wanted in file manager parmlist.
           Call A2A8 to open file.
           Go to A7C4 to check file type.
-.np
+
 A3E0-A3FE Write a 2 byte value to the open file.
           Store value to be written in file manager parmlist.
           Set write one byte opcodes.
           Call file manager driver.
           Call it again to write second byte and exit to caller
-.np
+
 A3FF-A40F Read/write a range of bytes.
           Set the address of the range in file manager parmlist
           Set subcode to read or write a range of bytes.
@@ -655,9 +627,9 @@ A3FF-A40F Read/write a range of bytes.
           Close the file.
           Exit through the VERIFY command handler to insure
           data was written ok.
-.np
+
 A410-A412 Issue "FILE TYPE MISMATCH" message.
-.np
+
 A413-A479 LOAD command handler.
           Close all files (A316).
           Open the file in question.
@@ -686,16 +658,16 @@ A413-A479 LOAD command handler.
           Set program start pointers.
           Read program into memory as a range of bytes.
           Exit to caller.
-.np
+
 A47A-A4AA Read two bytes from file (Address or Length).
           Set up parmlist to read two bytes to range length
           field (AA60).
           Call file manager driver.
           Store value read as range length in file manager
           parmlist just in case it was a length.
-.np
+
 A4AB-A4B0 Close file and issue "PROGRAM TOO LARGE" message.
-.np
+
 A4B1-A4D0 Select desired BASIC.
           If desired BASIC is already active, exit to caller.
           Save current command index in case we must RUN
@@ -704,7 +676,7 @@ A4B1-A4D0 Select desired BASIC.
           Otherwise, copy primary file name to secondary
           buffer to save it in case RAM APPLESOFT is needed.
           Go to A57A to set APPLESOFT.
-.np
+
 A4D1-A4E4 RUN command handler.
           If APPLESOFT is active, set RUN intercepted flag so
           that RUN can complete after APPLESOFT is loaded.
@@ -712,37 +684,37 @@ A4D1-A4E4 RUN command handler.
           Skip a line on the screen.
           Put DOS intercepts back.
           Go to the RUN entry point in the current BASIC.
-.np
+
 A4E5-A4EF INTEGER BASIC RUN entry point intercept.
           Delete all variables (CLR equivalent).
           Go to the CHAIN entry point in INTEGER BASIC.
-.np
+
 A4F0-A4FB CHAIN command handler.
           Call the LOAD command handler to load the program.
           Skip a line.
           Replace DOS intercepts.
           Go to current BASIC's CHAIN entry point.
-.np
+
 A4FC-A505 APPLESOFT ROM RUN entry point intercept.
           Call APPLESOFT to clear variables.
           Reset ONERR.
           Go to RUN entry point.
-.np
+
 A506-A50D APPLESOFT RAM RUN entry point intercept.
           Call APPLESOFT to clear variables.
           Reset ONERR.
           Go to RUN entry point.
-.np
+
 A510-A51A WRITE command handler.
           Call READ/WRITE common code (A526).
           Set CSWL state to 5 (WRITE mode line start).
           Exit DOS (9F83).
-.np
+
 A51B-A525 READ command handler.
           Call READ/WRITE common code (A526).
           Set READ mode flag in status flags (AA51).
           Exit DOS (9F83).
-.np
+
 A526-A54E READ/WRITE common code.
           Locate the open file buffer for this file (A764).
           If not open, open it.
@@ -750,19 +722,19 @@ A526-A54E READ/WRITE common code.
           If R or B were given on command, copy to parmlist
           and issue a POSITION call to file manager.
           Exit to caller.
-.np
+
 A54F-A56D INIT command handler.
           If V was given, use it. Otherwise, use 254.
           Store first page number of DOS in file manager
           parmlist.
           Call file manager driver to INIT diskette.
           Exit through SAVE to store greeting program on disk.
-.np
+
 A56E-A579 CATALOG command handler.
           Call file manager with CATALOG opcode.
           Set new V value as default for future commands.
           Exit to caller.
-.np
+
 A57A-A59D FP command handler.
           Set ROM card, if any, for APPLESOFT (A5B2).
           If successful, coldstart DOS (9D84).
@@ -771,13 +743,13 @@ A57A-A59D FP command handler.
           Set primary filename buffer to "APPLESOFT".
           Set flags to indicate RAM APPLESOFT and coldstart.
           Go to RUN command handler.
-.np
+
 A59E-A5B1 INT command handler.
           Set ROM card, if any, for INTEGER BASIC (A5B2).
           If not successful, issue "LANGUAGE NOT AVAILABLE".
           Otherwise, clear RUN intercepted flag.
           Coldstart DOS (9D84).
-.np
+
 A5B2-A5C5 Set ROM to desired BASIC.
           (This routine is passed a $4C for APPLESOFT or a $20
           for INTEGER, since these bytes appear at $E000 in
@@ -789,14 +761,14 @@ A5B2-A5C5 Set ROM to desired BASIC.
           Try selecting onboard ROM.
           If desired BASIC is now available, exit.
           Otherwise, exit with error return code.
-.np
+
 A5C6-A5DC EXEC command handler.
           Open the file (A2A3).
           Copy file buffer address to EXEC's buffer pointer at
           AAB4,AAB5.
           Set EXEC active flag (AAB3).
           Jump into POSITION command handler to skip R lines.
-.np
+
 A5DD-A60D POSITION command handler.
           Locate the open file buffer (A764).
           If not found, open one as a TEXT file.
@@ -808,14 +780,14 @@ A5DD-A60D POSITION command handler.
           of line - $8D) is reached.
           If at end of file, issue "END OF FILE" message.
           Otherwise, go to A5F2 to skip next record.
-.np
+
 A60E-A625 Write one data byte to file.
           Insure that BASIC is running a program (A65E).
           If not, close file and warmstart DOS.
           Set up file manager parmlist to write the data byte
           to the open file.
           Call file manager and exit.
-.np
+
 A626-A65B Read one data byte from file.
           Insure that BASIC is running a program (A65E).
           If not, close file and warmstart DOS.
@@ -832,7 +804,7 @@ A626-A65B Read one data byte from file.
           data byte stored at $200 (input line buffer) to make
           it lower case if necessary.
           Exit DOS (9FB3).
-.np
+
 A65E-A678 Test to see if BASIC is running a program or is in
           immediate command mode.
           If active BASIC is INTEGER, go to A672.
@@ -842,22 +814,22 @@ A65E-A678 Test to see if BASIC is running a program or is in
           Exit to caller with appropriate return code.
      A672 Check $D9 to determine whether BASIC is executing a
           program and exit with proper return code.
-.np
+
 A679-A681 Close current file and warmstart DOS.
-.np
+
 A682-A68B EXEC read one byte from file.
           Select EXEC file buffer.
           Copy file buffer addresses to file manager parmlist.
           Set state to 3 (input echo).
           Go to A62D to read a file byte.
-.np
+
 A68C-A69C Read next text file byte.
           Set up file manager parmlist to read one byte.
           Call file manager driver.
           Return to caller with the data byte.
-.np
+
 A69D-A6A7 Set $40,$41 to point to EXEC file buffer.
-.np
+
 A6A8-A6C3 File manager driver routine.
           Call the file manager itself (AB06).
           If no errors, exit to caller.
@@ -867,13 +839,13 @@ A6A8-A6C3 File manager driver routine.
           If error was not "END OF DATA", print error message.
           Otherwise, pretend a $00 was read and return to
           caller.
-.np
+
 A6C4-A6D4 Miscellaneous error messages.
      A6C4 "COMMAND SYNTAX ERROR"
      A6C8 "NO FILE BUFFERS AVAILABLE"
      A6CC "PROGRAM TOO LARGE"
      A6D0 "FILE TYPE MISMATCH"
-.np
+
 A6D5-A701 Error handler.
           Set warmstart flag and clear status (BFE6).
           If APPLESOFT ONERR is active, go to A6EF.
@@ -884,12 +856,12 @@ A6D5-A701 Error handler.
           If a BASIC program is in execution, pass error code
           to BASIC's error handler.
           Otherwise, warmstart BASIC.
-.np
+
 A702-A719 Print text of error message.
           Using the error number as an index, print the message
           text from the message table (A971) byte by byte.
           Last character has most significant bit on.
-.np
+
 A71A-A742 Complete file manager parameter list.
           Copy Volume value to parmlist.
           Copy Drive value to parmlist.
@@ -897,18 +869,18 @@ A71A-A742 Complete file manager parameter list.
           Copy address of primary filename buffer to parmlist.
           Save file buffer address in $40,$41.
           Return to caller.
-.np
+
 A743-A74D Copy primary filename to file buffer filename field.
-.np
+
 A74E-A75A Copy current buffer pointers to file manager parmlist
           Copy file manager workarea buffer pointer.
           Copy T/S List sector buffer pointer.
           Copy data sector buffer address.
           Copy next file buffer link address.
           Return to caller.
-.np
+
 A75B-A763 Reset state to 0 and set warmstart flag.
-.np
+
 A764-A791 Locate an open or free file buffer.
           Assume there are no free file buffers by zeroing $45.
           Point $40,$41 at first buffer on chain.
@@ -922,26 +894,26 @@ A764-A791 Locate an open or free file buffer.
           matches the name in this file buffer.
           If not, go to A76E to get next buffer.
           If so, return to caller with open file found code.
-.np
+
 A792-A799 Point $40,$41 at first file buffer on chain.
-.np
+
 A79A-A7A9 Point $40,$41 at next file buffer on chain.
-.np
+
 A7AA-A7AE Get first byte of file name in file buffer.
-.np
+
 A7AF-A7C3 See if current buffer belongs to EXEC.
           Is EXEC active?
           If not, exit.
           If so, does current buffer address match EXEC's?
           Return to caller with appropriate code.
-.np
+
 A7C4-A7D3 Check file type.
           Does file type of open file match desired file type?
           If so, exit.
           Otherwise, turn lock bit off and test again.
           If ok, exit.
           Otherwise, close file and issue "FILE TYPE MISMATCH".
-.np
+
 A7D4-A850 Initialize (build) DOS file buffer chain.
           Set $40,$41 to point to first buffer.
           Set counter to MAXFILES value.
@@ -966,7 +938,7 @@ A7D4-A850 Initialize (build) DOS file buffer chain.
      A846 Set INTEGER BASIC's HIMEM and PROGRAM START pointers
           to point just below the last buffer.
           Exit to caller.
-.np
+
 A851-A883 Replace DOS keyboard/video intercept vectors.
           Is DOS keyboard (KSWL) vector still set?
           If so, go to A86A.
@@ -979,7 +951,7 @@ A851-A883 Replace DOS keyboard/video intercept vectors.
           AA53,AA54 and replace with DOS intercept routine's
           address.
           Exit to caller.
-.np
+
 A884-A908 DOS command name text table.
           This table consists of the ASCII name for each DOS
           command in order of command index values, with the
@@ -990,14 +962,14 @@ A884-A908 DOS command name text table.
             CATALOG,MON,NOMON,PR#,IN#,MAXFILES,FP,INT,BSAVE,
             BLOAD,BRUN,VERIFY.
           Example: INIT is $49 $4E $49 $D4 (I N I T)
-.np
+
 A909-A940 Command valid keywords table.
           This table is used to determine which keywords are
           required or may be given for any DOS command.
           Each command has a two byte entry with 16 flags,
           indicating which keywords may be given. The flag
           bit settings are as follows:
-.ul
+
           BIT  MEANING
            0   Filename legal but optional
            1   Command has no positional operand
@@ -1049,13 +1021,13 @@ A909-A940 Command valid keywords table.
                BLOAD     2071
                BRUN      2071
                VERIFY    2070
-.np
+
 A941-A94A Keyword name table.
           This table contains all the ASCII names of the DOS
           keywords in standard order. Each keyword name
           occupies one byte:
                V,D,S,L,R,B,A,C,I,O
-.np
+
 A94B-A954 Keyword flag bit positions table.
           This table gives the bit positions for each keyword
           into the second byte of the command valid keyword
@@ -1072,13 +1044,13 @@ A94B-A954 Keyword flag bit positions table.
                C - C0 ...
                I - A0 ... not used in valid keyword table
                O - 90 ...
-.np
+
 A955-A970 Keyword value valid range table.
           This table indicates the range any keyword value
           may legally have. Each keyword has a four byte entry,
           two bytes of minimum value, and two bytes of maximum
           value. Values are:
-.ul
+
                KEYWORD   MIN  MAX
                   V       0   254
                   D       1    2
@@ -1089,11 +1061,11 @@ A955-A970 Keyword value valid range table.
                   A       0  65535
           C, I, and O do not appear in this table since they
           do not have numeric values.
-.np
+
 A971-AA3E Error message text table.
           This table contains the text for each error code in
           order of error code number:
-.ul
+
           NUMBER    TEXT
             0       RETURN BELL RETURN
             1       "LANGUAGE NOT AVAILABLE"
@@ -1111,12 +1083,12 @@ A971-AA3E Error message text table.
            13       "FILE TYPE MISMATCH"
            14       "PROGRAM TOO LARGE"
            15       "NOT DIRECT COMMAND"
-.np
+
 AA3F-AA4F Error message text offset index table.
           This table contains the offset in bytes to the text
           of any given error message in the table above.
           Entries are one byte each for each error code number.
-.np
+
 AA4F-AA65 DOS main routines variables.
      AA4F Current file buffer address (2 bytes).
      AA51 Status flags: $01=READ state, $00=Warmstart,
@@ -1135,7 +1107,7 @@ AA4F-AA65 DOS main routines variables.
      AA63 Scratch variable (counter, message index, etc.)
      AA64 Index of current keyword.
      AA65 Keywords present on command line flags.
-.np
+
 AA66-AA74 Keyword values parsed from command and defaulted.
      AA66 Volume (2 bytes)
      AA68 Drive (2 bytes)
@@ -1145,11 +1117,11 @@ AA66-AA74 Keyword values parsed from command and defaulted.
      AA70 Byte (2 bytes)
      AA72 Address (2 bytes)
      AA74 MON value (one byte)
-.np
+
 AA75-AA92 Primary file name buffer
-.np
+
 AA93-AAB0 Secondary (RENAME) file name buffer
-.np
+
 AAB1-AAC0 DOS main routines constants and variables.
      AAB1 MAXFILES default ($03).
      AAB2 Control-D ($84).
@@ -1159,26 +1131,26 @@ AAB1-AAC0 DOS main routines constants and variables.
                              $80=APPLESOFT RAM
      AAB7 RUN intercepted flag.
      AAB8 "APPLESOFT" characters in ASCII (9 bytes)
-.np
+
 AAC1-AAC8 File manager constants.
      AAC1 Address of RWTS paramter list (B7E8).
      AAC3 Address of VTOC sector buffer (B3BB).
      AAC5 Address of directory sector buffer (B4BB).
      AAC7 Address of last byte of DOS plus one. (C000)
-.np
+
 AAC9-AAE4 File manager function routine entry point table.
           This table contains a two byte function handler
           routine address for each of the 14 file manager
           opcodes in opcode order.
-.np
+
 AAE5-AAF0 File manager read subcode handler entry point table.
           This table contains a two byte function handler
           routine address for each of the 6 read subcodes.
-.np
+
 AAF1-AAFC File manager write subcode handler entry point table.
           This table contains a two byte function handler
           routine address for each of the 6 write subcodes.
-.np
+
 AAFD-AB05 File manager external entry point (from $3D6).
           Is X register zero?
           If so, allow new files by simulating an INIT command
@@ -1186,7 +1158,7 @@ AAFD-AB05 File manager external entry point (from $3D6).
           Otherwise, require old file by simulating a LOAD
           command index.
           Fall through to main file manager entry point.
-.np
+
 AB06-AB1E File manager main entry.
           Save S register at B39B.
           Restore file manager workarea from file buffer (AE6A)
@@ -1195,13 +1167,13 @@ AB06-AB1E File manager main entry.
           Use opcode as index into file manager function
           routine entry point table and go to proper handler
           via RTS.
-.np
+
 AB1F-AB21 Return with return code=2 (bad opcode).
-.np
+
 AB22-AB27 OPEN function handler.
           Call common open code (AB28).
           Exit file manager.
-.np
+
 AB28-ABDB Common open routine.
           Initialize file manager workarea by resetting
           variables to their defaults (ABDC).
@@ -1243,7 +1215,7 @@ AB28-ABDB Common open routine.
           Set number of data bytes represented by one T/S List
           sector to 122*256 (30.5K) in workarea.
           Go read first T/S List sector (AF5E).
-.np
+
 ABDC-AC05 Initialize file manager workarea.
           Zero entire 45 bytes of workarea.
           Save complemented volume number in workarea.
@@ -1251,7 +1223,7 @@ ABDC-AC05 Initialize file manager workarea.
           Save slot*16 in workarea.
           Set track number to $11 (catalog track).
           Return to caller.
-.np
+
 AC06-AC39 CLOSE function handler.
           Checkpoint data buffer to disk if needed (AF1D).
           Checkpoint T/S List buffer if needed (AF34).
@@ -1267,7 +1239,7 @@ AC06-AC39 CLOSE function handler.
           new file's length.
           Checkpoint the directory sector back to the disk.
           Exit file manager.
-.np
+
 AC3A-AC57 RENAME function handler.
           Call common code to locate/open the file.
           If file is locked, exit with "FILE LOCKED" return
@@ -1276,18 +1248,18 @@ AC3A-AC57 RENAME function handler.
           Copy new name to directory entry.
           Write back directory sector to disk.
           Exit file manager.
-.np
+
 AC58-AC69 READ function handler.
           Insure subcode does not exceed 5. If so, exit with
           return code=3.
           Use subcode as index into READ subcode handler entry
           point table.
           Go to proper handler of subcode.
-.np
+
 AC6A-AC6C Return code = 3, subcode bad
-.np
+
 AC6D-AC6F "FILE LOCKED" error return
-.np
+
 AC70-AC86 WRITE function handler.
           If file is locked, exit with "FILE LOCKED" error.
           Insure subcode does not exceed 5. If so, exit with
@@ -1295,20 +1267,20 @@ AC70-AC86 WRITE function handler.
           Use subcode as index into WRITE subcode handler entry
           point table.
           Go to proper handler of subcode.
-.np
+
 AC87-AC89 POSITION AND READ ONE BYTE subcode handler
           Call position routine.
           Fall through to next subcode handler.
-.np
+
 AC8A-AC92 READ ONE BYTE subcode handler.
           Read next file byte (ACA8).
           Store in parmlist for pass back to caller.
           Exit the file manager.
-.np
+
 AC93-AC95 POSITION AND READ A RANGE OF BYTES subcode handler.
           Call position routine.
           Fall through to next subcode handler.
-.np
+
 AC96-ACA7 READ A RANGE OF BYTES subcode handler.
           Decrement and check length (B1B5).
           Read a byte (ACA8).
@@ -1316,7 +1288,7 @@ AC96-ACA7 READ A RANGE OF BYTES subcode handler.
           Store byte read at address.
           Loop back to AC96. (length check will exit file
           manager when length is zero.)
-.np
+
 ACA8-ACB8 Read a data byte.
           Read next data sector if necessary (B0B6).
           If at end of file, exit with "END OF DATA" error.
@@ -1324,27 +1296,27 @@ ACA8-ACB8 Read a data byte.
           Increment record number/byte offset into file (B15B).
           Increment file position offset (B194).
           Return with data byte read.
-.np
+
 ACBB-ACBD POSITION AND WRITE ONE BYTE subcode handler.
           Call position routine.
           Fall through to next subcode handler.
-.np
+
 ACBE-ACC6 WRITE ONE BYTE subcode handler.
           Find data byte to be written.
           Write it to file (ACDA).
           Exit file manager.
-.np
+
 ACC7-ACC9 POSITION AND WRITE A RANGE OF BYTES subcode handler.
           Call position routine.
           Fall through to next subcode handler.
-.np
+
 AACA-ACD7 WRITE A RANGE OF BYTES subcode handler.
           Copy and advance range address pointer.
           Get next byte to write.
           Write it to file (ACDA).
           Test and decrement length (B1B5).
           Loop back to AACA.
-.np
+
 ACDA-ACEC Write a data byte.
           Read the proper data sector (if necessary) (B0B6).
           Store data byte to be written in sector buffer.
@@ -1352,33 +1324,33 @@ ACDA-ACEC Write a data byte.
           Increment record number/byte offset into file (B15B).
           Exit via file position offset increment routine
           (B194).
-.np
+
 ACEF-ACF5 LOCK function handler.
           Set mask byte to $80 (lock).
           Go to common code (ACFB).
-.np
+
 ACF6-ACFA UNLOCK function handler.
           Set mask byte to $00 (unlock).
           Fall through to common code.
-.np
+
 ACFB-AD11 LOCK/UNLOCK common code.
           Locate/open file (AB28).
           Get index into directory to entry.
           Update file type byte to lock ($8X) or unlock ($0X).
           Write directory sector back to disk.
           Exit file manager.
-.np
+
 AD12-AD17 POSITION function handler.
           Call position routine.
           Exit file manager.
-.np
+
 AD18-AD2A VERIFY function handler.
           Locate/open file (AB28).
      AD1B Read next data sector.
           If at end of file, exit file manager.
           Otherwise, increment sector position.
           And loop back to AD1B.
-.np
+
 AD2B-AD88 DELETE function handler.
           Locate/open file (AB28).
           Using directory index, determine if file is locked.
@@ -1403,12 +1375,12 @@ AD2B-AD88 DELETE function handler.
           Free this T/S List sector (AD89).
           Go process next one, if any (go to AD54).
           Otherwise, write VTOC and exit file manager.
-.np
+
 AD89-AD97 Free a sector.
           Call B2DD to deallocate sector in VTOC bit map.
           Zero the sector allocation area of the workarea.
           Return to caller.
-.np
+
 AD98-AE2E CATALOG function handler.
           Initialize file manager workarea (ABDC).
           Set V value to zero (complimented=$FF).
@@ -1438,7 +1410,7 @@ AD98-AE2E CATALOG function handler.
           If there are more, go to ADD1.
           If not, go to ADCA to read next directory sector.
           Exit when finished.
-.np
+
 AE2F-AE41 Skip a line on CATALOG printout.
           Output a carriage return.
           Decrement line counter.
@@ -1446,22 +1418,22 @@ AE2F-AE41 Skip a line on CATALOG printout.
           Otherwise, wait for keyboard keypush.
           Then reset counter to 21 lines.
           And return to caller.
-.np
+
 AE42-AE69 Convert the number stored at $44 to a three character
           printable number and print it.
-.np
+
 AE6A-AE7D Restore file manager workarea from file buffer.
           Select file manager workarea buffer.
           Set return code in parmlist to zero initially.
           Copy 45 byte saved image of file manager workarea in
           file buffer to real file manager workarea.
           Exit to caller.
-.np
+
 AE7E-AE8D Save file manager workarea in file buffer.
           Select file manager workarea buffer.
           Copy 45 byte workarea to file buffer.
           Exit to caller.
-.np
+
 AE8E-AF07 INIT function handler.
           Initialize the file manager workarea (ABDC).
           Call RWTS to format the diskette (B058).
@@ -1486,13 +1458,13 @@ AE8E-AF07 INIT function handler.
           Point RWTS parms at DOS load point (B7C2).
           Write DOS image onto tracks 0-2 (B74A).
           Exit file manager.
-.np
+
 AF08-AF1C Select a buffer by setting $42,$43 to point to it.
      AF08 Select file manager workarea buffer in file buffer.
      AF0C Select T/S List sector buffer in file buffer.
      AF10 Select data sector buffer in file buffer.
           Exit to caller when $42,$43 are set.
-.np
+
 AF1D-AF33 Checkpoint write data sector buffer to disk.
           Test flag to see if buffer was changed since last
           read/write.
@@ -1502,7 +1474,7 @@ AF1D-AF33 Checkpoint write data sector buffer to disk.
           Reset flag to indicate data sector no longer in need
           of a checkpoint.
           Exit to caller.
-.np
+
 AF34-AF4A Checkpoint write T/S List sector buffer to disk.
           Test flag to see if buffer was changed since last
           read/write.
@@ -1512,12 +1484,12 @@ AF34-AF4A Checkpoint write T/S List sector buffer to disk.
           Reset flag to indicate T/S List sector no longer in
           need of checkpoint.
           Exit to caller.
-.np
+
 AF4B-AF5D Prepare for RWTS call with a T/S List sector.
           Copy address of T/S List buffer to RWTS parmlist.
           Get track/sector of sector.
           Exit to caller.
-.np
+
 AF5E-AFDB Read a T/S List sector to file buffer.
           (CARRY flag is set at entry to indicate whether the
           first T/S List for the file is wanted (C=0) or the
@@ -1548,16 +1520,16 @@ AF5E-AFDB Read a T/S List sector to file buffer.
           Compute relative sector number of last sector (plus
           one) in this list and store in workarea.
           Exit to caller with normal return code.
-.np
+
 AFDC-AFE3 Read a data sector.
           Set up for RWTS (AFE4).
           Set RWTS READ opcode and go to RWTS driver to do it.
-.np
+
 AFE4-AFF6 Prepare for RWTS with data sector.
           Copy address of data sector buffer to RWTS parmlist.
           Get its track/sector.
           And exit to caller.
-.np
+
 AFF7-B010 Read/write the VTOC buffer.
      AFF7 Read VTOC entry, go to AFFD.
      AFFB Write VTOC entry, fall through.
@@ -1565,7 +1537,7 @@ AFF7-B010 Read/write the VTOC buffer.
           Copy VTOC sector buffer address to RWTS parmlist.
           Get its track number and use sector $00.
           Exit through RWTS driver.
-.np
+
 B011-B036 Read a directory sector.
           (If CARRY flag is zero on entry, read first directory
           sector. If CARRY is one, read next)
@@ -1579,16 +1551,16 @@ B011-B036 Read a directory sector.
           (end of directory).
           Call RWTS to read sector.
           Exit with normal return code.
-.np
+
 B037-B044 Write directory sector.
           Set buffer pointers.
           Find its track/sector in workarea.
           Exit through RWTS to write it.
-.np
+
 B045-B051 Prepare for RWTS for directory buffer.
           Copy directory buffer address to RWTS parmlist.
           Exit to caller.
-.np
+
 B052-B0B3 Read/Write Track/Sector (RWTS) driver.
           Set track/sector in RWTS parmlist.
      B058 Set command code (read,write,etc.)
@@ -1606,7 +1578,7 @@ B052-B0B3 Read/Write Track/Sector (RWTS) driver.
           Translate vol mismatch to rc=7, write protected to
           rc=4 and all other errors to rc=8 (I/O error).
           Exit file manager now.
-.np
+
 B0B6-B133 Read next data sector (if necessary).
           Is the current file position in the current data
           sector now in memory?
@@ -1636,7 +1608,7 @@ B0B6-B133 Read next data sector (if necessary).
      B120 Save number of sector last read in workarea.
      B12C Select data buffer.
           Get byte offset and exit normally to caller.
-.np
+
 B134-B15A Add a new data sector to file.
           Allocate a sector (B244).
           Put track/sector numbers in T/S List entry.
@@ -1644,7 +1616,7 @@ B134-B15A Add a new data sector to file.
           Set flags to indicate that the T/S List sector and
           the data sector buffer require checkpoints.
           Exit to caller.
-.np
+
 B15B-B193 Increment record number and byte offset into file.
           Copy current record number and byte offset to file
           manager parameter list to pass back to caller.
@@ -1652,24 +1624,24 @@ B15B-B193 Increment record number and byte offset into file.
           If byte offset equals record length, set byte offset
           back to zero and increment record number.
           Return to caller.
-.np
+
 B194-B1A1 Increment file position offset.
           Increment byte offset into current sector by one.
           If at end of sector, increment sector number by one.
           Return to caller.
-.np
+
 B1A2-B1B4 Copy and advance range address.
           Copy range address from file manager parmlist to $42.
           Increment range address in parmlist for next time
           through.
           Return to caller.
-.np
+
 B1B5-B1C8 Decrement range length.
           Decrement range length in file manager parmlist by
           one.
           If zero, exit file manager.
           Otherwise, exit to caller.
-.np
+
 B1C9-B21B Locate or allocate a directory entry in the catalog.
           Read the VTOC sector (AFF7).
           Set $42,$43 to point to file name we are looking for.
@@ -1692,21 +1664,21 @@ B1C9-B21B Locate or allocate a directory entry in the catalog.
           pass.
      B217 If pass number is one, go to B20B to skip entry.
           If second pass, fall through to allocate entry.
-.np
+
 B21C-B22F Copy file name to directory entry.
           Advance index to file name field in directory entry.
           Copy 30 byte filename to directory entry.
           Reload directory index and return to caller.
-.np
+
 B230-B239 Advance index to next directory entry in sector.
           Add 35 (length of entry) to index.
           Test for end of sector and return to caller.
-.np
+
 B23A-B243 Switch to second pass in directory scan.
           If on pass one, switch to pass 2 and go to B1D8.
           If on pass two, exit file manager with "DISK FULL"
           error.
-.np
+
 B244-B2C2 Allocate a disk sector.
           Is there a track currently allocated to this file?
           If not, go to B26A to find a track with free sectors.
@@ -1748,7 +1720,7 @@ B244-B2C2 Allocate a disk sector.
           Set sector number to last sector in track.
           Go to B249 to allocate one of its free sectors to
           the file.
-.np
+
 B2C3-B2DC Release pre-allocated sectors in current track and
           checkpoint the VTOC.
           Has a track been allocated to the file?
@@ -1760,7 +1732,7 @@ B2C3-B2DC Release pre-allocated sectors in current track and
           back into the VTOC bit map.
           Indicate no track has been allocated.
           Exit to caller.
-.np
+
 B2DD-B2FF Free one or more sectors by shifting mask in file
           manager's allocation area back into VTOC bit map.
           (If CARRY is set, current sector is freed also)
@@ -1772,7 +1744,7 @@ B2DD-B2FF Free one or more sectors by shifting mask in file
           in VTOC, freeing sectors which were never used by
           the file.
           Return to caller.
-.np
+
 B300-B35E Calculate file position.
           Set record number passed in file manager parmlist
           in workarea and in sector offsets.
@@ -1783,7 +1755,7 @@ B300-B35E Calculate file position.
           Add the byte offset from the parmlist into the three
           byte file position value (B5E4,B5E5,B5E6).
           Return to caller.
-.np
+
 B35F-B37D Error exits.
      B35F RC=1 "LANGUAGE NOT AVAILABLE"
      B363 RC=2 "RANGE ERROR" (bad opcode)
@@ -1793,7 +1765,7 @@ B35F-B37D Error exits.
      B373 RC=6 "FILE NOT FOUND"
      B377 RC=9 "DISK FULL" (all files closed)
      B37B RC=A "FILE LOCKED"
-.np
+
 B37F-B396 Exit file manager.
      B37F Exit with no errors.
           Get return code of zero.
@@ -1805,7 +1777,7 @@ B37F-B396 Exit file manager.
           Save file manager workarea to file buffer (AE7E).
           Restore processor status and stack register.
           Exit to original caller of file manager.
-.np
+
 B397-B3A3 File manager scratch space.
      B397 Track/sector of current directory sector (2 bytes).
      B39B S register save area.
@@ -1814,16 +1786,16 @@ B397-B3A3 File manager scratch space.
      B39E LOCK/UNLOCK mask/Allocation flag/Etc.
      B3A0 Four byte mask used by INIT to free an entire track
           in the VTOC bit map.
-.np
+
 B3A4-B3A6 Decimal conversion table (1,10,100).
-.np
+
 B3A7-B3AE File type name table used by CATALOG.
           File types are: T,I,A,B,S,R,A,B, corresponding to
           hex values: $00, $01, $02, $04, $08, $10, $20, and
           $40 respectively.
-.np
+
 B3AF-B3BA ASCII text "DISK VOLUME " backwards. Used by CATALOG.
-.np
+
 B3BB-B4BA VTOC sector buffer.
      B3BC Track/sector of first directory sector.
      B3BE DOS release number (1, 2, or 3).
@@ -1838,7 +1810,7 @@ B3BB-B4BA VTOC sector buffer.
      B3F7 Track 1 bit map
           etc.
      B47B Track 34 bit map
-.np
+
 B4BB-B5BA DIRECTORY sector buffer.
      B4BC Track/sector of next directory sector.
      B4C6 First directory entry and
@@ -1847,7 +1819,7 @@ B4BB-B5BA DIRECTORY sector buffer.
      B4C8 File type and lock bit
      B4C9 Filename field (30 bytes)
      B4E7 Size of file in sectors (including T/S List(s)).
-.np
+
 B5BB-B5D0 File manager parameter list.
      B5BB Opcode
      B5BC Subcode
@@ -1858,7 +1830,7 @@ B5BB-B5D0 File manager parameter list.
      B5C9 Address of T/S List sector buffer.
      B5CB Address of data sector buffer.
      B5CD Address of next DOS buffer on chain (not used).
-.np
+
 B5D1-B5FD File manager workarea.
      B5D1 1st T/S List sector's track/sector.
      B5D3 Current T/S List sector's track/sector.
@@ -1891,9 +1863,9 @@ B5D1-B5FD File manager workarea.
      B5F8 Drive number.
      B5F9 Volume number (complemented).
      B5FA Track number.
-.np
+
 B5FE-B5FF Not used.
-.np
+
 B600-B6FF Start of Boot 2/RWTS image.
      B600 Boot 1 image which can be written to INITed disks
           on track 0, sector 0.
@@ -1918,34 +1890,33 @@ B600-B6FF Start of Boot 2/RWTS image.
           zero data byte to caller.
      B6FE Page address of first page in Boot 2.
      B6FF Number of sectors (pages) in Boot 2.
-.br
-.np
+
 B700-B749 DOS 2nd stage boot loader.
           Set RWTS parmlist to read DOS from disk.
           Call Read/Write group of pages ($B793).
           Create new stack.
           Call SETVIC ($FE93) and SETKBD ($FE89).
           Exit to DOS coldstart ($9D84).
-.np
+
 B74A-B78C Put DOS on tracks 0-2.
           Set RWTS parmlist to write DOS to disk.
           Call Read/Write group of pages ($B793).
           Exit to caller.
-.np
+
 B78D-B792 Unused.
-.np
+
 B793-B7B4 Read/Write a group of pages.
           call RWTS through external entry point ($B7B5).
           Exit to caller.
-.np
+
 B7B5-B7C1 Disable interrupts and call RWTS.
-.np
+
 B7C2-B7D5 Set RWTS parameters for writing DOS.
-.np
+
 B7D6-B7DE Zero current buffer.
           Zero 256 bytes pointed to by $42,$43.
           Exit to caller.
-.np
+
 B7DF-B7E7 DOS 2nd stage boot loader parmlist.
      B7DF Unused.
      B7E0 Number of pages in 2nd DOS load.
@@ -1954,7 +1925,7 @@ B7DF-B7E7 DOS 2nd stage boot loader parmlist.
      B7E3 INIT DOS page counter.
      B7E4 Pointer to RWTS parmlist (2 bytes).
      B7E6 Pointer to 1st stage boot location (2 bytes).
-.np
+
 B7E8-B7F8 RWTS parmlist.
      B7E8 Table type. Must be $01.
      B7E9 Slot number times 16.
@@ -1972,16 +1943,16 @@ B7E8-B7F8 RWTS parmlist.
      B7F6 Volume number found.
      B7F7 Slot number found.
      B7F8 Drive number found.
-.np
+
 B7F9-B7FA Unused.
-.np
+
 B7FB-B7FE Device Characteristics Table (DCT).
      B7FB Device type (should be $00).
      B7FC Phases per track (should be $01).
      B7FD Motor on time count (2 bytes - should be $EF, $D8).
-.np
+
 B7FF      Unused.
-.np
+
 B800-B829 PRENIBBLE routine.
           Converts 256 (8 bit) bytes to 342 (6 bit) "nibbles"
           of the form 00XXXXXX.
@@ -1993,7 +1964,7 @@ B800-B829 PRENIBBLE routine.
                     Y-reg:$FF
                     Carry set
           Exit to caller.
-.np
+
 B82A-B8B7 WRITE routine.
           Writes prenibbilized data from primary and secondary
           buffers to disk.
@@ -2011,12 +1982,12 @@ B82A-B8B7 WRITE routine.
                     Carry clear
                     Uses $26,$27,$678
           Exit to caller.
-.np
+
 B8B8-B8C1 Write a byte subroutine.
           Timing critical code used to write bytes at 32 cycle
           intervals.
           Exit to caller.
-.np
+
 B8C2-B8DB POSTNIBBLE routine.
           Converts 342 (6 bit) "nibbles" of the form 00XXXXXX
           to 256 (8 bit) bytes.
@@ -2030,7 +2001,7 @@ B8C2-B8DB POSTNIBBLE routine.
                     Y-reg:byte count in secondary buffer
                     Carry set
           Exit to caller.
-.np
+
 B8DC-B943 READ routine.
           Read a sector of data from disk and store it at
           primary and secondary buffers.  (First uses secondary
@@ -2045,7 +2016,7 @@ B8DC-B943 READ routine.
                     Carry clear
                     Uses $26
           Exit to caller.
-.np
+
 B944-B99F RDADR routine.
           Read an Address Field.
           Reads starting address marks ($D5/$AA/$96), address
@@ -2065,7 +2036,7 @@ B944-B99F RDADR routine.
                     $2C: Checksum found
                     Uses $26,$27
           Exit to caller.
-.np
+
 B9A0-B9FC SEEKABS routine.
           Move disk arm to desired track.
           Calls arm move delay subroutine ($B9FD).
@@ -2080,7 +2051,7 @@ B9A0-B9FC SEEKABS routine.
                     $27:Prior track (if seek needed)
                     Uses: $26,$27,$2A,$2B
           Exit to caller.
-.np
+
 B9FD-BA10 Arm move delay subroutine.
           Delays a specified number of 100 Usec intervals.
           On entry: A-reg:number of 100 Usec intervals.
@@ -2092,28 +2063,28 @@ B9FD-BA10 Arm move delay subroutine.
                     Y-reg:unchanged
                     Carry set
           Exit to caller.
-.np
+
 BA11-BA28 Arm move delay table.
           Contains values of 100 Usec intervals used during
           Phase-on and Phase-off of stepper motor.
-.np
+
 BA29-BA68 Write Translate Table.
           Contains 6 bit "nibbles" used to convert 8 bit bytes.
           Values range from $96 to $FF.
           Codes with more than one pair of adjacent zeros or
           with no adjacent ones are excluded.
-.np
+
 BA69-BA95 Unused.
-.np
+
 BA96-BAFF Read Translate Table.
           Contains 8 bit bytes used to convert 6 bit "nibbles".
           Values range from $96 to $FF.
           Codes with more than one pair of adjacent zeros or
           with no adjacent ones are excluded.
-.np
+
 BB00-BBFF Primary Buffer.
 BC00-BC55 Secondary Buffer.
-.np
+
 BC56-BCC3 Write Address Field during initialization.
           Calls Write double byte subroutine.
           Writes number of autosync bytes contained in Y-reg,
@@ -2131,15 +2102,15 @@ BC56-BCC3 Write Address Field during initialization.
                     Y-reg:$00
                     Carry set
           Exit to caller.
-.np
+
 BCC4-BCDE Write double byte subroutine.
           Timing critical code that encodes address information
           into even and odd bits and writes it at 32 cycle
           intervals.
           Exit to caller.
-.np
+
 BCDF-BCFF Unused.
-.np
+
 BD00-BD18 Main entry to RWTS.
           Upon entry, store Y-reg and A-reg at $48,$49 as
           pointers to the IOB.
@@ -2288,46 +2259,42 @@ BF88-BFA7 Sector Map routine.
           if that value is greater than zero.
           Upon completion of track zero, the sync count is
           decremented by two if it is at least 16.
-.np
+
 BFA8-BFB7 Sector Initialization Map used to mark sectors as
           they are initialized.
           Contains a $30 prior to initialization of a track.
           Value changed to $FF as each sector is completed.
-.np
+
 BFB8-BFC7 Sector Translate Table
           Sector interleaving done with software.
-.np
+
 BFC8-BFD6 Patch area starts here.
           Patch from $B741 to zero language card during boot.
           Call SETVID ($FE93).
           Unprotect Language Card (if present).
           Store $00 at $E000.
           Exit through SETKBD ($FE89) and DOS coldstart.
-.np
+
 BFD9-BFDB Unused.
-.np
+
 BFDC-BFE5 Patch called from $A0E2.
           Set three additional defaults (Byte offset=0).
           Return to caller.
-.np
+
 BFE6-BFEC Patch called from $A6D5.
           Call $A75B to reset state and set warmstart flag.
           Mark RUN not interrupted.
           Return to caller.
-.np
+
 BFED-BFFF Patch called from $B377.
           Call $AE7E to save file manager workarea.
           Restore stack.
           Close all open files ($A316).
           Save stack again.
           Exit through $B385 ("DISK FULL ERROR").
-.br
-.bp
-.nf
-.na
+
 DOS ZERO PAGE USAGE
-.sp1
-.un
+
 BYTE      USE
 24        Cursor horizontal (DOS)
 26,27     Sector read buffer address (ROM)
@@ -2373,4 +2340,3 @@ CC,CD     INTEGER BASIC VARIABLES END (DOS)
 D6        APPLESOFT BASIC PROGRAM protection flag (DOS)
 D8,D9     INTEGER BASIC line number (DOS)
           APPLESOFT BASIC ONERR (DOS)
-.br
