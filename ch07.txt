@@ -1,8 +1,4 @@
-.bp
-.np
-.ce
-CHAPTER 7 - CUSTOMIZING DOS
-.sp1
+# CHAPTER 7 - CUSTOMIZING DOS
 
 Although DOS usually provides most of
 the functionality needed by the BASIC
@@ -20,7 +16,7 @@ modification of DOS without a clear
 understanding of the full
 implications of each change can
 result in an unreliable system.
-.sp1
+
 SLAVE VS MASTER PATCHING
 
 The usual procedure for making
@@ -32,21 +28,19 @@ stored over other instructions within
 DOS to modify the program. There are
 three levels at which changes to DOS
 may be applied.
-.sp1
+
 1 - A patch can be made to the DOS
 in memory. If this is done, a later
 reboot will cause the change to "fall
 out" or be removed.
-.sp1
-2 - A patch of the first type can be
-made permanent by initializing a\x1f?O7O?K'7s';;\x44\x4d\x08\x5a\x5d\x46\x46\x41\x46\x4f\x08\x5c\x40\x4d\x08\x58\x497#+''O\x87\x8f\x93oc\x97++3c77+'##37#g'7#'3#7g'g7+'3#K#/7/#33#g3/3/g'g'+7?g+#g\x83\x8b\x97g++g37''/7Kwkgwkg'+#gwg3//'/g'++3'/+7g3/#g7'3'h.
-Each time this newly created diskette
-is booted the patched version of DOS
-will be loaded. Also, any slave
-diskettes created by that diskette
-will also contain the patched version
-of DOS.
-.bp
+
+2 - A patch of the first type can be made permanent by initializing a diskette
+while running the patched DOS.  This procedure creates a slave diskette with a
+copy of OOS on tracks 0, 1, and 2 which contains the patch.  Each time this
+newly created diskette is booted the patched version of DOS will be loaded.
+Also, any slave diskettes created by that diskette will also contain the patched
+version of DOS.
+
 3 - The patch is applied directly to
 a master diskette. This is somewhat
 more complicated. Either the patch
@@ -57,7 +51,7 @@ MASTER CREATE may be used to write
 the changed copy of DOS to a new
 diskette. The following procedure may
 be followed to do this:
-.br
+
     BLOAD MASTER CREATE
     Get into the monitor (CALL -151)
     Store a $4C at location $80D (80D:4C)
@@ -72,11 +66,10 @@ be followed to do this:
        at location $82D (82DG).
     Complete the MASTER CREATE update normally. The
        resulting diskette will have the patches applied.
-.br
+
 This procedure will work for versions 3.2, 3.2.1, and 3.3 of
 DOS.
-.sp1
-.ne5
+
 AVOIDING RELOAD OF LANGUAGE CARD
 
 A rather annoying addition to DOS 3.3
@@ -107,20 +100,20 @@ always powers the machine off and on
 between using DOS and any other
 system, the patch may be removed as
 follows.
-.bp
+
 At $BFD3 (48K) is a STA instruction which
 stores a zero on the Language Card.
 This instruction must be made into
 three no-operation instructions:
         BFD3:EA EA EA
-.br
+
 A slave diskette may then be INITed
 using this modified version of DOS
 and that diskette will have the
 patch in its DOS. The address of the
 store instruction for a 32K DOS is
 7FD3 and for a 16K DOS is 3FD3.
-.sp1
+
 INSERTING A PROGRAM BETWEEN DOS AND ITS BUFFERS
 
 Once in a while it is useful to find
@@ -152,7 +145,7 @@ time DOS is booted. Of course, BASIC
 can not get at that memory either,
 since its HIMEM is below the DOS
 buffers.
-.bp
+
 BRUN OR EXEC THE HELLO FILE
 
 Ordinarily, when DOS finishes booting
@@ -163,12 +156,11 @@ command which wrote DOS to the
 diskette).  To change the RUN command
 to a BRUN or an EXEC, apply the
 following patch to DOS (48K):
-.sp1
+
      9E42:34         (for BRUN)
      ..or..
      9E42:14         (for EXEC)
-.sp1
-.ne5
+
 REMOVING THE PAUSE DURING A LONG CATALOG
 
 Normally, when a CATALOG command is
@@ -180,9 +172,7 @@ By pressing any key
 the CATALOG continues.  If this pause
 is undesirable, apply the following
 patch to DOS (48K):
-.sp1
+
      AE34:60
-.br
-.bp
-.st waiting for ch8 diskette
+
 .nx ch8
