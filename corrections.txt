@@ -1,125 +1,146 @@
-.na
-.nf
-.ll60
-.br
 SIG 1-2
-.sp3
+
+
 3-13
-.sp1
+
 roughly 72K of space available to the user; typical for
 5 1/4 inch single density drives.
-.sp3
+
+
 4-6
-.sp1
+
 2E-50    Second file descriptive entry
-.sp3
+
+
 4-17
-.sp1
+
 user to read and display the contents of sectors. Some of
-.sp3
+
+
 6-2
-.sp1
+
 Q7L with Q6L = Read
 Q7L with Q6H = Sense Write Protect
 Q7H with Q6L = Write
 Q7H with Q6H = Load Write Latch
-.bp
+
+
 SIG 3-4
-.sp3
+
+
 8-5
-.sp1
+
      9E9E If EXECing, call A682 to get the next byte from the
-.sp3
+
+
 8-6
-.sp1
+
           index into the state handler table (9D10), go to
-.sp3
+
+
 8-8
-.sp1
+
           table of valid keywords (A941).
-.sp3
+
+
 8-9
-.sp1
+
 A1AE-A1B8 Clear the file manager parameter list at B5BB to
-.sp3
+
+
 8-13
-.sp1
+
      A4DC Skip a line on the screen.
-.sp3
+
+
 8-24
-.sp1
+
 ACA8-ACBA Read a data byte.
-.sp1
+
 AACA-ACD9 WRITE A RANGE OF BYTES subcode handler.
-.sp1
+
 ACDA-ACEE Write a data byte.
-.sp3
+
+
 8-27
-.sp1
+
      AF3A Otherwise, set up RWTS pointer (AF4B).
-.sp1
+
           next (C=1)).
-.sp3
+
+
 8-28
-.sp1
+
 B052-B0B5 Read/Write Track/Sector (RWTS) driver.
-.sp1
+
           Translate vol mismatch to RC=7, write protected to
           RC=4 and all other errors to RC=8 (I/O error).
-.sp3
+
+
 8-29
-.sp1
+
 B134-B15A Add a new data sector to file.
-.sp3
+
+
 8-30
-.sp1
+
      B20B If not, advance index to next entry in sector and
-.sp3
+
+
 8-34
-.sp1
+
           Call SETVID ($FE93) and SETKBD ($FE89).
-.sp3
+
+
 8-35
-.sp1
+
           $20=Volume mismatch, $40=Drive error, $08=INIT error.
-.sp1
+
           Uses Write Translate Table ($BA29).
-.sp3
+
+
 8-37
-.sp1
+
                     Y-reg:number of autosyncs to write
-.sp3
+
+
 8-39
-.sp1
+
           Jump to DSKFORM at $BEAF.
-.sp1
+
           Use ILEAV table at $BFB8 for software sector
-.sp3
+
+
 8-41
-.sp1
+
 BFC8-BFD8 Patch area starts here.
-.bp
+
+
 SIG 5-6
-.sp3
+
+
 A-16
-.sp1
+
 using ZAP to patch a catalog entry into track 17 for each
-.sp3
+
+
 C-4
-.sp1
+
 DCT                 Device Characteristics  Table. Used as an
-.sp3
+
+
 C-8
-.sp1
+
                     subroutine. Similar to a GOSUB statement
-.sp1
+
                     input data is passed from the
-.sp3
+
+
 C-10
-.sp1
+
                     language instruction.  JMP is the opcode
-.sp3
+
+
 C-15
-.sp1
+
                     the voltages which represent 0's and
-.br
