@@ -1,126 +1,72 @@
 # APPENDIX A - EXAMPLE PROGRAMS
 
-This section is intended to supply
-the reader with utility programs
-which can be used to examine and
-repair diskettes.  These programs are
-provided in their source form to
-serve as examples of the programming
-necessary to interface practical
-programs to DOS.  The reader who
-does not know assembly language may
-also benefit from these programs by
-entering them from the monitor in
-their binary form and saving them to
-disk for later use.   It should be
-pointed out that the use of 16 sector
-diskettes is assumed, although most of
-the programs can be easily modified
-to work under any version of DOS.
-It is recommended that, until the
-reader is completely familiar with
-the operation of these programs, he
-would be well advised to use them
-only on an "expendable" diskette.
-None of the programs can physically
-damage a diskette, but they can, if
-used improperly, destroy the data on
-a diskette, requiring it to be
-re-INITialized.
+This section is intended to supply the reader with utility programs which can be
+used to examine and repair diskettes.  These programs are provided in their
+source form to serve as examples of the programming necessary to interface
+practical programs to DOS.  The reader who does not know assembly language may
+also benefit from these programs by entering them from the monitor in their
+binary form and saving them to disk for later use.   It should be pointed out
+that the use of 16 sector diskettes is assumed, although most of the programs
+can be easily modified to work under any version of DOS.  It is recommended
+that, until the reader is completely familiar with the operation of these
+programs, he would be well advised to use them only on an "expendable" diskette.
+None of the programs can physically damage a diskette, but they can, if used
+improperly, destroy the data on a diskette, requiring it to be re-INITialized.
 
 Five programs are provided:
 
 DUMP    TRACK DUMP UTILITY
 
-This is an example of how to directly
-access the disk drive through its I/O
-select addresses.  DUMP may be used
-to dump any given track in its raw,
-prenibbilized form, to memory for
-examination. This can be useful both
-to understand how disks are formatted
-and in diagnosing clobbered
-diskettes.
+This is an example of how to directly access the disk drive through its I/O
+select addresses.  DUMP may be used to dump any given track in its raw,
+prenibbilized form, to memory for examination. This can be useful both to
+understand how disks are formatted and in diagnosing clobbered diskettes.
 
 ZAP     DISK UPDATE UTILITY
 
-This program is the backbone of any
-attempt to patch a diskette directory
-back together.  It is also useful in
-examining the structure of files
-stored on disk and in applying
-patches to files or DOS directly.
-ZAP allows its user to read, and
-optionally write, any sector on a
-diskette.  As such, it serves as a
-good example of a program which calls
-Read/Write Track/Sector (RWTS).
+This program is the backbone of any attempt to patch a diskette directory back
+together.  It is also useful in examining the structure of files stored on disk
+and in applying patches to files or DOS directly.  ZAP allows its user to read,
+and optionally write, any sector on a diskette.  As such, it serves as a good
+example of a program which calls Read/Write Track/Sector (RWTS).
 
 INIT    REFORMAT A SINGLE TRACK
 
-This program will initialize a single
-track on a diskette.  Any volume
-number ($00-$FF) may be specified.
-INIT is useful in restoring a track
-whose sectoring has been damaged
-without reinitializing the entire
-diskette.  DOS 3.3 and 48K is assumed.
+This program will initialize a single track on a diskette.  Any volume number
+($00-$FF) may be specified.  INIT is useful in restoring a track whose sectoring
+has been damaged without reinitializing the entire diskette.  DOS 3.3 and 48K is
+assumed.
 
 FTS     FIND T/S LISTS UTILITY
 
-FTS may be used when the directory
-for a diskette has been destroyed.
-It searches every sector on a
-diskette for what appear to be
-Track/Sector Lists, printing the
-track and sector location of each it
-finds.  Knowing the locations of the
-T/S Lists can help the user patch
-together a new catalog using ZAP.
+FTS may be used when the directory for a diskette has been destroyed.  It
+searches every sector on a diskette for what appear to be Track/Sector Lists,
+printing the track and sector location of each it finds.  Knowing the locations
+of the T/S Lists can help the user patch together a new catalog using ZAP.
 
 COPY    CONVERT FILES
 
-COPY is provided as an example of
-direct use of the DOS File Manager
-package from assembly language.  The
-program will read an input B-type
-file and copy its contents to an
-output T-type file.  Although it
-could be used, for example,
-to convert files used
-by the Programma
-PIE editor for use by the
-Apple Toolkit assembler,
-it is not included as a utility
-program but rather as an example of
-the programming necessary to access
-the File Manager.
+COPY is provided as an example of direct use of the DOS File Manager package
+from assembly language.  The program will read an input B-type file and copy its
+contents to an output T-type file.  Although it could be used, for example, to
+convert files used by the Programma PIE editor for use by the Apple Toolkit
+assembler, it is not included as a utility program but rather as an example of
+the programming necessary to access the File Manager.
 
 STORING THE PROGRAMS ON DISKETTE
 
-The enterprising programmer may wish
-to type the source code for each
-program into an assembler and
-assemble the programs onto disk.  The
-Apple Toolkit assembler was used to
-produce the listings presented here,
-and interested programmers should
-consult the documentation for that
-assembler for more information on the
-pseudo-opcodes used.  For the
-non-assembly language programmer, the
-binary object code of each program
-may be entered from the monitor using
-the following procedure.
+The enterprising programmer may wish to type the source code for each program
+into an assembler and assemble the programs onto disk.  The Apple Toolkit
+assembler was used to produce the listings presented here, and interested
+programmers should consult the documentation for that assembler for more
+information on the pseudo-opcodes used.  For the non-assembly language
+programmer, the binary object code of each program may be entered from the
+monitor using the following procedure.
 
-The assembly language listings
-consist of columns of information as
-follows:
+The assembly language listings consist of columns of information as follows:
 
-        The address of some object
-code
-        The object code which should
-be stored there
+        The address of some object code
+        The object code which should be stored there
         The statement number
         The statement itself
 
@@ -128,14 +74,10 @@ For example...
 
 0800:20 DC 03  112 COPY    JSR  LOCFPL      FIND PARMLIST
 
-indicates that the binary code
-"20DC03" should be stored at 0800 and
-that this is statement 112.  To enter
-a program in the monitor, the reader
-must type in each address and its
-corresponding object code.  The
-following is an example of how to
-enter the DUMP program:
+indicates that the binary code "20DC03" should be stored at 0800 and that this
+is statement 112.  To enter a program in the monitor, the reader must type in
+each address and its corresponding object code.  The following is an example of
+how to enter the DUMP program:
 
 CALL -151               (Enter the monitor from BASIC)
 0800:20 E3 03
@@ -149,18 +91,14 @@ CALL -151               (Enter the monitor from BASIC)
 087B:4C B3 FD
 BSAVE DUMP,A$800,L$7E   (Save program to disk)
 
-Note that if a line (such as line 4
-in DUMP) has no object bytes
-associated with it, it may be
-ignored.
-When the program is to be run...
+Note that if a line (such as line 4 in DUMP) has no object bytes associated with
+it, it may be ignored.  When the program is to be run...
 
 BLOAD DUMP              (Load program)
 CALL -151               (Get into monitor)
 02:11 N 800G            (Store track to dump, run program)
 
-The BSAVE commands which must be used
-with the other programs are:
+The BSAVE commands which must be used with the other programs are:
 
 BSAVE ZAP,A$900,L$6C
 BSAVE INIT,A$800,L$89
@@ -168,37 +106,20 @@ BSAVE FTS,A$900,L$DC
 BSAVE COPY,A$800,L$1EC
 DUMP -- TRACK DUMP UTILITY
 
+The DUMP program will dump any track on a diskette in its raw, pre-nibbilized
+format, allowing the user to examine the sector address and data fields and the
+formatting of the track.  This allows the curious reader to examine his own
+diskettes to better understand the concepts presented in the preceeding
+chapters.  DUMP may also be used to examine most protected disks to see how they
+differ from normal ones and to diagnose diskettes with clobbered sector address
+or data fields with the intention of recovering from disk I/O errors.  The DUMP
+program serves as an example of direct use of the DISK II hardware from assembly
+language, with little or no use of DOS.
 
-The DUMP program will dump any track
-on a diskette in its raw,
-pre-nibbilized format, allowing the
-user to examine the sector address
-and data fields and the formatting of
-the track.  This allows the curious
-reader to examine his own diskettes
-to better understand the concepts
-presented in the preceeding chapters.
-DUMP may also be used to examine
-most protected disks to see how they
-differ from normal ones and to
-diagnose diskettes with clobbered
-sector address or data fields with
-the intention of recovering from disk
-I/O errors.  The DUMP program serves
-as an example of direct use of the
-DISK II hardware from assembly
-language, with little or no use of
-DOS.
-
-To use DUMP, first store the number
-of the track you wish dumped at
-location $02, then begin execution at
-$800.  DUMP will return to the
-monitor after displaying the first
-part of the track in hexadecimal on
-the screen.  The entire track image
-is stored, starting at $1000.
-For example:
+To use DUMP, first store the number of the track you wish dumped at location
+$02, then begin execution at $800.  DUMP will return to the monitor after
+displaying the first part of the track in hexadecimal on the screen.  The entire
+track image is stored, starting at $1000.  For example:
 
 CALL -151               (Get into the monitor from BASIC)
 BLOAD DUMP              (Load the DUMP program)
@@ -215,58 +136,33 @@ The output might look like this...
 1018- AD AE B2 9D AC AE 96 96   (Sector data)
  ...etc...
 
-Quite often, a sector with an I/O
-error will have only one bit which is
-in error, either in the address or
-data header or in the actual data
-itself.  A particularly patient
-programmer can, using DUMP and
-perhaps a half hour of hand
-"nibbilizing" determine the location
-of the error and record the data on
-paper for later entry via ZAP.  A
-thorough understanding of Chapter 3
-is necessary to accomplish this feat.
+Quite often, a sector with an I/O error will have only one bit which is in
+error, either in the address or data header or in the actual data itself.  A
+particularly patient programmer can, using DUMP and perhaps a half hour of hand
+"nibbilizing" determine the location of the error and record the data on paper
+for later entry via ZAP.  A thorough understanding of Chapter 3 is necessary to
+accomplish this feat.
 
 ZAP -- DISK UPDATE UTILITY
 
+The next step up the ladder from DUMP is to access data on the diskette at the
+sector level.  The ZAP program allows its user to specify a track and sector to
+be read into memory.  The programmer can then make changes in the image of the
+sector in memory and subsequently use ZAP to write the modified image back over
+the sector on disk.  ZAP is particularly useful when it is necessary to patch up
+a damaged directory.  Its use in this regard will be covered in more detail when
+FTS is explained.
 
-The next step up the ladder from DUMP
-is to access data on the diskette at
-the sector level.  The ZAP program
-allows its user to specify a track
-and sector to be read into memory.
-The programmer can then make changes
-in the image of the sector in memory
-and subsequently use ZAP to write the
-modified image back over the sector
-on disk.  ZAP is particularly useful
-when it is necessary to patch up a
-damaged directory.  Its use in this
-regard will be covered in more detail
-when FTS is explained.
-
-To use ZAP, store the number of the
-track and sector you wish to access
-in $02 and $03 respectively.  Tracks
-may range from $00 to $22 and sectors
-from $00 to $0F.  For example,
-the Volume Table of
-Contents (VTOC) for the diskette may
-be examined by entering $11 for the
-track and $00 for the sector.  $04
-should be initialized with either a
-$01 to indicate that the sector is to
-be read into memory, or $02 to ask
-that memory be written out to the
-sector.  Other values for location
-$04 can produce damaging results
-($04 in location $04 will INIT your
-diskette!).  When these three memory
-locations have been set up, begin
-execution at $900.  ZAP will read or
-write the sector into or from the 256
-bytes starting at $800.  For example:
+To use ZAP, store the number of the track and sector you wish to access in $02
+and $03 respectively.  Tracks may range from $00 to $22 and sectors from $00 to
+$0F.  For example, the Volume Table of Contents (VTOC) for the diskette may be
+examined by entering $11 for the track and $00 for the sector.  $04 should be
+initialized with either a $01 to indicate that the sector is to be read into
+memory, or $02 to ask that memory be written out to the sector.  Other values
+for location $04 can produce damaging results ($04 in location $04 will INIT
+your diskette!).  When these three memory locations have been set up, begin
+execution at $900.  ZAP will read or write the sector into or from the 256 bytes
+starting at $800.  For example:
 
 CALL -151               (Get into the monitor from BASIC)
 BLOAD ZAP               (Load the ZAP program)
@@ -284,75 +180,43 @@ The output might look like this...
 0818- 00 00 00 00 00 00 00 00
  ...etc...
 
-In the above example, if the byte at
-offset 3 (the version of DOS which
-INITed this diskette) is to be
-changed, the following would be
-entered...
+In the above example, if the byte at offset 3 (the version of DOS which INITed
+this diskette) is to be changed, the following would be entered...
 
 803:02                  (Change 03 to 02)
 04:02 N 900G            (Change ZAP to write mode and do it)
 
-Note that ZAP will remember the
-previous
-values in $02, $03, and $04.
+Note that ZAP will remember the previous values in $02, $03, and $04.
 
-If something is wrong with the sector
-to be read (an I/O error, perhaps),
-ZAP will print an error message of
-the form:
+If something is wrong with the sector to be read (an I/O error, perhaps), ZAP
+will print an error message of the form:
 
 RC=10
 
-A return code of 10, in this case,
-means that the diskette was write
-protected and a write operation was
-attempted.  Other error codes are 20
-- volume mismatch, 40 - drive error,
-and 80 - read error.  Refer to the
-documentation on RWTS given in
-Chapter 6 for more information on
-these errors.
+A return code of 10, in this case, means that the diskette was write protected
+and a write operation was attempted.  Other error codes are 20 - volume
+mismatch, 40 - drive error, and 80 - read error.  Refer to the documentation on
+RWTS given in Chapter 6 for more information on these errors.
 
 INIT -- REFORMAT A SINGLE TRACK
 
+Occasionally the sectoring information on a diskette can become damaged so that
+one or more sectors can no longer be found by DOS.  To correct this problem
+requires that the sector address and data fields be re-formatted for the entire
+track thus affected.  INIT can be used to selectively reformat a single track,
+thus avoiding a total re-INIT of the diskette.  Before using INIT, the user
+should first attempt to write on the suspect sector (using ZAP).  If RWTS
+refuses to write to the sector (RC=40), then INIT must be run on the entire
+track.  To avoid losing data, all other sectors on the track should be read and
+copied to another diskette prior to reformatting.  After INIT is run they can be
+copied back to the repaired diskette and data can be written to the previously
+damaged sector.
 
-Occasionally the sectoring information
-on a diskette can become damaged so
-that one or more sectors can no
-longer be found by DOS.  To correct
-this problem requires that the sector
-address and data fields be
-re-formatted for the entire track
-thus affected.  INIT can be used to
-selectively reformat a single track,
-thus avoiding a total re-INIT of the
-diskette.  Before using INIT, the
-user should first attempt to write on
-the suspect sector (using ZAP).  If
-RWTS refuses to write to the sector
-(RC=40),
-then INIT must be run on the entire
-track.  To avoid losing data, all
-other sectors on the track should be
-read and copied to another diskette
-prior to reformatting.  After INIT is
-run they can be copied back to the
-repaired diskette and data can be
-written to the previously damaged
-sector.
-
-To run INIT, first store the number
-of the track you wish reformatted at
-location $02, the volume number of
-the disk at location $03, and then
-begin execution at $800.  INIT will
-return to the monitor upon
-completion.  If the track can not be
-formatted for some reason (eg.
-physical damage or problems with the
-disk drive itself) a return code is
-printed.  For example:
+To run INIT, first store the number of the track you wish reformatted at
+location $02, the volume number of the disk at location $03, and then begin
+execution at $800.  INIT will return to the monitor upon completion.  If the
+track can not be formatted for some reason (eg.  physical damage or problems
+with the disk drive itself) a return code is printed.  For example:
 
 CALL -151               (Get into the monitor from BASIC)
 BLOAD INIT              (Load the INIT program)
@@ -362,58 +226,32 @@ BLOAD INIT              (Load the INIT program)
                         $FE (254) in $03, N terminates the
                         store command, go to location $800)
 
-WARNING: DOS 3.3 must be loaded in
-the machine before running INIT and a
-48K Apple is assumed.  INIT will not work with other
-versions of DOS or other memory
+WARNING: DOS 3.3 must be loaded in the machine before running INIT and a 48K
+Apple is assumed.  INIT will not work with other versions of DOS or other memory
 sizes.
 
 FTS -- FIND T/S LISTS UTILITY
 
-From time to time one of your
-diskettes will develop an I/O error
-smack in the middle of the catalog
-track.  When this occurs, any attempt
-to use the diskette will result in an
-I/O ERROR message from DOS.
-Generally, when this happens, the
-data stored in the files on the
-diskette is still intact; only the
-pointers to the files are gone.  If
-the data absolutely must be
-recovered, a knowledgeable Apple user
-can reconstruct the catalog from
-scratch.  Doing this involves first
-finding the T/S Lists for each file,
-and then using ZAP to patch a catalog
-entry into track 16 for each file
-which was found.  FTS is a utility
-which will scan a diskette for T/S
-Lists.  Although it may flag some
-sectors which are not T/S Lists as
-being such, it will never miss a
-valid T/S List.  Therefore, after
-running FTS the programmer must use
-ZAP to examine each track/sector
-printed by FTS to see if it is really
-a T/S List.  Additionally, FTS will
-find every T/S List image on the
-diskette, even some which were for
-files which have since been deleted.
-Since it is difficult to determine
-which files are valid and which are
-old deleted files, it is usually
-necessary to restore all the files
-and copy them to another diskette,
-and later delete the duplicate or
-unwanted ones.
+From time to time one of your diskettes will develop an I/O error smack in the
+middle of the catalog track.  When this occurs, any attempt to use the diskette
+will result in an I/O ERROR message from DOS.  Generally, when this happens, the
+data stored in the files on the diskette is still intact; only the pointers to
+the files are gone.  If the data absolutely must be recovered, a knowledgeable
+Apple user can reconstruct the catalog from scratch.  Doing this involves first
+finding the T/S Lists for each file, and then using ZAP to patch a catalog entry
+into track 16 for each file which was found.  FTS is a utility which will scan a
+diskette for T/S Lists.  Although it may flag some sectors which are not T/S
+Lists as being such, it will never miss a valid T/S List.  Therefore, after
+running FTS the programmer must use ZAP to examine each track/sector printed by
+FTS to see if it is really a T/S List.  Additionally, FTS will find every T/S
+List image on the diskette, even some which were for files which have since been
+deleted.  Since it is difficult to determine which files are valid and which are
+old deleted files, it is usually necessary to restore all the files and copy
+them to another diskette, and later delete the duplicate or unwanted ones.
 
-To run FTS, simply load the program
-and start execution at $900.  FTS
-will print the track and sector
-number of each sector it finds which
-bears a resemblance to a T/S List.
-For example:
+To run FTS, simply load the program and start execution at $900.  FTS will print
+the track and sector number of each sector it finds which bears a resemblance to
+a T/S List.  For example:
 
 CALL -151               (Get into the monitor from BASIC)
 BLOAD FTS               (Load the FTS program)
@@ -427,37 +265,20 @@ T=13 S=0F
 T=14 S=0D
 T=14 S=0F
 
-Here, only four possible files were
-found.  ZAP should now be used to
-read track $12, sector $0F.  At +$0C
-is the track and sector of the first
-sector in the file.  This sector can
-be read and examined to try to
-identify the file and its type.
-Usually a BASIC program can be
-identified, even though it is stored
-in tokenized form, from the text
-strings contained in the PRINT
-statements.  An ASCII conversion
-chart (see page 8 in the APPLE II
-REFERENCE MANUAL) can be used to
-decode these character strings.
-Straight T-type files will also
-contain ASCII text, with each line
-separated from the others with $8D
-(carriage returns).  B-type files are
-the hardest to identify, unless the
-address and length stored in the
-first 4 bytes are recognizable.  If
-you cannot identify the file, assume
-it is APPLESOFT BASIC.  If this
-assumption turns out to be incorrect,
-you can always go back and ZAP the
-file type in the CATALOG to try
-something else.  Given below is an
-example ZAP to the CATALOG to create
-an entry for the file whose T/S List
-is at T=12 S=0F.
+Here, only four possible files were found.  ZAP should now be used to read track
+$12, sector $0F.  At +$0C is the track and sector of the first sector in the
+file.  This sector can be read and examined to try to identify the file and its
+type.  Usually a BASIC program can be identified, even though it is stored in
+tokenized form, from the text strings contained in the PRINT statements.  An
+ASCII conversion chart (see page 8 in the APPLE II REFERENCE MANUAL) can be used
+to decode these character strings.  Straight T-type files will also contain
+ASCII text, with each line separated from the others with $8D (carriage
+returns).  B-type files are the hardest to identify, unless the address and
+length stored in the first 4 bytes are recognizable.  If you cannot identify the
+file, assume it is APPLESOFT BASIC.  If this assumption turns out to be
+incorrect, you can always go back and ZAP the file type in the CATALOG to try
+something else.  Given below is an example ZAP to the CATALOG to create an entry
+for the file whose T/S List is at T=12 S=0F.
 
 CALL -151
 BLOAD ZAP
@@ -472,49 +293,32 @@ BLOAD ZAP
 02:11 0F 02 N 900G      (Write new sector image out as
                          first (and only) catalog sector)
 
-The file should immediately be copied
-to another diskette and then the
-process repeated for each T/S List
-found by FTS until all of the files
-have been recovered.  As each file is
-recovered, it may be RENAMEd to its
-previous name.  Once all the files
-have been copied to another disk,
-and successfully tested, the
-damaged disk may be re-INITialized.
+The file should immediately be copied to another diskette and then the process
+repeated for each T/S List found by FTS until all of the files have been
+recovered.  As each file is recovered, it may be RENAMEd to its previous name.
+Once all the files have been copied to another disk, and successfully tested,
+the damaged disk may be re-INITialized.
 
 COPY -- CONVERT FILES
 
-The COPY program demonstrates the use
-of the DOS File Manager subroutine
-package from assembly language.  COPY
-will read as input a Binary type
-file, stripping off the address and
-length information, and write the
-data out as a newly created Text type
-file.  The name of the input file is
-assumed to be "INPUT", although this
-could just as easily have been
-inputted from the keyboard, and the
-name of the output file is "OUTPUT".
-COPY is a single drive operation,
-using the last drive which was
-referenced.
+The COPY program demonstrates the use of the DOS File Manager subroutine package
+from assembly language.  COPY will read as input a Binary type file, stripping
+off the address and length information, and write the data out as a newly
+created Text type file.  The name of the input file is assumed to be "INPUT",
+although this could just as easily have been inputted from the keyboard, and the
+name of the output file is "OUTPUT".  COPY is a single drive operation, using
+the last drive which was referenced.
 
-To run COPY, load it and begin
-execution at $800:
+To run COPY, load it and begin execution at $800:
 
 CALL -151               (Get into the monitor from BASIC)
 BLOAD COPY              (Load the COPY program)
  ...Now insert the disk containing INPUT...
 900G                    (Run the COPY program)
 
-When COPY finishes, it will return to
-BASIC.  If any errors occur, the
-return code passed back from the File
-Manager will be printed.  Consult the
-documentation on the File Manager
-parameter list in Chapter 6
-for a list of these return codes.
+When COPY finishes, it will return to BASIC.  If any errors occur, the return
+code passed back from the File Manager will be printed.  Consult the
+documentation on the File Manager parameter list in Chapter 6 for a list of
+these return codes.
 
 .nx appendix b
