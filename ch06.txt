@@ -1,8 +1,5 @@
-.bp
-.np
-.ce
 CHAPTER 6 - USING DOS FROM ASSEMBLY LANGUAGE
-.sp1
+
 CAVEAT
 
 This chapter is aimed at the advanced
@@ -15,7 +12,7 @@ topics covered here may be beyond the
 comprehension (at least for the
 present) of a programmer who has
 never used assembly language.
-.sp2
+
 DIRECT USE OF DISK DRIVE
 
 It is often desirable or necessary to
@@ -33,8 +30,7 @@ user written operating system to DOS-independent
 utility programs.  The
 device address assignments are given
 in Figure 6.1.
-.sp
-.nf
+
 ADDRESS LABEL           DESCRIPTION
 ---------------------------------------------------------------
  $C080  PHASEOFF        Stepper motor phase 0 off.
@@ -53,15 +49,14 @@ ADDRESS LABEL           DESCRIPTION
  $C08D  Q6H             Load Data Latch.
  $C08E  Q7L             Prepare latch for input.
  $C08F  Q7H             Prepare latch for output.
-.sp1
+
         Q7L followed by Q6L = Read
         Q7L followed by Q6H = Sense Write Protect
         Q7H followed by Q6L = Write
         Q7H followed by Q6H = Load Write Latch
-.sp1
+
 *** figure 6.1 ***
-.fi
-.bp
+
 The addresses are slot dependent and
 the offsets are computed by
 multiplying the slot number by 16.
@@ -87,8 +82,7 @@ be taken to insure that the data will
 be in an appropriate register.  All
 of the following would engage drive
 number 1. (Assume slot number 6)
-.sp1
-.nf
+
         LDA $C0EA
         BIT $C08A,X (where X-reg contains $60)
         CMP $C08A,X (where X-reg contains $60)
@@ -99,7 +93,7 @@ address assignments.  For more
 examples, see APPENDIX A.  Slot 6 is
 assumed and the X-register contains
 $60.
-.sp1
+
 STEPPER PHASE OFF/ON:
 
 Basically, each of the four phases
@@ -114,35 +108,31 @@ recommended that the SEEK command in
 RWTS be used to move the arm.  See
 the section on using RWTS immediately
 following.
-.sp1
+
 MOTOR OFF/ON:
-.sp1
-.nf
+
         LDA $C088,X     Turn motor off.
-.sp1
+
         LDA $C089,X     Turn motor on.
-.sp1
-.fi
+
 NOTE: A sufficient delay should be
 provided to allow the motor time to
 come up to speed.  Shugart recommends
 one second, but DOS is able to reduce
 this delay by watching the read latch
 until data starts to change.
-.bp
-.nf
+
 ENGAGE DRIVE 1/2:
-.sp1
+
         LDA $C08A,X     Engage drive 1.
-.sp1
+
         LDA $C08B,X     Engage drive 2.
-.sp1
+
 READ A BYTE:
-.sp1
+
   READ  LDA $C08C,X
         BPL READ
-.sp1
-.fi
+
 NOTE: $C08E,X must already have been
 accessed to assure Read mode.  The
 loop is necessary to assure that the
@@ -150,21 +140,19 @@ accumulator will contain valid data.
 If the data latch does not yet
 contain valid data the high bit will
 be zero.
-.sp1
-.nf
+
 SENSE WRITE PROTECT:
-.sp1
+
         LDA $C08D,X
         LDA $C08E,X     Sense write protect.
         BMI ERROR       If high bit set, protected.
-.sp1
+
 WRITE LOAD AND WRITE A BYTE
-.sp1
+
         LDA DATA
         STA $C08D,X     Write load.
         ORA $C08C,X     Write byte.
-.sp1
-.fi
+
 NOTE: $C08F,X must already have been
 accessed to insure Write mode and a
 100 microsecond delay should be
@@ -180,8 +168,7 @@ be necessary, depending on how the
 data is to be accessed, and code can
 not cross memory page boundaries
 without an adjustment.
-.bp
-.nf
+
         LDA #$D5        (3 cycles)
         JSR WRITE9      (6)
         LDA #$AA        (3)
@@ -195,7 +182,7 @@ without an adjustment.
  WRITE  STA $C08D,X     (5)
         ORA $C08C,X     (4)
         RTS             (6)
-.sp2
+
 CALLING READ/WRITE TRACK/SECTOR (RWTS)
 
 Read/Write Track/Sector (RWTS) exists
@@ -238,10 +225,9 @@ calling $3E3 as described above.  The
 IOB must contain appropriate
 information as defined in the list
 on the facing page (offsets are given in hexadecimal):
-.bp
-.nf
+
 INPUT/OUTPUT CONTROL BLOCK - GENERAL FORMAT
-.sp1
+
 BYTE    DESCRIPTION
 00      Table type, must be $01
 01      Slot number times 16 (s0: s=slot.  Example: $60)
@@ -270,18 +256,18 @@ BYTE    DESCRIPTION
 0E      Volume number of last access (must be initialized)
 0F      Slot number of last access*16 (must be initialized)
 10      Drive number of last access (must be initialized)
-.sp1
+
 DEVICE CHARACTERISTICS TABLE
-.sp1
+
 BYTE    DESCRIPTION
 00      Device type (should be $00 for DISK II)
 01      Phases per track (should be $01 for DISK II)
 02-03   Motor on time count (should be $EFD8 for DISK II)
-.bp
+
 RWTS IOB BY CALL TYPE
-.sp1
+
 SEEK    Move disk arm to desired track
-.sp1
+
 Input:  Byte 00    - Table type ($01)
              01    - Slot number * 16 (s0: s=slot)
              02    - Drive number ($01 or $02)
@@ -290,13 +276,13 @@ Input:  Byte 00    - Table type ($01)
              0C    - Command code for SEEK ($00)
              0F    - Slot number of last access * 16
              10    - Drive number of last access
-.sp1
+
 Output: Byte 0D    - Return code (See previous definition)
              0F    - Current Slot number * 16
              10    - Current Drive number
-.sp1
+
 READ    Read a sector into a specified buffer
-.sp1
+
 Input:  Byte 00    - Table type ($01)
              01    - Slot number * 16 (s0: s=slot)
              02    - Drive number ($01 or $02)
@@ -310,14 +296,14 @@ Input:  Byte 00    - Table type ($01)
              0E    - Volume number of last access
              0F    - Slot number of last access * 16
              10    - Drive number of last access
-.sp1
+
 Output: Byte 0D    - Return code (See previous definition)
              0E    - Current Volume number
              0F    - Current Slot number * 16
              10    - Current Drive number
 .bp
 WRITE   Write a sector from a specified buffer
-.sp1
+
 Input:  Byte 00    - Table type ($01)
              01    - Slot number * 16 (s0: s=slot)
              02    - Drive number ($01 or $02)
@@ -331,15 +317,15 @@ Input:  Byte 00    - Table type ($01)
              0E    - Volume number of last access
              0F    - Slot number of last access * 16
              10    - Drive number of last access
-.sp1
+
 Output: Byte 0D    - Return code (See previous definition)
              0E    - Current Volume number
              0F    - Current Slot number * 16
              10    - Current Drive number
-.sp1
+
 FORMAT  Initialize the diskette (does not put DOS on disk,
         create a VTOC/CATALOG, or store HELLO program)
-.sp1
+
 Input:  Byte 00    - Table type ($01)
              01    - Slot number * 16 (s0: s=slot)
              02    - Drive number ($01 or $02)
@@ -349,10 +335,10 @@ Input:  Byte 00    - Table type ($01)
              0E    - Volume number of last access
              0F    - Slot number of last access * 16
              10    - Drive number of last access
-.sp1
+
 Output: Byte 0D    - Return code (See previous definition)
              0E    - Current Volume number
              0F    - Current Slot number * 16
              10    - Current Drive number
-.bp
+
 .nx ch6.2
