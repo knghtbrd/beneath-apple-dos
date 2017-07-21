@@ -18,19 +18,28 @@ join in--send patches, help add stuff, etc.
 
 ## The method
 
+Documenting this for other texts to be converted in future...
+
+First we need to extract the text documents from the disks and turn them into
+something we can use on a modern system:
+
 1. The DOS 3.3 disks were dumped using cppo
-2. Apply the following transformations to each document file:
+2. Apply `scripts/extract_piewriter.py` to each document file which did the
+   following transformations:
    * For characters 0xa0-0xfe, strip the high bit to get pure ASCII
    * Convert 0x0d and 0x8d (return) characters ti 0x0a (newline)
    * Escape all else in C-style
-3. Remove NUL at end of .txt files
-4. .pp dot command is paragraph break, replace with blank line.
-5. Remove trailing whitespace
-6. Normalize case and spacing of dot commands (lowercase here)
+3. Remove NUL at end of .txt files and renamed the assembly source to .s
+4. Remove trailing whitespace
+6. Normalize dot commands (lowercase, spacing) for easier mechanical parsing.
+7. Remove the obvious dot commands (.pp is a paragraph break, .sp creates
+   vertical space, .br seems to be a line break, .bp a page break) and attempt
+   to remove or interpret others as seems appropriate
 
-
-This has probably broken the .s files a bit, and I haven't bothered to decompile
-the five byte HELLO ...  ;)
+This process has probably broken the .s files and there were some files that
+don't appear to have actually been part of the text (or maybe they were edits
+and revisions?), and there was bitrot in the files suggesting the disks the
+source documents were stored on were losing their integrity.
 
 [dons-disks]: http://www.6502lane.net/2015/03/12/don-worths-beneath-apple-dos-original-text-files/
 [archive.org]: https://archive.org/
