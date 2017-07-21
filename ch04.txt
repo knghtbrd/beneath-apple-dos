@@ -1,17 +1,9 @@
-.bp
-.np
-.ce
-CHAPTER 4 - DISKETTE DATA FORMATS
+## CHAPTER 4 - DISKETTE DATA FORMATS
 
-As was described in CHAPTER 3, a 16
-sector diskette consists of 560 data
-areas of 256 bytes each, called
-sectors. These sectors are arranged
-on the diskette in 35 concentric
-rings or tracks of 16 sectors each.
-The way DOS allocates these tracks of
-sectors is the subject of
-this chapter.
+As was described in CHAPTER 3, a 16 sector diskette consists of 560 data areas
+of 256 bytes each, called sectors. These sectors are arranged on the diskette in
+35 concentric rings or tracks of 16 sectors each.  The way DOS allocates these
+tracks of sectors is the subject of this chapter.
 
 A file (be it APPLESOFT, INTEGER, BINARY, or TEXT type) consists of one or more
 sectors containing data.  Since the sector is the smallest unit of allocatable
@@ -23,9 +15,9 @@ expect to be able to use up to 16 times 35 times 256 or 143,360 bytes of space
 on a diskette for files. Actually, the largest file that can be stored is about
 126,000 bytes long. The reason for this is that some of the sectors on the
 diskette must be used for what is called "overhead".
-.sp1
+
 *** INSERT FIGURE 4.1 ***
-.sp1
+
 Overhead sectors contain the image of DOS which is 1oaded when booting the
 diskette, a list of the names and locations of the files on the diskette, and an
 accounting of the sectors which are free for use with new files or expansions of
@@ -33,61 +25,35 @@ existing files. An example of the way DOS uses sectors is given in Figure 4.1.
 
 DISKETTE SPACE ALLOCATION
 
-The map in Figure 4.1 shows that the
-first three tracks of each diskette
-are always reserved for the bootstrap
-image of DOS. In the exact center
-track (track 17) is the VTOC and
-catalog. The reason for placing the
-catalog here is simple. Since the
-greatest delay when using the disk is
-waiting for the arm to move from
-track to track, it is advantageous to
-minimize this arm movement whenever
-possible.  By placing the catalog in
-the exact center track of the disk,
-the arm need never travel more than
-17 tracks to get to the catalog
-track.
-As files are allocated
-on a diskette, they occupy the tracks
-just above the catalog track first.
-When the last track, track 34, has been used, track 16,
-the track adjacent and below the
-catalog,
-is used next, then 15, 14, 13, and so
-on, moving away from the catalog
-again, toward the DOS image tracks.
-If there are very few files on
-the diskette, they will all be
-clustered, hopefully, near the
-catalog and arm movement will be
-minimized. Additional space for a
-file, if it is needed, is first allocated
-in the same track occupied by the file.
-When that track is full, another
-track is allocated elsewhere on the
-disk in the manner described above.
-.bp
+The map in Figure 4.1 shows that the first three tracks of each diskette are
+always reserved for the bootstrap image of DOS. In the exact center track (track
+17) is the VTOC and catalog. The reason for placing the catalog here is simple.
+Since the greatest delay when using the disk is waiting for the arm to move from
+track to track, it is advantageous to minimize this arm movement whenever
+possible.  By placing the catalog in the exact center track of the disk, the arm
+need never travel more than 17 tracks to get to the catalog track.  As files are
+allocated on a diskette, they occupy the tracks just above the catalog track
+first.  When the last track, track 34, has been used, track 16, the track
+adjacent and below the catalog, is used next, then 15, 14, 13, and so on, moving
+away from the catalog again, toward the DOS image tracks.  If there are very few
+files on the diskette, they will all be clustered, hopefully, near the catalog
+and arm movement will be minimized. Additional space for a file, if it is
+needed, is first allocated in the same track occupied by the file.  When that
+track is full, another track is allocated elsewhere on the disk in the manner
+described above.
+
 THE VTOC
 
-The Volume Table Of Contents is the "anchor" of the
-entire diskette. On any diskette
-accessible by any version of DOS, the
-VTOC sector is always in the same
-place; track 17, sector 0. (Some protected
-disks have the VTOC at another location
-and provide a special DOS which can find it.)
-Since files can end up anywhere on the
-diskette, it is through the VTOC
-anchor that DOS is able to find them.
-The VTOC of a diskette has the
-following format (all  byte offsets are
+The Volume Table Of Contents is the "anchor" of the entire diskette. On any
+diskette accessible by any version of DOS, the VTOC sector is always in the same
+place; track 17, sector 0. (Some protected disks have the VTOC at another
+location and provide a special DOS which can find it.) Since files can end up
+anywhere on the diskette, it is through the VTOC anchor that DOS is able to find
+them.  The VTOC of a diskette has the following format (all  byte offsets are
 given in base 16, hexadecimal):
-.np
+
 VOLUME TABLE OF CONTENTS (VTOC) FORMAT
-.sp1
-.un
+
 BYTE    DESCRIPTION
 00      Not used
 01      Track number of first catalog sector
@@ -114,87 +80,57 @@ BC-BF   Bit map of free sectors in track 33
 C0-C3   Bit map of free sectors in track 34
 C4-FF   Bit maps for additional tracks if there are more
         than 35 tracks per diskette
-.bp
+
 BIT MAPS OF FREE SECTORS ON A GIVEN TRACK
-.sp1
+
         A four byte binary string of ones and zeros,
         representing free and allocated sectors respectively.
         Hexadecimal sector numbers are assigned to bit
         positions as follows:
-.sp1
+
         BYTE     SECTORS
         +0       FEDC BA98
         +1       7654 3210
         +2       .... .... (not used)
         +3       .... .... (not used)
-.sp1
+
         Thus, if only sectors E and 8 are free and all
         others are allocated, the bit map will be:
-.sp1
+
         41000000
-.sp1
+
         If all sectors are free:
 
         FFFF0000
 
-An example of a VTOC sector is given
-in Figure 4.2. This VTOC corresponds
-to the map of the diskette given in
-Figure 4.1.
-.sp1
-*** INSERT FIGURE 4.2 ***
-.bp
-THE CATALOG
-.ll30
+An example of a VTOC sector is given in Figure 4.2. This VTOC corresponds to the
+map of the diskette given in Figure 4.1.
 
-In order for DOS to find a given
-file, it must first read the VTOC to
-find out where the first catalog
-sector is located. Typically, the
-catalog sectors for a diskette are
-the remaining sectors on track 17,
-following the VTOC sector. Of course,
-as long as a track/sector pointer
-exists in the VTOC and the VTOC is
-located at track 17, sector 0, DOS
-does not really care where the
-catalog resides.
-Figure 4.3 diagrams the catalog
-track. The figure shows the
-track/sector pointer
-in the VTOC at bytes 01 and 02 as an
-arrow pointing to track 17 (11 in
-hexadecimal)
-sector F. The last sector in the
-track is the first catalog sector and
-describes the first seven files on
-the diskette. Each catalog
-sector has a track/sector
-pointer in the same position (bytes
-01 and 02) which points to the next
-catalog sector. The last catalog
-sector (sector 1)
-has a zero pointer to indicate
-that there are no more catalog
-sectors in the chain.
-.sp1
+*** INSERT FIGURE 4.2 ***
+
+THE CATALOG
+
+In order for DOS to find a given file, it must first read the VTOC to find out
+where the first catalog sector is located. Typically, the catalog sectors for a
+diskette are the remaining sectors on track 17, following the VTOC sector. Of
+course, as long as a track/sector pointer exists in the VTOC and the VTOC is
+located at track 17, sector 0, DOS does not really care where the catalog
+resides.  Figure 4.3 diagrams the catalog track. The figure shows the
+track/sector pointer in the VTOC at bytes 01 and 02 as an arrow pointing to
+track 17 (11 in hexadecimal) sector F. The last sector in the track is the first
+catalog sector and describes the first seven files on the diskette. Each catalog
+sector has a track/sector pointer in the same position (bytes 01 and 02) which
+points to the next catalog sector. The last catalog sector (sector 1) has a zero
+pointer to indicate that there are no more catalog sectors in the chain.
+
 *** INSERT FIGURE 4.3 ***
 
-In each catalog
-sector up to seven files may be
-listed and described. Thus, on a
-typical DOS 3.3 diskette, the catalog can
-hold up to 15 times
-7, or 105 files. A
-catalog sector is formatted as
-described on the following page.
-.br
-.ll60
-.sp1
-.np
+In each catalog sector up to seven files may be listed and described. Thus, on a
+typical DOS 3.3 diskette, the catalog can hold up to 15 times 7, or 105 files. A
+catalog sector is formatted as described on the following page.
+
 CATALOG SECTOR FORMAT
-.sp1
-.un
+
 BYTE    DESCRIPTION
 00      Not used
 01      Track number of next catalog sector (usually 11 hex)
@@ -207,11 +143,11 @@ BYTE    DESCRIPTION
 97-B9   Fifth file descriptive entry
 BA-DC   Sixth file descriptive entry
 DD-FF   Seventh file descriptive entry
-.bp
+
 FILE DESCRIPTIVE ENTRY FORMAT
-.sp1
+
 RELATIVE
-.un
+
 BYTE    DESCRIPTION
 00      Track of first track/sector list sector.
         If this is a deleted file, this byte contains a hex
@@ -240,52 +176,32 @@ BYTE    DESCRIPTION
         The CATALOG command will only format the LO byte of
         this length giving 1-255 but a full 65,535 may be
         stored here.
-.sp
 
-Figure 4.4 is an example of a typical
-catalog sector. In this example there
-are only four files on the entire
-diskette, so only one catalog sector
-was needed to describe them. There
-are four entries in use and three
-entries which have never been used
-and contain zeros.
-.sp1
+Figure 4.4 is an example of a typical catalog sector. In this example there are
+only four files on the entire diskette, so only one catalog sector was needed to
+describe them. There are four entries in use and three entries which have never
+been used and contain zeros.
+
 *** INSERT FIGURE 4.4 ***
-.sp1
+
 THE TRACK/SECTOR LIST
 
-Each file has
-associated with it a "Track/Sector
-List" sector. This sector contains a
-list of track/sector pointer pairs
-which sequentially list the data sectors
-which make up the file. The file
-descriptive entry in the catalog
-sector points to this T/S List sector
-which, in turn, points to each sector
-in the file. This concept is
-diagramed in Figure 4.5.
-.sp1
+Each file has associated with it a "Track/Sector List" sector. This sector
+contains a list of track/sector pointer pairs which sequentially list the data
+sectors which make up the file. The file descriptive entry in the catalog sector
+points to this T/S List sector which, in turn, points to each sector in the
+file. This concept is diagramed in Figure 4.5.
+
 *** INSERT FIGURE 4.5 ***
-.bp
-The format of a Track/Sector List
-sector is given below. Note that
-since even a minimal file requires
-one T/S List sector and one data
-sector, the least number of sectors a
-non-empty
-file can have is 2. Also, note that a
-very large file, having more than 122
-data sectors, will need more than one
-Track/Sector List to hold all the
-Track/Sector pointer pairs.
-.sp1
-.ne10
-.np
+
+The format of a Track/Sector List sector is given below. Note that since even a
+minimal file requires one T/S List sector and one data sector, the least number
+of sectors a non-empty file can have is 2. Also, note that a very large file,
+having more than 122 data sectors, will need more than one Track/Sector List to
+hold all the Track/Sector pointer pairs.
+
 TRACK/SECTOR LIST FORMAT
-.sp1
-.un
+
 BYTE    DESCRIPTION
 00      Not used
 01      Track number of next T/S List sector if one was
@@ -298,356 +214,183 @@ BYTE    DESCRIPTION
 0C-0D   Track and sector of first data sector or zeros
 0E-0F   Track and sector of second data sector or zeros
 10-FF   Up to 120 more Track/Sector pairs
-.sp1
 
-A sequential file will end when the first zero T/S List entry
-is encountered. A random file, however, can have spaces within
-it which were never allocated and therefore
-have no data sectors allocated
-in the T/S List. This distinction is not always handled
-correctly by DOS. The VERIFY command, for instance, stops when
-it gets to the first zero T/S List entry and can not be used
-to verify some random organization text files.
+A sequential file will end when the first zero T/S List entry is encountered. A
+random file, however, can have spaces within it which were never allocated and
+therefore have no data sectors allocated in the T/S List. This distinction is
+not always handled correctly by DOS. The VERIFY command, for instance, stops
+when it gets to the first zero T/S List entry and can not be used to verify some
+random organization text files.
 
-An example T/S List sector is given in Figure 4.6.
-The example file (HELLO, from our
-previous examples) has only one data
-sector, since it is less than 256
-bytes in length. Counting this data
-sector and the T/S List sector, HELLO
-is 2 sectors long, and this will be
-the value shown when a CATALOG
-command is done.
-.sp1
+An example T/S List sector is given in Figure 4.6.  The example file (HELLO,
+from our previous examples) has only one data sector, since it is less than 256
+bytes in length. Counting this data sector and the T/S List sector, HELLO is 2
+sectors long, and this will be the value shown when a CATALOG command is done.
+
 *** INSERT FIGURE 4.6 ***
-.bp
-Following the Track/Sector pointer in
-the T/S List sector, we come to the
-first data sector of the file. As
-we examine the data sectors, the
-differences between the file types
-become apparent. All files (except,
-perhaps, a random TEXT file) are
-considered to be continuous streams
-of data, even though they must be
-broken up into 256 byte chunks to
-fit in sectors on the diskette.
-Although these sectors are not
-necessarily contiguous (or next to
-each other on the diskette), by using
-the Track/Sector List, DOS can read
-each sector of the file in the correct order so
-that the programmer need never know
-that the data was broken up into
-sectors at all.
-.sp1
+
+Following the Track/Sector pointer in the T/S List sector, we come to the first
+data sector of the file. As we examine the data sectors, the differences between
+the file types become apparent. All files (except, perhaps, a random TEXT file)
+are considered to be continuous streams of data, even though they must be broken
+up into 256 byte chunks to fit in sectors on the diskette.  Although these
+sectors are not necessarily contiguous (or next to each other on the diskette),
+by using the Track/Sector List, DOS can read each sector of the file in the
+correct order so that the programmer need never know that the data was broken up
+into sectors at all.
+
 TEXT FILES
 
-The TEXT data type is the least
-complicated
-file data structure. It consists of
-one or more records, separated from
-each other by carriage return
-characters (hex 8D's). This structure
-is diagrammed and an example file is
-given in Figure 4.7. Usually, the end
-of a TEXT file is signaled by the
-presence of a hex 00 or the lack of
-any more data sectors in the T/S List
-for the file. As mentioned
-earlier, if the file has random
-organization, there may be hex 00's
-imbedded in the data and even missing
-data sectors in areas where nothing
-was ever written. In this case, the
-only way to find the end of the file
-is to scan the Track/Sector List for
-the last non-zero Track/Sector pair.
-Since carriage return characters and
-hex 00's have special meaning in a
-TEXT type file, they can not be part
-of the data itself. For this reason,
-and to make the data accessible to
-BASIC, the data can only contain
-printable or ASCII characters
-(alphabetics, numerics or special
-characters, see p. 8 in the APPLE II
-REFERENCE MANUAL)
-This restriction makes
-processing of a TEXT file slower and
-less efficient in the use of disk space than
-with a BINARY type file, since each
-digit must occupy a full byte in the
-file.
-.sp1
+The TEXT data type is the least complicated file data structure. It consists of
+one or more records, separated from each other by carriage return characters
+(hex 8D's). This structure is diagrammed and an example file is given in Figure
+4.7. Usually, the end of a TEXT file is signaled by the presence of a hex 00 or
+the lack of any more data sectors in the T/S List for the file. As mentioned
+earlier, if the file has random organization, there may be hex 00's imbedded in
+the data and even missing data sectors in areas where nothing was ever written.
+In this case, the only way to find the end of the file is to scan the
+Track/Sector List for the last non-zero Track/Sector pair.  Since carriage
+return characters and hex 00's have special meaning in a TEXT type file, they
+can not be part of the data itself. For this reason, and to make the data
+accessible to BASIC, the data can only contain printable or ASCII characters
+(alphabetics, numerics or special characters, see p. 8 in the APPLE II REFERENCE
+MANUAL) This restriction makes processing of a TEXT file slower and less
+efficient in the use of disk space than with a BINARY type file, since each
+digit must occupy a full byte in the file.
+
 *** INSERT FIGURE 4.7 ***
-.bp
+
 BINARY FILES
 
-The structure of a BINARY type file is
-shown in Figure 4.8. An exact copy of
-the memory involved is written to the
-disk sector(s), preceded by the
-memory address where it was found and
-the length (a total of four bytes).
-The address and length (in low order,
-high order format) are those given in
-the A and L keywords from the BSAVE
-command which created the file.
-Notice that DOS writes one extra byte
-to the file. This does not matter too
-much since BLOAD and BRUN
-will only read the
-number of bytes given in the length
-field. (Of course, if you BSAVE a
-multiple of 256 bytes, a sector will
-be wasted because of this error)
-DOS could be made to BLOAD or BRUN
-the binary image at a different
-address either by providing the A
-(address) keyword when the command is
-entered, or by changing the address
-in the first two bytes of the file on
-the diskette.
-.sp1
+The structure of a BINARY type file is shown in Figure 4.8. An exact copy of the
+memory involved is written to the disk sector(s), preceded by the memory address
+where it was found and the length (a total of four bytes).  The address and
+length (in low order, high order format) are those given in the A and L keywords
+from the BSAVE command which created the file.  Notice that DOS writes one extra
+byte to the file. This does not matter too much since BLOAD and BRUN will only
+read the number of bytes given in the length field. (Of course, if you BSAVE a
+multiple of 256 bytes, a sector will be wasted because of this error) DOS could
+be made to BLOAD or BRUN the binary image at a different address either by
+providing the A (address) keyword when the command is entered, or by changing
+the address in the first two bytes of the file on the diskette.
+
 *** INSERT FIGURE 4.8 ***
-.sp1
+
 APPLESOFT AND INTEGER FILES
 
-A BASIC program, be it APPLESOFT or
-INTEGER, is saved to the diskette in
-a way that is similar to BSAVE. The
-format of an APPLESOFT file type is
-given in Figure 4.9 and that of
-INTEGER BASIC in 4.10. When the SAVE
-command is typed, DOS determines the
-location of the BASIC program image
-in memory and its length. Since a
-BASIC program is always loaded at a
-location known to the BASIC
-interpreter, it is not necessary to
-store the address in the file as with
-a BINARY file. The length is stored,
-however, as the first two bytes, and
-is followed by the image from memory.
-Notice that, again, DOS incorrectly
-writes an additional byte, even though
-it will be ignored by LOAD. The
-memory image of the program consists
-of program lines in an internal
-format which is made up of what are
-called "tokens". A treatment of the
-structure of a BASIC program as it
-appears in memory is outside the
-scope of this manual, but a
-breakdown of the example INTEGER
-BASIC program is given in Figure
-4.10.
-.sp1
+A BASIC program, be it APPLESOFT or INTEGER, is saved to the diskette in a way
+that is similar to BSAVE. The format of an APPLESOFT file type is given in
+Figure 4.9 and that of INTEGER BASIC in 4.10. When the SAVE command is typed,
+DOS determines the location of the BASIC program image in memory and its length.
+Since a BASIC program is always loaded at a location known to the BASIC
+interpreter, it is not necessary to store the address in the file as with a
+BINARY file. The length is stored, however, as the first two bytes, and is
+followed by the image from memory.  Notice that, again, DOS incorrectly writes
+an additional byte, even though it will be ignored by LOAD. The memory image of
+the program consists of program lines in an internal format which is made up of
+what are called "tokens". A treatment of the structure of a BASIC program as it
+appears in memory is outside the scope of this manual, but a breakdown of the
+example INTEGER BASIC program is given in Figure 4.10.
+
 *** INSERT FIGURES 4.9 AND 4.10 ***
-.bp
+
 OTHER FILE TYPES (S,R,A,B)
 
-Additional file types have been
-defined within DOS as can be seen in
-the file descriptive entry format,
-shown
-earlier. No DOS commands at present
-use these additional types so their
-eventual meaning is anybody's guess.
-The R file type, however, has been
-used with the DOS TOOLKIT assembler
-for its output file, a relocatable
-object module. This file type is used
-with a
-special form of BINARY file which can
-contain the memory image of a machine
-language program which may be
-relocated anywhere in the machine
-based on additional information
-stored with the image itself. The
-format for this type of file is given
-in the documentation accompanying the
-DOS TOOLKIT.
-It is recommended that if the
-reader requires more information
-about R files he should refer to that
-documentation.
-.sp1
+Additional file types have been defined within DOS as can be seen in the file
+descriptive entry format, shown earlier. No DOS commands at present use these
+additional types so their eventual meaning is anybody's guess.  The R file type,
+however, has been used with the DOS TOOLKIT assembler for its output file, a
+relocatable object module. This file type is used with a special form of BINARY
+file which can contain the memory image of a machine language program which may
+be relocated anywhere in the machine based on additional information stored with
+the image itself. The format for this type of file is given in the documentation
+accompanying the DOS TOOLKIT.  It is recommended that if the reader requires
+more information about R files he should refer to that documentation.
+
 EMERGENCY REPAIRS
 
-From time to time the information on
-a diskette can become damaged or
-lost. This can create various
-symptoms, ranging from mild side
-effects, such as the disk not
-booting, to major problems, such as
-an input/output (I/O) error in the catalog. A good
-understanding of the format of a
-diskette, as described previously,
-and a few program tools can allow any
-reasonably sharp APPLE II user to
-patch up most errors on his
-diskettes.
+From time to time the information on a diskette can become damaged or lost. This
+can create various symptoms, ranging from mild side effects, such as the disk
+not booting, to major problems, such as an input/output (I/O) error in the
+catalog. A good understanding of the format of a diskette, as described
+previously, and a few program tools can allow any reasonably sharp APPLE II user
+to patch up most errors on his diskettes.
 
-A first question would be, "how do
-errors occur". The most common cause
-of an error is a worn or physically
-damaged diskette. Usually, a diskette
-will warn you that it is wearing out
-by producing "soft errors". Soft
-errors are I/O errors which occur
-only randomly. You may get an I/O
-error message when you catalog a
-disk one time and have it catalog
-correctly if you
-try again. When this happens, the
-smart programmer immediately copies
-the files on
-the aged diskette to a brand new one
-and discards the old one or keeps it
-as a backup.
+A first question would be, "how do errors occur". The most common cause of an
+error is a worn or physically damaged diskette. Usually, a diskette will warn
+you that it is wearing out by producing "soft errors". Soft errors are I/O
+errors which occur only randomly. You may get an I/O error message when you
+catalog a disk one time and have it catalog correctly if you try again. When
+this happens, the smart programmer immediately copies the files on the aged
+diskette to a brand new one and discards the old one or keeps it as a backup.
 
-Another cause of damaged diskettes is
-the practice of hitting the RESET key
-to abort the execution of a program
-which is
-accessing the diskette. Damage will
-usually occur when the RESET signal
-comes just as data is being written
-onto the disk. Powering the machine
-off just as data is being written to
-the disk is also a sure way to
-clobber a diskette. Of course, real
-hardware problems in the disk drive
-or controller card and ribbon cable
-can cause damage as well.
-.bp
-If the damaged diskette can be
-cataloged, recovery is much easier.
-A damaged DOS image in the first
-three tracks can usually be corrected
-by running the MASTER CREATE program
-against the diskette
-or by copying all the files to
-another diskette. If only one file
-produces an I/O error when it is
-VERIFYed, it may be possible to copy
-most of the sectors of the file to
-another diskette by skipping over the
-bad sector with an assembler program
-which calls RWTS in DOS or with a
-BASIC program (if the file is a TEXT
-file). Indeed, if the problem is a bad
-checksum (see CHAPTER 3) it may be
-possible to read the bad sector and
-ignore the error and get most of the
-data.
+Another cause of damaged diskettes is the practice of hitting the RESET key to
+abort the execution of a program which is accessing the diskette. Damage will
+usually occur when the RESET signal comes just as data is being written onto the
+disk. Powering the machine off just as data is being written to the disk is also
+a sure way to clobber a diskette. Of course, real hardware problems in the disk
+drive or controller card and ribbon cable can cause damage as well.
 
-An I/O error usually means that one
-of two conditions has occured. Either
-a bad checksum was detected on the
-data in a sector, meaning that one or
-more bytes is bad; or the
-sectoring is clobbered such that the
-sector no longer even exists on the
-diskette. If the latter is the case,
-the diskette (or at the very least,
-the track) must be reformatted,
-resulting in a massive loss of data.
-Although DOS can be patched to format
-a single track, it is usually easier
-to copy all readable sectors from the
-damaged diskette to another formatted
-diskette and then reconstruct the
-lost data there.
+If the damaged diskette can be cataloged, recovery is much easier.  A damaged
+DOS image in the first three tracks can usually be corrected by running the
+MASTER CREATE program against the diskette or by copying all the files to
+another diskette. If only one file produces an I/O error when it is VERIFYed, it
+may be possible to copy most of the sectors of the file to another diskette by
+skipping over the bad sector with an assembler program which calls RWTS in DOS
+or with a BASIC program (if the file is a TEXT file). Indeed, if the problem is
+a bad checksum (see CHAPTER 3) it may be possible to read the bad sector and
+ignore the error and get most of the data.
 
-Many commercially available utilities
-exist which allow the user to
-read and display the contents of
-sectors. Some of these utilities also
-allow you to modify the sector data
-and rewrite it to the same or another
-diskette. A simple version of such a
-utility is provided in APPENDIX A.
-The ZAP program given there will read
-any track/sector into memory,
-allowing the user to examine it or
-modify the data and then, optionally,
-rewrite it to a diskette. Using such
-a program is very important when
-learning about diskette formats and
-when fixing clobbered data.
-.bp
-Using ZAP, a bad sector within a file
-can be localized by reading each
-track/sector listed in the T/S List
-sector for the file. If the bad
-sector is a catalog sector, the
-pointers of up to seven files may be
-lost. When this occurs, a
-search of the diskette can be made to
-find T/S List sectors which do not
-correspond to any files listed in the
-remaining "good" catalog sectors.
-As these
-sectors are found, new file
-descriptive entries can be made in the
-damaged sector which point to these
-T/S Lists. When the entire catalog is
-lost, this process can take hours,
-even with a good understanding of
-the format of DOS diskettes. Such an
-endeavor should only be undertaken if
-there is no other way to recover the
-data. Of course the best policy is to
-create backup copies of important
-files periodically to simplify
-recovery.  More information on the
-above procedures is given in APPENDIX
-A.
+An I/O error usually means that one of two conditions has occured. Either a bad
+checksum was detected on the data in a sector, meaning that one or more bytes is
+bad; or the sectoring is clobbered such that the sector no longer even exists on
+the diskette. If the latter is the case, the diskette (or at the very least, the
+track) must be reformatted, resulting in a massive loss of data.  Although DOS
+can be patched to format a single track, it is usually easier to copy all
+readable sectors from the damaged diskette to another formatted diskette and
+then reconstruct the lost data there.
 
-A less significant form of diskette
-clobber, but very annoying, is the
-loss of free sectors. Since DOS
-allocates an entire track of sectors
-at a time while a file is open,
-hitting RESET can cause these sectors
-to be marked in use in the VTOC even
-though they have not yet been added
-to any T/S List. These lost sectors
-can never be recovered by normal
-means, even when the file is deleted,
-since they are not in its T/S List.
-The result is a DISK FULL message
-before the diskette is actually full.
-To reclaim the lost sectors
-it is necessary to
-compare every sector listed in every
-T/S List against the VTOC bit map to
-see if there are any discrepancies.
-There are utility programs which will
-do this automatically but the best
-way to solve this problem is to copy
-all the files on the diskette to
-another diskette (note that FID must
-be used, not COPY, since COPY copies
-an image of the diskette, bad VTOC
-and all).
+Many commercially available utilities exist which allow the user to read and
+display the contents of sectors. Some of these utilities also allow you to
+modify the sector data and rewrite it to the same or another diskette. A simple
+version of such a utility is provided in APPENDIX A.  The ZAP program given
+there will read any track/sector into memory, allowing the user to examine it or
+modify the data and then, optionally, rewrite it to a diskette. Using such a
+program is very important when learning about diskette formats and when fixing
+clobbered data.
 
-If a file is deleted it can usually
-be recovered, providing that
-additional sector allocations have
-not occured since it was deleted.
-If another file was created after the
-DELETE command, DOS might have reused
-some or all of the sectors of the old
-file. The catalog can be quickly
-ZAPped to move the track number of the T/S
-List from byte 20 of the file
-descriptive entry to byte 0. The file
-should then be copied to another disk
-and then the original deleted so that
-the VTOC freespace bit map will
-be updated.
+Using ZAP, a bad sector within a file can be localized by reading each
+track/sector listed in the T/S List sector for the file. If the bad sector is a
+catalog sector, the pointers of up to seven files may be lost. When this occurs,
+a search of the diskette can be made to find T/S List sectors which do not
+correspond to any files listed in the remaining "good" catalog sectors.  As
+these sectors are found, new file descriptive entries can be made in the damaged
+sector which point to these T/S Lists. When the entire catalog is lost, this
+process can take hours, even with a good understanding of the format of DOS
+diskettes. Such an endeavor should only be undertaken if there is no other way
+to recover the data. Of course the best policy is to create backup copies of
+important files periodically to simplify recovery.  More information on the
+above procedures is given in APPENDIX A.
+
+A less significant form of diskette clobber, but very annoying, is the loss of
+free sectors. Since DOS allocates an entire track of sectors at a time while a
+file is open, hitting RESET can cause these sectors to be marked in use in the
+VTOC even though they have not yet been added to any T/S List. These lost
+sectors can never be recovered by normal means, even when the file is deleted,
+since they are not in its T/S List.  The result is a DISK FULL message before
+the diskette is actually full.  To reclaim the lost sectors it is necessary to
+compare every sector listed in every T/S List against the VTOC bit map to see if
+there are any discrepancies.  There are utility programs which will do this
+automatically but the best way to solve this problem is to copy all the files on
+the diskette to another diskette (note that FID must be used, not COPY, since
+COPY copies an image of the diskette, bad VTOC and all).
+
+If a file is deleted it can usually be recovered, providing that additional
+sector allocations have not occured since it was deleted.  If another file was
+created after the DELETE command, DOS might have reused some or all of the
+sectors of the old file. The catalog can be quickly ZAPped to move the track
+number of the T/S List from byte 20 of the file descriptive entry to byte 0. The
+file should then be copied to another disk and then the original deleted so that
+the VTOC freespace bit map will be updated.
+
 .nx ch5
