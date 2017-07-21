@@ -1,0 +1,570 @@
+.ce
+CHAPTER 3 - DISK II HARDWARE AND TRACK FORMATTING
+.sp2
+
+Apple Computer's excellent manual on
+the Disk Operating System (DOS)
+provides only very basic information
+about how diskettes are formatted.
+This chapter will explain in detail
+how information is structured on a
+diskette.  The first section will
+contain a brief introduction to the
+hardware, and may be skipped by those
+already familiar with the DOS manual.
+
+For system housekeeping, DOS divides
+diskettes into tracks and sectors.
+This is done during the
+initialization process.  A track is a
+physically defined circular path
+which is concentric with the hole in
+the center of the diskette.  Each
+track is identified by its distance
+from the center of the disk.  Similar
+to a phonograph stylus, the
+read/write head of the disk drive may
+be positioned over any given track.
+The tracks are similar to the grooves
+in a record, but they are not
+connected in a spiral.  Much like
+playing a record, the diskette is
+spun at a constant speed while the
+data is read from or written to its
+surface with the read/write head.
+Apple formats its diskettes into 35
+tracks.  They are numbered from 0 to
+34, track 0 being the outermost track
+and track 34 the innermost.  Figure
+3.1 illustrates the concept of
+tracks, although they are invisible
+to the eye on a real diskette.
+
+*** INSERT FIGURE 3.1 HERE ***
+
+It should be pointed out, for the
+sake of accuracy, that the disk arm
+can position itself over 70 "phases".
+To move the arm past one track to the
+next, two phases of the stepper
+motor, which moves the arm, must be
+cycled.  This implies that data might
+be stored on 70 tracks, rather than
+35.  Unfortunately, the resolution of
+the read/write head and the accuracy
+of the stepper motor are such, that
+attempts to use these phantom
+"half" tracks create so much
+cross-talk that data is lost or
+overwritten.  Although the standard
+DOS uses only even phases, some
+protected disks use odd phases or
+combinations of the two, provided
+that no two tracks are closer than
+two phases from one another.  See
+APPENDIX B for more information on
+protection schemes.
+
+A sector is a subdivision of a track.
+It is the smallest unit of
+"updatable" data on the diskette.
+DOS generally reads or writes data a
+sector at a time.  This is to avoid
+using a large chunk of memory as a
+buffer to read or write an entire
+track.
+Apple has used two different track
+formats
+to date.  One divides the track into
+13 sectors, the other, 16 sectors.  The
+sectoring does not use the index
+hole, provided on most diskettes, to
+locate the first sector of the track.
+The implication is that
+the software must be able
+to locate any given track and sector
+with no help from the hardware.
+This scheme, known as "soft sectoring",
+takes a little more space
+for storage but allows flexibility,
+as evidenced by the recent change
+from 13 sectors to 16 sectors per
+track.  The following table
+catagorizes the amount of data stored
+on a diskette under both 13 and 16
+sector formats.
+
+         DISK ORGANIZATION
+
+TRACKS
+  All DOS versions................35
+
+SECTORS PER TRACK
+  DOS 3.2.1 and earlier...........13
+  DOS 3.3.........................16
+
+SECTORS PER DISKETTE
+  DOS 3.2.1 and earlier..........455
+  DOS 3.3........................560
+
+BYTES PER SECTOR
+  All DOS versions...............256
+
+BYTES PER DISKETTE
+  DOS 3.2.1 and earlier.......116480
+  DOS 3.3.....................143360
+
+USABLE* SECTORS FOR DATA STORAGE
+  DOS 3.2.1 and earlier..........403
+  DOS 3.3........................496
+
+USABLE* BYTES PER DISKETTE
+  DOS 3.2.1 and earlier.......103168
+  DOS 3.3.....................126976
+
+* Excludes DOS, VTOC, and CATALOG
+
+TRACK FORMATTING
+
+Up to this point we have broken down
+the structure of data to the track
+and sector level.  To better
+understand how
+data is stored and retrieved, we will
+start at the bottom and work up.
+
+As this manual is primarily concerned
+with software, no attempt will be
+made to deal with the specifics of
+the hardware.  For example, while in
+fact data is stored as a continuous
+stream of analog signals, we will
+deal with discrete digital data, i.e.
+a 0 or a 1.  We recognize that the
+hardware converts analog data to
+digital data but how this is
+accomplished is beyond the scope of
+this manual.
+
+Data is recorded on the diskette
+using frequency modulation as the
+recording mode.  Each data bit
+recorded on the diskette has an
+associated clock bit recorded with
+it.  Data written on and read back
+from the diskette takes the form
+shown in Figure 3.2.  The data
+pattern shown represents a binary
+value of 101.
+
+*** INSERT FIGURE 3.2 HERE ***
+
+As can be seen in Figure 3.3, the
+clock bits and data bits (if present)
+are interleaved.  The presence of a
+data bit between two clock bits
+represents a binary 1, the absence of
+a data bit between two clock bits
+represents a binary 0.  We will
+define a "bit cell" as the period
+between the leading edge of one clock
+bit and the leading edge of the next
+clock bit.
+
+*** INSERT FIGURE 3.3 HERE ***
+
+A byte would consist of eight (8)
+consecutive bit cells.  The most
+significant bit cell is usually
+referred to as bit cell 7 and the
+least significant bit cell would be
+bit cell 0.  When reference is made
+to a specific data bit (i.e. data bit
+5), it is with respect to the
+corresponding bit cell (bit cell 5).
+Data is written and read serially,
+one bit at a time.  Thus, during a
+write operation, bit cell 7 of each
+byte would be written first, with bit
+cell 0 being written last.
+Correspondingly, when data is being
+read back from the diskette, bit cell
+7 is read first and bit cell 0 is
+read last.  The diagram below
+illustrates the relationship of the
+bits within a byte.
+
+*** INSERT FIGURE 3.4 HERE ***
+
+To graphically show how bits are
+stored and retrieved, we must take
+certain liberties.  The diagrams are
+a representation of what functionally
+occurs within the disk drive.  For
+the purposes of our presentation, the
+hardware interface
+to the diskette will be
+represented as an eight bit "data latch".
+While the hardware involves
+considerably more complication, from a software
+standpoint it is reasonable to use
+the data latch, as it accurately
+embodies the function of data flow to
+and from the diskette.
+
+*** INSERT FIGURE 3.5 HERE ***
+
+Figure 3.5 shows the three bits, 101,
+being read from the diskette data
+stream into the data latch.  Of
+course another five bits would be
+read to fill the latch.  As can be
+seen, the data is separated from the
+clock bits.  This task is done by the
+hardware and is shown more for
+accuracy than for its importance to
+our discussion.
+
+Writing data can be depicted in much
+the same way (see Figure 3.6).
+The clock bits which
+were separated from the data must now
+be interleaved with the data as it is
+written.  It should be noted that,
+while in write mode, zeros are being
+brought into the data latch to
+replace the data being written.  It
+is the task of the software to make
+sure that the latch is loaded and
+instructed to write in 32
+cycle intervals.  If not, zero bits
+will continue to be written every four
+cycles, which is, in fact, exactly
+how self-sync bytes are created.
+Self-sync bytes will be covered in
+detail shortly.
+
+*** INSERT FIGURE 3.6 HERE ***
+
+A "field" is made up of a group of
+consecutive
+bytes.  The number of bytes varies,
+depending upon the nature of the
+field.  The two types of fields
+present on a diskette are the Address
+Field and the Data Field.  They are
+similar in that they both contain a
+prologue, a data area, a checksum, and
+an epilogue.  Each field on a track is
+separated from adjacent fields by a
+number of bytes.  These areas of
+separation are called "gaps" and are
+provided for two reasons.  One, they
+allow the updating of one field
+without affecting adjacent fields (on
+the Apple, only data fields are
+updated).  Secondly, they allow the
+computer time
+to decode the address field before
+the corresponding data field can pass
+beneath the read/write head.
+
+All gaps are primarily alike in
+content, consisting of self-sync
+hexadecimal FF's, and vary only in
+the number of bytes they contain.
+Figure 3.7 is a diagram of a portion
+of a typical track, broken into its
+major components.
+
+*** INSERT FIGURE 3.7 HERE ***
+
+Self-sync or auto-sync bytes are
+special bytes that make up the three
+different types of gaps on a track.
+They are so named because of their
+ability to automatically bring the
+hardware into synchronization with
+data bytes on the disk.  The
+difficulty in doing this lies in the
+fact that the hardware reads bits and
+the data must be stored as eight bit
+bytes.  It has been mentioned that a
+track is literally a continuous
+stream of data bits.  In fact, at the
+bit level, there is no way to
+determine where a byte starts or
+ends, because each bit cell is
+exactly the same, written in precise
+intervals with its neighbors.  When
+the drive is instructed to read data,
+it will start wherever it happens to
+be on a particular track.  That could
+be anywhere among the 50,000 or so
+bits on a track.  Distinguishing
+clock bits from data bits,
+the hardware finds
+the first bit cell with data in it
+and proceeds to read the following
+seven data
+bits into the eight bit latch.  In
+effect, it assumes that it had
+started at the beginning of a data
+byte.  Of course, in reality, the
+odds of its having started at the
+beginning of a byte are only one in
+eight.
+Pictured in Figure 3.8 is a small
+portion of a track.  The clock bits
+have been stripped out and 0's and
+1's have been used for clarity.
+
+*** INSERT FIGURE 3.8 HERE ***
+
+There is no way from looking at the
+data to tell what bytes are
+represented, because we don't know
+where to start.  This is exactly the
+problem that self-sync bytes
+overcome.
+
+A self-sync byte is defined to be a
+hexadecimal FF with a special
+difference.  It is, in fact, a 10 bit
+byte rather than an eight bit byte.  Its
+two extra bits are zeros.  Figure 3.9
+shows the difference between a normal
+data hex FF that might be found
+elsewhere on the disk and a self-sync
+hex FF byte.
+
+*** INSERT FIGURE 3.9 HERE ***
+
+A self-sync is generated by using a
+40 cycle (micro-second) loop while
+writing an FF.  A bit is written
+every four cycles, so two of the zero bits
+brought into the data latch while the
+FF was being written are also
+written to the disk, making the 10
+bit byte. (DOS 3.2.1 and earlier versions use
+a nine bit byte due to the hardware's
+inability to always detect two
+consecutive zero bits.)  It can be
+shown, using Figure 3.10, that five
+self-sync bytes are sufficient to
+guarantee that the hardware is
+reading valid data.  The reason for
+this is that the hardware requires
+the first bit of a byte to be a 1.
+Pictured at the top of the figure is
+a stream of five auto-sync bytes.  Each
+row below that demonstates what the
+hardware will read should it start
+reading at any given bit in the
+first byte.  In each case, by the
+time the five sync bytes have passed
+beneath the read/write head, the
+hardware will be "synched" to read the
+data bytes that follow.  As long as
+the disk is left in read mode, it
+will continue to correctly interpret
+the data unless there is an error on
+the track.
+
+*** INSERT FIGURE 3.10 ***
+
+We can now discuss the particular
+portions of a track in detail.  The
+three gaps will be covered first.
+Unlike some other disk formats, the
+size of the three gap types will vary
+from drive to drive and even from
+track to track.  During the
+initialization process, DOS will
+start with large gaps and keep making
+them smaller until an entire track
+can be written without overlapping
+itself.  A minimum of five self-sync
+bytes must be maintained for
+each gap type (as discussed earlier).
+The result is fairly uniform gap
+sizes within each particular track.
+
+Gap 1 is the first data written to a
+track during initialization.  Its
+purpose is twofold.  The gap
+originally consists of 128 bytes of
+self-sync, a large enough area to
+insure that all portions of a track
+will contain data.  Since the speed
+of a particular drive may vary, the
+total length of the track in bytes is
+uncertain, and the percentage
+occupied by data is unknown.  The
+initialization process is set up,
+however, so that even on drives of
+differing speeds, the last data field
+written will overlap Gap 1, providing
+continuity over the entire physical
+track.  Care is taken to make sure
+the remaining portion of Gap 1 is at
+as long as a typical Gap 3
+(in practice its length
+is usually more than 40),
+enabling it to serve
+as a Gap 3 type for Address Field
+number 0 (See Figure 3.7 for
+clarity).
+
+Gap 2 appears after each Address
+Field and before each Data Field.
+Its length varies from five to ten bytes
+on a normal drive.  The primary
+purpose of Gap 2 is to provide time
+for the information in an Address
+Field to be decoded by the computer
+before a read or write takes place.
+If the gap were too short, the
+beginning of the Data Field might
+spin past while DOS was still
+determining if this was the
+sector to be read.  The 240 odd
+cycles that six self-sync bytes provide
+seems ample time to decode an address
+field.  When a Data Field is written
+there is no guarantee that the write
+will occur in exactly the same spot
+each time.  This is due to the fact
+that the drive which is rewriting
+the Data Field may not be the one
+which originally INITed or wrote it.
+Since the speed of the drives can
+vary, it is possible that the write
+could start in mid-byte. (See Figure
+3.11)  This is not
+a problem as long as the difference
+in positioning is not great.  To
+insure the integrity of Gap 2, when
+writing a data field, five self-sync
+bytes are written prior to writing
+the Data Field itself.  This serves
+two purposes.  Since relatively
+little time is spent decoding an
+address field, the five bytes help place
+the Data Field near its original
+position.  Secondly, and more
+importantly, the five self-sync bytes
+are the minimum number required to
+guarantee read-synchronization.  It
+is probable that, in writing a Data
+Field, at least one sync byte will be
+destroyed.  This is because, just as
+in reading bits on the track, the
+write may not begin on a byte
+boundary, thus altering an existing
+byte.  Figure 3.12 illustrates this.
+
+*** INSERT FIGURE 3.11 HERE ***
+
+*** INSERT FIGURE 3.12 HERE ***
+
+Gap 3 appears after each
+Data Field and before each Address
+Field.  It is longer than Gap 2 and
+generally ranges from 14 to 24 bytes
+in length.  It is quite similar in
+purpose to Gap 2.  Gap 3 allows the
+additional time needed to manipulate
+the data that has been read before
+the next sector is to be read.  The
+length of Gap 3 is not as critical as
+that of Gap 2.  If the
+following Address
+Field is missed, DOS can always wait
+for the next time it spins around
+under the read/write head, at most
+one revolution of the disk.  Since
+Address Fields are never rewritten,
+there is no problem with this gap
+providing synchronization, since only
+the first part of the gap can be
+overwritten or damaged. (See Figure
+3.11 for clarity)
+
+An examination of the contents of the
+two types of fields is in order.
+The Address Field contains
+the "address" or identifying
+information about the Data Field
+which follows it.  The volume, track,
+and sector number of any given sector
+can be thought of as its "address",
+much like a country, city, and street
+number might identify a house.  As
+shown previously in Figure 3.7, there
+are a number of components which make
+up the Address Field.  A more
+detailed illustration is given in
+Figure 3.13.
+
+*** INSERT FIGURE 3.13 HERE ***
+
+The prologue consists of three bytes
+which form a unique sequence, found
+in no other component of the track.
+This fact enables DOS to locate an
+Address Field with almost no
+possibility of error.  The three
+bytes are $D5, $AA, and $96.  The $D5
+and $AA are reserved (never written
+as data) thus insuring the uniqueness
+of the prologue.  The $96, following
+this unique string, indicates that
+the data following constitutes an
+Address Field (as opposed to a Data
+Field).  The address information
+follows next, consisting of the
+volume, track, and sector number and
+a checksum.  This information is
+absolutely essential for DOS to know
+where it is positioned on a
+particular diskette.  The checksum is
+computed by exclusive-ORing the first
+three pieces of information, and is
+used to verify its integrity.
+Lastly follows the epilogue, which
+contains the three bytes $DE, $AA and
+$EB.  Oddly, the $EB is always written
+during initialization but is never
+verified when an Address Field is
+read.  The epilogue bytes are
+sometimes referred to as "bit-slip
+marks", which provide added assurance
+that the drive is still in sync with
+the bytes on the disk.  These bytes
+are probably unnecessary, but do
+provide a means of double checking.
+
+The other field type is the Data
+Field.  Much like the Address Field,
+it consists of a prologue, data,
+checksum, and an epilogue. (Refer to
+Figure 3.14)  The prologue is
+different only in the third byte.
+The bytes are $D5, $AA, and $AD,
+which again form a unique sequence,
+enabling DOS to locate the beginning
+of the sector data.  The data
+consists of 342 bytes of encoded
+data.  The encoding scheme used will
+be discussed in the next section.
+The data is followed by a checksum
+byte, used to verify the integrity of
+the data just read.  The epilogue
+portion of the Data Field is
+absolutely identical to the epilogue
+in the Address Field and it serves
+the same function.
+
+.nx ch3.2
