@@ -13,34 +13,24 @@ The way DOS allocates these tracks of
 sectors is the subject of
 this chapter.
 
-A file (be it APPLESOFT,
-INTEGER, BINARY, or TEXT type)
-consists of one or more sectors
-containing data.  Since the sector is
-the smallest unit of allocatable
-space on a diskette, a file will use
-up at least one sector even if it is
-less than 256 bytes long; the
-remainder of the sector is wasted.
-Thus, a file containing 400
-characters (or bytes) of data will
-occupy one entire sector and 144
-bytes of another with 112 bytes
-wasted. Knowing these facts, one
-would expect to be able to use up to
-16 times 35 times 256 or
-143,360 bytes of space on a diskette
-for files. Actually, the largest file
-that can be stored is about 126,000
-bytes long. The reason for this is
-that some o\x86PL@\x85TCESHWV\x87HK\x86PL@)ALUOCQP@\x85HQUS\x84DB\x85PUCA\x84@JW\x86PODQ\x84LU*FGIH@@\x87\x85HQAUOCGA\x85\x8b\x86\x84hSAVNCGB\x86UCDSHWV+EKKRDMI\x86PL@\x85LIEAC\x85HC\x86`hw\x87POLEO\x84LU+IHGA@A\x84PO@I*EJKSNJC\x86QMA\x87@OVNBSPC\x8a\x87E\x86KLVQ\x85JC\x85QM@)IFIAU\x87DIB\x84HHGGQLIKV\x87HC\x86PL@\x85@NI@U\x87HK*QL@\x85@LUOCQP@\x89\x84DIB\x87EI\x86EEDJPKPNIB\x87HC)RMB\x85VCGPKVW\x26 which are free for use
-with new files or expansions of
-existing files. An example of the way
-DOS uses sectors is given in Figure
-4.1.
+A file (be it APPLESOFT, INTEGER, BINARY, or TEXT type) consists of one or more
+sectors containing data.  Since the sector is the smallest unit of allocatable
+space on a diskette, a file will use up at least one sector even if it is less
+than 256 bytes long; the remainder of the sector is wasted.  Thus, a file
+containing 400 characters (or bytes) of data will occupy one entire sector and
+144 bytes of another with 112 bytes wasted. Knowing these facts, one would
+expect to be able to use up to 16 times 35 times 256 or 143,360 bytes of space
+on a diskette for files. Actually, the largest file that can be stored is about
+126,000 bytes long. The reason for this is that some of the sectors on the
+diskette must be used for what is called "overhead".
 .sp1
 *** INSERT FIGURE 4.1 ***
 .sp1
+Overhead sectors contain the image of DOS which is 1oaded when booting the
+diskette, a list of the names and locations of the files on the diskette, and an
+accounting of the sectors which are free for use with new files or expansions of
+existing files. An example of the way DOS uses sectors is given in Figure 4.1.
+
 DISKETTE SPACE ALLOCATION
 
 The map in Figure 4.1 shows that the
