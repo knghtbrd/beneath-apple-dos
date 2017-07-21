@@ -448,4 +448,248 @@ OVERHEAD
 The space required by the system, either in memory or on the disk, to manage
 either.  The disk directory and VTOC are part of a diskette's overhead.
 
-.nx appendix c.2
+PAGE
+256 bytes of memory which share a common high order address byte.  Zero page is
+the first 256 bytes of memory ($0000 through $00FF).
+
+PARALLEL
+Opposite of serial.  A communication mode which sends all of the bits in a byte
+at once, each over a separate line or wire.
+
+PARAMETER LIST
+An area of storage set aside for communication between a calling program and a
+subroutine.  The parameter list contains input and output variables which will
+be used by the subroutine.
+
+PARITY
+A scheme, similar to checksums but on a bit level rather than a byte level,
+which allows detection of errors in a single data byte.  An extra parity bit is
+attached to each byte which is a sum of the bits in the byte.  Parity is used in
+expensive memory to detect or correct single bit failures, and when sending data
+over communications lines to detect noise errors.
+
+PARSE
+The process of interpreting character string data, such as a command with
+keywords.
+
+PATCH
+A small change to the object code of an assembly language program.  Also called
+a "zap".
+
+PERIPHERAL
+A device which is external to the computer itself, such as a disk drive or a
+printer.  Also called an Input/Output device.
+
+PHYSICAL RECORD
+A collection of data corresponding to the smallest unit of storage on a
+peripheral device.  For disks, a physical record is a sector.
+
+POINTER
+The address or memory location of a block of data or a single data item.  The
+address "points" to the data.
+
+PROLOGUE
+The three bytes at the beginning of a disk field which uniquely identify it
+from any other data on the track.
+
+PROM
+Programmable Read Only Memory.  PROMs are usually used on controller cards
+associated with peripherals to hold the driver program which interfaces the
+device to applications programs.
+
+PROMPT
+An output string which lets the user know that input is expected.  A "*" is the
+prompt character for the APPLE monitor.
+
+PROTECTED DISK
+A diskette whose format or content has been modified to prevent its being
+copied.  Most retail software today is distributed on protected disks to
+prevent theft.
+
+PSEUDO-OPCODE
+A special assembly language opcode which does not translate into a machine
+instruction.  A pseudo-opcode instructs the assembler to perform some function,
+such as skipping a page in an assembly listing or reserving data space in the
+output object code.
+
+RANDOM ACCESS
+Direct access.  The capability to rapidly access any single piece of data on a
+storage medium without having to sequentially read all of its predecessors.
+
+RAM
+Random Access Memory.  Computer memory which will allow storage and retrieval
+of values by address.
+
+RECAL
+Recalibrate the disk arm so that the read/write head is positioned over track
+zero.  This is done by pulling the arm as far as it will go to the outside of
+the diskette until it hits a stop, producing a "clacking" sound.
+
+RECORD
+A collection of associated data items or fields.  One or more records are
+usually associated with a file.  Each record might correspond to an employee,
+for example.
+
+REGISTER
+A named temporary storage location in the central processor itself.  The 6502
+has 5 registers; the A, X, Y, S, and P registers.  Registers are used by an
+assembly language program to access memory and perform arithmetic.
+
+RELEASE
+A version of a distributed piece of software.  There have been several releases
+of DOS.
+
+RELOCATABLE
+The attribute of an object module file which contains a machine language
+program and the information necessary to make it run at any memory location.
+
+RETURN CODE
+A numeric value returned from a subroutine, indicating the success or failure
+of the operation attempted.  A return code of zero usually means there were no
+errors.  Any other value indicates the nature of the error, as defined by the
+design of the subroutine.
+
+ROM
+Read Only Memory.  Memory which has a permanent value.  The APPLE monitor and
+BASIC interpreters are stored in ROM.
+
+RWTS
+Read/Write Track/Sector.  A collection of subroutines which allow access to the
+diskette at a track and sector level.  RWTS is part of DOS and may be called by
+external assembly language programs.
+
+SEARCH
+The process of scanning a track for a given sector.
+
+SECTOR
+The smallest updatable unit of data on a disk track.  One sector on an APPLE
+DISK II contains 256 data bytes.
+
+SECTOR ADDRESS
+A disk field which identifies the sector data field which follows in terms of
+its volume, track, and sector number.
+
+SECTOR DATA
+A disk field which contains the actual sector data in nibbilized form.
+
+SEEK
+The process of moving the disk arm to a given track.
+
+SELF-SYNC
+Also called "auto-sync" bytes.  Special disk bytes which contain more than 8
+bits, allowing synchronization of the hardware to byte boundaries when reading.
+
+SEQUENTIAL ACCESS
+A mode of data retreival where each byte of data is read in the order in which
+it was written to the disk.
+
+SERIAL
+As opposed to parallel.  A communication mode which sends data bits one at a
+time over a single line or wire.
+
+SHIFT
+A logical operation which moves the bits of a byte either left or right one
+position, moving a 0 into the bit at the other end.
+
+SLAVE DISK
+A diskette with a copy of DOS which is not relocatable.  The DOS image will
+always be loaded into the same memory location, regadless of the size of the
+machine.
+
+SOFT ERROR
+A recoverable I/O error.  A worn diskette might produce soft errors
+occasionally.
+
+SOFTWARE
+Computer programs and data which can be loaded into RAM memory and executed.
+
+SOURCE CODE
+A program in a form which is understandable to humans; in character form as
+opposed to internal binary machine format.  Source assembly code must be
+processed by an assembler to translate it into machine or "object" code.
+
+SKEWING
+The process of interleaving sectors.  See INTERLEAVE.
+
+STATE MACHINE
+A process (in software or hardware) which defines a unique target state, given
+an input state and certain conditions.  A state machine approach is used in DOS
+to keep track of its video intercepts and by the hardware on the disk
+controller card to process disk data.
+
+STROBE
+The act of triggering an I/O function by momentarily referencing a special I/O
+address.  Strobing $C030 produces a click on the speaker.  Also called
+"toggling".
+
+SUBROUTINE
+A program whose function is required repeatedly during execution, and therefore
+is called by a main program in several places.
+
+TABLE
+A collection of data entries, having similar format, residing in memory.  Each
+entry might contain the name of a program and its address, for example.  A
+"lookup" can be performed on such a table to locate any given program by name.
+
+TOGGLE
+The act of triggering an I/O function by momentarily referencing a special I/O
+address.  Toggling $C030 produces a click on the speaker.  Also called
+"strobe".
+
+TOKENS
+A method where human recognizable words may be coded to single binary byte
+values for memory compression and faster processing.  BASIC statements are
+tokenized, where hex codes are assigned to words like IF, PRINT, and END.
+
+TRACK
+One complete circular path of magnetic storage on a diskette.  There are 35
+concentric tracks on an APPLE diskette.
+
+TRANSLATE TABLE
+A table of single byte codes which are to replace input codes on a one-for-one
+basis.  A translate table is used to convert from 6 bit codes to disk codes.
+
+T/S LIST
+Track/Sector List.  A sector which describes the location of a file by listing
+the track and sector number for each of its data sectors in the order that they
+are to be read or written.
+
+TTL
+Transistor to Transistor Logic.  A standard for the interconnection of
+integrated circuits which also defines the which voltages represent 0's and
+1's.
+
+UTILITY
+A program which is used to maintain, or assist in the development of, other
+programs or disk files.
+
+VECTOR
+A collection of pointers or JMP instructions at a fixed location in memory
+which allow access to a relocatable program or data.
+
+VOLUME
+An identification for a diskette, disk platter, or cassette, containing one or
+more files.
+
+VTOC
+Volume Table Of Contents.  Based upon the IBM OS/VS VTOC.  On the APPLE, a
+sector mapping the free sectors on the diskette and giving the location of the
+directory.
+
+WARMSTART
+A restart of a program which retains, as much as is possible, the work which
+was in progress at the time.  A DOS warmstart retains the BASIC program in
+memory.
+
+WRITE PROTECTED
+A diskette whose write protect notch is covered, preventing the disk drive from
+writing on it.
+
+ZAP
+From the IBM utility program, SUPERZAP.  A program which allows updates to a
+disk at a byte level, using hexadecimal.
+
+ZERO PAGE
+The first 256 bytes of memory in a 6502 based machine.  Zero page locations
+have special significance to the central processor, making their management and
+assignment critical.
