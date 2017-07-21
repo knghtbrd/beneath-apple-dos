@@ -17,7 +17,7 @@ this, DOS fools the active BASIC
 into believing that there is
 actually less RAM memory on the
 machine than there is. On a 48K APPLE
-II wi\x17\x0b\x43\x27\x2fS\x2f##\x5c#?/g\x19\x72or instance, BASIC believes that
+II with DOS active, for instance, BASIC believes that
 there is only about 38K of RAM. DOS does
 this by adjusting HIMEM after it is
 loaded to prevent BASIC from using
