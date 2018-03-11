@@ -26,7 +26,7 @@ There were several reasons for writing Beneath Apple DOS:
 - To allow you to customize DOS to fit your needs.
 - To provide complete information on diskette formatting.
 
-![](images/image1-01.png)
+![](artwork/1-01_reasons.png)
 
 When Apple Computer Inc. introduced its Disk Operating System (DOS) version 3 in
 1978 to support the new DISK II drive, very little documentation was provided.
